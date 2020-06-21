@@ -125,6 +125,11 @@ alias p='mypushd'
 alias pd='pushd_here'
 alias o='mypopd'
 
+# jupyter notebook
+alias jptr='nohup jupyter-notebook &'
+alias ports='netstat -ntlp | grep LISTEN'
+alias portc='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
