@@ -57,8 +57,8 @@ autocmd FileType python inoremap { {}<Left>
 autocmd FileType python inoremap [ []<Left>
 autocmd FileType python inoremap ' ''<Left>
 autocmd FileType python nnoremap <leader>p <S-i>print(<C-o>A)<Esc> 
-autocmd FileType python vnoremap <leader>f <C-v>0<S-i># <Esc>
-autocmd FileType python nnoremap <leader>f 0i# <Esc>
+autocmd FileType python vnoremap <leader>f <C-v>0<S-i>#<Esc>
+autocmd FileType python nnoremap <leader>f 0i#<Esc>
 autocmd FileType c vnoremap <leader>f/ <C-v>0<S-i>//<Esc>
 autocmd FileType c inoremap { {}<Left>
 autocmd FileType c inoremap [ []<Left>
