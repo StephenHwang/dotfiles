@@ -126,9 +126,10 @@ alias pd='pushd_here'
 alias o='mypopd'
 
 # jupyter notebook
-alias jptr='nohup jupyter-notebook &'
+# alias jptr='nohup jupyter-notebook &' # run jupyter notebook in background
 alias ports='netstat -ntlp | grep LISTEN'
 alias portc='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
+alias portk='kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
