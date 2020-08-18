@@ -98,10 +98,13 @@ alias e='exit'
 alias h='history'
 alias rm='/bin/rm -i' # alias for checking removing files
 alias tmux='tmux -2'
+alias pwd='pwd | xclip -selection clipboard && pwd'
 
 alias popen='mimeopen'
 alias python='python3'
+alias ipython='ipython3'
 alias pip='pip3'
+alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
 
 alias sshc='ssh sjhwang@courtyard.gi.ucsc.edu' # alias for ssh
 alias sshcport='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
@@ -119,11 +122,13 @@ function mypopd {
     popd "${@}" >/dev/null;
     dirs -v;
 }
-alias d='dirs -v' # see directories, left to right
-alias pc='dirs -c'
-alias p='mypushd'
-alias pd='pushd_here'
-alias o='mypopd'
+#alias pd='pushd_here'
+alias dirs='dirs -c'
+alias pushd='mypushd'
+alias popd='mypopd'
+
+# cd and ls
+cds() { cd "$@" && ls; }
 
 # jupyter notebook
 # alias jptr='nohup jupyter-notebook &' # run jupyter notebook in background
@@ -180,6 +185,7 @@ source /home/stephen/bin/tmux-completion/tmux
 # paths
 PATH=$PATH:~/bin
 export PATH="home/stephen/.local/bin:$PATH"
+export PATH="home/stephen/.local/bin/IGV_Linux_2.8.6/:$PATH"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
