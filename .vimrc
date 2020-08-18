@@ -52,13 +52,20 @@ au BufNewFile,BufRead *.py
 let python_highlight_all=1 " python syntax highlight
 syntax on
 
-" autocomplete of various brackets in Python and c
+" autocomplete of various brackets in Python
 autocmd FileType python inoremap { {}<Left>
 autocmd FileType python inoremap [ []<Left>
 autocmd FileType python inoremap ' ''<Left>
-autocmd FileType python nnoremap <leader>p <S-i>print(<C-o>A)<Esc> 
 autocmd FileType python vnoremap <leader>f <C-v>0<S-i>#<Esc>
 autocmd FileType python nnoremap <leader>f 0i#<Esc>
+
+" python abbreviations
+autocmd FileType python ab pr print
+autocmd FileType python ab dbg import ipdb; ipdb.set_trace()
+autocmd FileType python ab ipy import IPython; IPython.embed()
+autocmd FileType python ab namemain if __name__ == "__main__":<CR> main()
+
+" autocomplete of brackets in C
 autocmd FileType c vnoremap <leader>f/ <C-v>0<S-i>//<Esc>
 autocmd FileType c inoremap { {}<Left>
 autocmd FileType c inoremap [ []<Left>
@@ -70,8 +77,9 @@ autocmd FileType c inoremap ' ''<Left>
 nnoremap <leader>l :ALEToggle<CR> 
 let g:ale_linters = {'python': ['flake8', 'pylint']}
 let g:ale_fixers = {
-\   'python': ['remove_trailing_lines', 'trim_whitespace', 'yapf'],
+\   'python': ['remove_trailing_lines', 'trim_whitespace'],
 \}
+" \   'python': ['remove_trailing_lines', 'trim_whitespace', 'yapf'],
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
