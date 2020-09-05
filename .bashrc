@@ -96,42 +96,23 @@ alias l='ls -CF'
 alias c='clear'
 alias e='exit'
 alias h='history'
-alias rm='/bin/rm -i' # alias for checking removing files
+#alias rm='/bin/rm -i' # alias for checking removing files
 alias tmux='tmux -2'
-alias pwd='pwd | xclip -selection clipboard && pwd'
+alias pwdc='pwd | xclip -selection clipboard && pwd'
 
 alias popen='mimeopen'
 alias python='python3'
 alias ipython='ipython3'
+alias anaconda3='anaconda'
 alias pip='pip3'
 alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
 
-alias sshc='ssh sjhwang@courtyard.gi.ucsc.edu' # alias for ssh
-alias sshcport='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
-
-# pushd and popd
-function mypushd {
-    pushd "${@}" >/dev/null;
-    dirs -v;
-}
-function pushd_here {
-    pushd . >/dev/null;
-    dirs -v;
-}
-function mypopd {
-    popd "${@}" >/dev/null;
-    dirs -v;
-}
-#alias pd='pushd_here'
-alias dirs='dirs -c'
-alias pushd='mypushd'
-alias popd='mypopd'
-
-# cd and ls
-cds() { cd "$@" && ls; }
+# clear and ls
+cls() { clear && ls; }
 
 # jupyter notebook
-# alias jptr='nohup jupyter-notebook &' # run jupyter notebook in background
+alias sshc='ssh sjhwang@courtyard.gi.ucsc.edu' # alias for ssh
+alias sshcport='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
 alias ports='netstat -ntlp | grep LISTEN'
 alias portc='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
 alias portk='kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
@@ -140,7 +121,6 @@ alias portk='kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
@@ -186,6 +166,10 @@ source /home/stephen/bin/tmux-completion/tmux
 PATH=$PATH:~/bin
 export PATH="home/stephen/.local/bin:$PATH"
 export PATH="home/stephen/.local/bin/IGV_Linux_2.8.6/:$PATH"
+export PATH="/home/stephen/anaconda3/bin/:$PATH"
+export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
+#export PYTHONPATH="${PYTHONPATH}:/home/stephen/.local/lib/python3.8/site-packages/python_codon_tables"
+#export PYTHONPATH="${PYTHONPATH}:/home/stephen/.local/lib/python3.8/site-packages"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -200,7 +184,108 @@ else
     fi
 fi
 unset __conda_setup
+conda deactivate
 # <<< conda initialize <<<
 
-conda deactivate
+# This function defines a 'cd' replacement function capable of keeping,
+# displaying and accessing history of visited directories, up to 10 entries.
+# Usage 'cd --' to list directories, cd -# to change directory
+# Petar Marinov, http:/geocities.com/h2428, this is public domain
+xcd_func ()
+ {
+   local x2 the_new_dir adir index
+   local -i cnt
+
+   if [[ $1 ==  "--" ]]; then
+     dirs -v
+     return 0
+   fi
+
+   the_new_dir=$1
+   [[ -z $1 ]] && the_new_dir=$HOME
+
+   if [[ ${the_new_dir:0:1} == '-' ]]; then
+     # Extract dir N from dirs
+     index=${the_new_dir:1}
+     [[ -z $index ]] && index=1
+     adir=$(dirs +$index)
+     [[ -z $adir ]] && return 1
+     the_new_dir=$adir
+   fi
+
+   # '~' has to be substituted by ${HOME}
+   [[ ${the_new_dir:0:1} == '~' ]] && the_new_dir="${HOME}${the_new_dir:1}"
+
+   # Now change to the new dir and add to the top of the stack
+   pushd "${the_new_dir}" >/dev/null
+   [[ $? -ne 0 ]] && return 1
+   the_new_dir=$(pwd)
+
+   # Trim down everything beyond 11th entry
+   popd -n +11 2>/dev/null 1>/dev/null
+   #
+   # Remove any other occurence of this dir, skipping the top of the stack
+   for ((cnt=1; cnt <= 10; cnt++)); do
+     x2=$(dirs +${cnt} 2>/dev/null)
+     [[ $? -ne 0 ]] && return 0
+     [[ ${x2:0:1} == '~' ]] && x2="${HOME}${x2:1}"
+     if [[ "${x2}" == "${the_new_dir}" ]]; then
+       popd -n +$cnt 2>/dev/null 1>/dev/null
+       cnt=cnt-1
+     fi
+   done
+   return 0
+ }
+
+cd_func()
+{
+    # this is relatively wasteful to see if it is going to work
+    ( builtin cd "$@" >/dev/null 2>&1 )
+    badcd=$?
+    dir="$1"
+    # see if we are really changing
+    if [ -z "$1" ] ; then   # special case: no argument
+	dir=~
+    fi
+    if [[ "$1" == "-" ]] ; then  # special case: cd -
+       dir="$OLDPWD"
+    fi
+    if [[ "$1" ==  "--" ]]; then  # special case: cd -- (list dirs)
+	xcd_func --
+	return $?
+    fi
+    if [ $badcd == 0 ]  # if we have a real place to go, find its inode
+    then
+	   pwdid=`ls -id .| cut -d ' ' -f 1`
+	   newid=`ls -id "$dir" 2>/dev/null |cut -d ' ' -f 1`
+    fi
+
+# if no place to go or we are going to the same place, just execute it and be done
+   if [[ $badcd == 1 || $pwdid == $newid ]]; then xcd_func "$@" ; return $? ; fi
+
+# if .env.sh in current directory or .., call it
+   if [ -f .env.sh ]
+   then source .env.sh leave dir "$PWD"
+   elif [ -f ../.env.sh ]
+   then source ../.env.sh leave child "$PWD"
+   fi
+
+# switch
+   xcd_func "$@"
+   rv=$?
+
+# if .env.sh in new directory or .., call it
+   if [ -f .env.sh ]
+   then source .env.sh enter dir "$PWD"
+   elif [ -f ../.env.sh ]
+   then source ../.env.sh enter child "$PWD"
+   fi
+
+   return $rv
+}
+
+# setup
+alias cd=cd_func
+
+
 
