@@ -101,11 +101,12 @@ alias tmux='tmux -2'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
 
 alias popen='mimeopen'
-alias python='python3'
-alias ipython='ipython3'
+alias python='python3.8'
+alias ipython='python3.8 -m IPython'
 alias anaconda3='anaconda'
 alias pip='pip3'
 alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
+alias findcursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
 
 # clear and ls
 cls() { clear && ls; }
@@ -156,11 +157,9 @@ function stopwatch(){
    done
 }
 
-# tmux autocompletion
+# tmux and git autocompletion
 source /home/stephen/bin/tmux-completion/tmux
-
-# git bash autocompletion
-/home/stephen/bin/git-completion.bash
+source /home/stephen/bin/git-completion.bash
 
 # paths
 PATH=$PATH:~/bin
@@ -187,23 +186,20 @@ unset __conda_setup
 conda deactivate
 # <<< conda initialize <<<
 
+# Petar Marinov, http:/geocities.com/h2428
 # This function defines a 'cd' replacement function capable of keeping,
 # displaying and accessing history of visited directories, up to 10 entries.
 # Usage 'cd --' to list directories, cd -# to change directory
-# Petar Marinov, http:/geocities.com/h2428, this is public domain
 xcd_func ()
  {
    local x2 the_new_dir adir index
    local -i cnt
-
    if [[ $1 ==  "--" ]]; then
      dirs -v
      return 0
    fi
-
    the_new_dir=$1
    [[ -z $1 ]] && the_new_dir=$HOME
-
    if [[ ${the_new_dir:0:1} == '-' ]]; then
      # Extract dir N from dirs
      index=${the_new_dir:1}
@@ -212,18 +208,14 @@ xcd_func ()
      [[ -z $adir ]] && return 1
      the_new_dir=$adir
    fi
-
    # '~' has to be substituted by ${HOME}
    [[ ${the_new_dir:0:1} == '~' ]] && the_new_dir="${HOME}${the_new_dir:1}"
-
    # Now change to the new dir and add to the top of the stack
    pushd "${the_new_dir}" >/dev/null
    [[ $? -ne 0 ]] && return 1
    the_new_dir=$(pwd)
-
    # Trim down everything beyond 11th entry
    popd -n +11 2>/dev/null 1>/dev/null
-   #
    # Remove any other occurence of this dir, skipping the top of the stack
    for ((cnt=1; cnt <= 10; cnt++)); do
      x2=$(dirs +${cnt} 2>/dev/null)
@@ -259,33 +251,26 @@ cd_func()
 	   pwdid=`ls -id .| cut -d ' ' -f 1`
 	   newid=`ls -id "$dir" 2>/dev/null |cut -d ' ' -f 1`
     fi
-
 # if no place to go or we are going to the same place, just execute it and be done
    if [[ $badcd == 1 || $pwdid == $newid ]]; then xcd_func "$@" ; return $? ; fi
-
 # if .env.sh in current directory or .., call it
    if [ -f .env.sh ]
    then source .env.sh leave dir "$PWD"
    elif [ -f ../.env.sh ]
    then source ../.env.sh leave child "$PWD"
    fi
-
 # switch
    xcd_func "$@"
    rv=$?
-
 # if .env.sh in new directory or .., call it
    if [ -f .env.sh ]
    then source .env.sh enter dir "$PWD"
    elif [ -f ../.env.sh ]
    then source ../.env.sh enter child "$PWD"
    fi
-
    return $rv
 }
 
-# setup
+# uncomment for original cd
 alias cd=cd_func
-
-
 
