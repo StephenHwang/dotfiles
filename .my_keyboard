@@ -37,6 +37,7 @@ keysym semicolon = semicolon colon colon
 keysym apostrophe = apostrophe quotedbl quotedbl  
 keysym bracketleft = bracketleft braceleft braceleft
 keysym bracketright = bracketright braceright braceright
+keysym minus = minus underscore U2014
 
 ! Greek letter and math symbol maps
 ! see http://kestrel.nmt.edu/~raymond/software/howtos/greekscape.xhtml 
