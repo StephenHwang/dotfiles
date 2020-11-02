@@ -9,7 +9,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'majutsushi/tagbar' " space+m usage of tags for overall structure of file
+"Plugin 'majutsushi/tagbar' " space+m usage of tags for overall structure of file
 Plugin 'jszakmeister/markdown2ctags'
 Plugin 'Yggdroot/indentLine' "indentation guides
 Plugin 'vim-airline/vim-airline' " airline statusbar
@@ -18,7 +18,6 @@ Plugin 'dense-analysis/ale' " linter
 Plugin 'sheerun/vim-polyglot' " syntax 
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'edkolev/tmuxline.vim'
-Plugin 'tpope/vim-surround'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'morhetz/gruvbox'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -65,6 +64,13 @@ autocmd FileType python ab dbg import ipdb; ipdb.set_trace()
 autocmd FileType python ab ipy import IPython; IPython.embed()
 autocmd FileType python ab namemain if __name__ == "__main__":<CR> main()
 
+" vimwiki abbreviations
+autocmd FileType vimwiki ab hte the
+autocmd FileType vimwiki ab rxn reaction
+autocmd FileType vimwiki ab wo without
+autocmd FileType vimwiki ab bc because
+
+
 " autocomplete of brackets in C
 autocmd FileType c vnoremap <leader>f/ <C-v>0<S-i>//<Esc>
 autocmd FileType c inoremap { {}<Left>
@@ -79,7 +85,7 @@ let g:ale_linters = {'python': ['flake8', 'pylint']}
 let g:ale_fixers = {
 \   'python': ['remove_trailing_lines', 'trim_whitespace'],
 \}
-" \   'python': ['remove_trailing_lines', 'trim_whitespace', 'yapf'],
+"\   'python': ['remove_trailing_lines', 'trim_whitespace', 'yapf'],
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
@@ -155,6 +161,9 @@ let NERDTreeMinimalUI=1
 
 " vim-wiki
 let g:vimwiki_list = [{ 'path': '~/Documents/notes/' }]
+"let g:Vimwiki2HTMLBrowse = '<leader>f13'
+"<Plug>Vimwiki2HTMLBrowse
+"nnoremap glo <Plug>Vimwiki2HTML
 
 " tagbar: open, focus, and close on new tag
 nnoremap <leader>m :TagbarOpenAutoClose<CR>
