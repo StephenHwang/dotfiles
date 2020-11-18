@@ -59,23 +59,43 @@ autocmd FileType python vnoremap <leader>f <C-v>0<S-i>#<Esc>
 autocmd FileType python nnoremap <leader>f 0i#<Esc>
 
 " python abbreviations
-autocmd FileType python ab pr print
 autocmd FileType python ab dbg import ipdb; ipdb.set_trace()
 autocmd FileType python ab ipy import IPython; IPython.embed()
 autocmd FileType python ab namemain if __name__ == "__main__":<CR> main()
-
-" vimwiki abbreviations
-autocmd FileType vimwiki ab hte the
-autocmd FileType vimwiki ab rxn reaction
-autocmd FileType vimwiki ab wo without
-autocmd FileType vimwiki ab bc because
-
 
 " autocomplete of brackets in C
 autocmd FileType c vnoremap <leader>f/ <C-v>0<S-i>//<Esc>
 autocmd FileType c inoremap { {}<Left>
 autocmd FileType c inoremap [ []<Left>
 autocmd FileType c inoremap ' ''<Left>
+
+" vimwiki abbreviations
+autocmd FileType vimwiki ab hte the
+autocmd FileType vimwiki ab nad and
+autocmd FileType vimwiki ab ofr for
+autocmd FileType vimwiki ab ot to
+autocmd FileType vimwiki ab tho though
+autocmd FileType vimwiki ab w with
+autocmd FileType vimwiki ab isnt isn't
+autocmd FileType vimwiki ab cant can't
+autocmd FileType vimwiki ab wo without
+autocmd FileType vimwiki ab bc because
+autocmd FileType vimwiki ab bw between
+autocmd FileType vimwiki ab diff different
+autocmd FileType vimwiki ab thru through
+autocmd FileType vimwiki ab ppl people
+autocmd FileType vimwiki ab rxn reaction
+autocmd FileType vimwiki ab def definitely
+autocmd FileType vimwiki ab prb probability
+autocmd FileType vimwiki ab prob probably
+autocmd FileType vimwiki ab pi π
+autocmd FileType vimwiki ab theta θ
+autocmd FileType vimwiki ab Delta Δ
+autocmd FileType vimwiki ab mu μ
+autocmd FileType vimwiki ab dg °
+autocmd FileType vimwiki ab <> ⇌
+autocmd FileType vimwiki inoremap ( ()<Left>
+autocmd FileType vimwiki inoremap " ""<Left>
 
 " ale linter
 " must pip install flake8, pylint, and yapf --user
@@ -129,6 +149,8 @@ set directory=~/.vim/swap/
 
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
+" tranpose two characters
+nnoremap <silent> gc xph
 noremap x "_x<silent>
 nnoremap <BS> X
 nnoremap Y y$
