@@ -101,12 +101,13 @@ alias tmux='tmux -2'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
 
 alias popen='mimeopen'
-alias python='python3.8'
-alias ipython='python3.8 -m IPython'
-alias anaconda3='anaconda'
+#alias python='python3.8'
+#alias ipython='python3.8 -m IPython'
+#alias anaconda3='anaconda'
+alias classdir='cd /home/stephen/Documents/classes/'
 alias pip='pip3'
 alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
-alias findcursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
+alias cursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
 
 # clear and ls
 cls() { clear && ls; }
@@ -167,6 +168,8 @@ export PATH="home/stephen/.local/bin:$PATH"
 export PATH="home/stephen/.local/bin/IGV_Linux_2.8.6/:$PATH"
 export PATH="/home/stephen/anaconda3/bin/:$PATH"
 export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
+export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
+
 #export PYTHONPATH="${PYTHONPATH}:/home/stephen/.local/lib/python3.8/site-packages/python_codon_tables"
 #export PYTHONPATH="${PYTHONPATH}:/home/stephen/.local/lib/python3.8/site-packages"
 
