@@ -9,7 +9,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
-"Plugin 'majutsushi/tagbar' " space+m usage of tags for overall structure of file
+Plugin 'majutsushi/tagbar' " space+m usage of tags for overall structure of file
 Plugin 'jszakmeister/markdown2ctags'
 Plugin 'Yggdroot/indentLine' "indentation guides
 Plugin 'vim-airline/vim-airline' " airline statusbar
@@ -24,6 +24,7 @@ Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
 Plugin 'tpope/vim-fugitive' " git integration
 Plugin 'vimwiki/vimwiki', {'branch': 'dev'} " vim-wiki
+Plugin 'tpope/vim-surround'
 call vundle#end()
 filetype plugin indent on 
 
@@ -71,18 +72,23 @@ autocmd FileType c inoremap ' ''<Left>
 
 " vimwiki abbreviations
 autocmd FileType vimwiki ab hte the
+autocmd FileType vimwiki ab htey they
 autocmd FileType vimwiki ab nad and
 autocmd FileType vimwiki ab ofr for
 autocmd FileType vimwiki ab ot to
+autocmd FileType vimwiki ab ont not
+autocmd FileType vimwiki ab ohter other
 autocmd FileType vimwiki ab tho though
+autocmd FileType vimwiki ab thru through
 autocmd FileType vimwiki ab w with
 autocmd FileType vimwiki ab isnt isn't
 autocmd FileType vimwiki ab cant can't
+autocmd FileType vimwiki ab dont don't
+autocmd FileType vimwiki ab wouldnt wouldn't
 autocmd FileType vimwiki ab wo without
 autocmd FileType vimwiki ab bc because
 autocmd FileType vimwiki ab bw between
 autocmd FileType vimwiki ab diff different
-autocmd FileType vimwiki ab thru through
 autocmd FileType vimwiki ab ppl people
 autocmd FileType vimwiki ab rxn reaction
 autocmd FileType vimwiki ab def definitely
@@ -149,7 +155,6 @@ set directory=~/.vim/swap/
 
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
-" tranpose two characters
 nnoremap <silent> gc xph
 noremap x "_x<silent>
 nnoremap <BS> X
@@ -159,7 +164,6 @@ vnoremap y "+y
 vnoremap <C-c> "+y
 
 " FZF
-nnoremap <C-p> :Files<CR>
 nnoremap <leader>s :Files<CR>
 
 " buffers
@@ -183,26 +187,39 @@ let NERDTreeMinimalUI=1
 
 " vim-wiki
 let g:vimwiki_list = [{ 'path': '~/Documents/notes/' }]
-"let g:Vimwiki2HTMLBrowse = '<leader>f13'
-"<Plug>Vimwiki2HTMLBrowse
-"nnoremap glo <Plug>Vimwiki2HTML
+let g:vimwiki_key_mappings =
+  \ {
+  \   'all_maps': 1,
+  \   'global': 1,
+  \   'headers': 1,
+  \   'text_objs': 1,
+  \   'table_format': 1,
+  \   'table_mappings': 1,
+  \   'lists': 1,
+  \   'links': 0,
+  \   'html': 0,
+  \   'mouse': 0,
+  \ }
+autocmd FileType vimwiki nnoremap <silent><tab> :VimwikiNextLink<cr>
+autocmd FileType vimwiki nnoremap <silent><s-tab> :VimwikiPrevLink<cr>
+autocmd FileType vimwiki nnoremap <cr> :VimwikiFollowLink<cr>
+autocmd FileType vimwiki nnoremap <leader>wi <nop>
 
-" tagbar: open, focus, and close on new tag
+" tagbar
+" ctags with vimwiki
+"  sudo apt install exuberant-ctags
+"  download https://gist.githubusercontent.com/EinfachToll/9071573/raw/0b5a629a489c4fe14ba57606d761bd8018746d6c/vwtags.py 
+"  add to ctatgsbin path
 nnoremap <leader>m :TagbarOpenAutoClose<CR>
-let g:tagbar_type_markdown = {
-    \ 'ctagstype': 'markdown',
-    \ 'ctagsbin' : '/home/stephen/.vim/bundle/markdown2ctags/markdown2ctags.py',
-    \ 'ctagsargs' : '-f - --sort=yes',
-    \ 'kinds' : [
-        \ 's:sections',
-        \ 'i:images'
-    \ ],
-    \ 'sro' : '|',
-    \ 'kind2scope' : {
-        \ 's' : 'section',
-    \ },
-    \ 'sort': 0,
-\ }
+let g:tagbar_type_vimwiki = {
+			\   'ctagstype':'vimwiki'
+			\ , 'kinds':['h:header']
+			\ , 'sro':'&&&'
+			\ , 'kind2scope':{'h':'header'}
+			\ , 'sort':0
+			\ , 'ctagsbin':'/home/stephen/.vim/bundle/markdown2ctags/vwtags.py'
+			\ , 'ctagsargs': 'default'
+			\ }
 
 " youCompleteMe settings
 let g:ycm_autoclose_preview_window_after_completion=1
