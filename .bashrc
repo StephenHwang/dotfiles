@@ -89,6 +89,9 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     tmux attach -t default || tmux new -s default
 fi
 
+# use tab and ` scroll complete
+bind '"`":menu-complete'
+
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
@@ -138,26 +141,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# countdown in mintues with announcement
-function countdown(){
-   date1=$((`date +%s` + $1*60)); 
-   while [ "$date1" -ge `date +%s` ]; do 
-     echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
-     sleep 0.1
-   done
-   espeak "$1"
-   espeak "minutes counted"
-   stopwatch
-}
-
-function stopwatch(){
-  date1=`date +%s`; 
-   while true; do 
-    echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"; 
-    sleep 0.1
-   done
-}
-
 # tmux and git autocompletion
 source /home/stephen/bin/tmux-completion/tmux
 source /home/stephen/bin/git-completion.bash
@@ -169,6 +152,9 @@ export PATH="home/stephen/.local/bin/IGV_Linux_2.8.6/:$PATH"
 export PATH="/home/stephen/anaconda3/bin/:$PATH"
 export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
 export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
+export PATH="/home/stephen/bin/pymol/:$PATH"
+#export PATH="/home/stephen/bin/ctags-5.8/:$PATH"
+
 
 #export PYTHONPATH="${PYTHONPATH}:/home/stephen/.local/lib/python3.8/site-packages/python_codon_tables"
 #export PYTHONPATH="${PYTHONPATH}:/home/stephen/.local/lib/python3.8/site-packages"
