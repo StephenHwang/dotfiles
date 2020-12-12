@@ -7,26 +7,30 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'majutsushi/tagbar' " space+m usage of tags for overall structure of file
-Plugin 'jszakmeister/markdown2ctags'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-surround'
+
 Plugin 'Yggdroot/indentLine' "indentation guides
-Plugin 'vim-airline/vim-airline' " airline statusbar
-Plugin 'vim-airline/vim-airline-themes' "airline theme
 Plugin 'dense-analysis/ale' " linter
 Plugin 'sheerun/vim-polyglot' " syntax 
 Bundle 'Valloric/YouCompleteMe'
-Bundle 'edkolev/tmuxline.vim'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'morhetz/gruvbox'
+
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'majutsushi/tagbar'
+Plugin 'jszakmeister/markdown2ctags'
+
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
-Plugin 'tpope/vim-fugitive' " git integration
 Plugin 'vimwiki/vimwiki', {'branch': 'dev'} " vim-wiki
-Plugin 'tpope/vim-surround'
+
+Plugin 'vim-airline/vim-airline' " airline statusbar
+Plugin 'vim-airline/vim-airline-themes' "airline theme
+Bundle 'edkolev/tmuxline.vim'
+Plugin 'morhetz/gruvbox'
 call vundle#end()
 filetype plugin indent on 
+
 
 " Save cursor position
 if has("autocmd")
@@ -102,6 +106,7 @@ autocmd FileType vimwiki ab dg °
 autocmd FileType vimwiki ab <> ⇌
 autocmd FileType vimwiki inoremap ( ()<Left>
 autocmd FileType vimwiki inoremap " ""<Left>
+autocmd FileType vimwiki ab url [[link\|desc] ]<esc>10h
 
 " ale linter
 " must pip install flake8, pylint, and yapf --user
@@ -166,6 +171,9 @@ vnoremap <C-c> "+y
 " FZF
 nnoremap <leader>s :Files<CR>
 
+" split line
+nnoremap <leader>ss :s/\s\+/\r/g<cr>
+
 " buffers
 set hidden " allows switching of buffers without saving in between
 nnoremap <leader>b :Buffer<cr>
@@ -203,7 +211,9 @@ let g:vimwiki_key_mappings =
 autocmd FileType vimwiki nnoremap <silent><tab> :VimwikiNextLink<cr>
 autocmd FileType vimwiki nnoremap <silent><s-tab> :VimwikiPrevLink<cr>
 autocmd FileType vimwiki nnoremap <cr> :VimwikiFollowLink<cr>
+autocmd FileType vimwiki nnoremap <leader>table :VimwikiTable<cr>
 autocmd FileType vimwiki nnoremap <leader>wi <nop>
+autocmd FileType vimwiki nnoremap <leader>w<leader>w <nop>
 
 " tagbar
 " ctags with vimwiki
