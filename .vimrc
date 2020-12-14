@@ -9,6 +9,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
+Plugin 'tmhedberg/matchit'
 
 Plugin 'Yggdroot/indentLine'
 Plugin 'dense-analysis/ale'     " linter
@@ -29,6 +30,7 @@ Plugin 'vim-airline/vim-airline-themes' "airline theme
 Plugin 'edkolev/tmuxline.vim'
 call vundle#end()
 filetype plugin indent on 
+syntax on
 
 " Save cursor position
 if has("autocmd")
@@ -69,7 +71,8 @@ set directory=~/.vim/swap/
 
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
-nnoremap <silent> gc xph
+nnoremap <silent> gs xph
+nnoremap <silent> gc ~
 noremap x "_x<silent>
 nnoremap <BS> X
 nnoremap Y y$
@@ -83,9 +86,10 @@ inoremap jk <Esc>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>wq :wq<cr>
-nnoremap ciw *``cgn
+nnoremap <leader>r :source ~/.vimrc<CR> 
+nnoremap <leader>c *``cgn
 vnoremap . :norm.<CR>
-nnoremap <Leader>r :source ~/.vimrc<CR> 
+nnoremap . :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
 
 " FZF and buffers
 set hidden " allows switching of buffers without saving in between
@@ -95,8 +99,9 @@ nnoremap <leader>j :bp<cr>
 nnoremap <leader>e :bdel<cr>
 nnoremap <leader>s :Files<CR>
 
-" split line
-nnoremap <leader>ss :s/\s\+/\r/g<cr>
+" replace commas with space and split line on space
+"nnoremap <leader>ss :s/\s\+/\r/g<cr>
+nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>
 
 "" Python specific mappings
 au BufNewFile,BufRead *.py
@@ -105,7 +110,6 @@ au BufNewFile,BufRead *.py
     \ set shiftwidth=4 "indents will have width of 4
     \ set fileformat=unix
 let python_highlight_all=1 " python syntax highlight
-syntax on
 
 " autocomplete of various brackets in Python
 autocmd FileType python inoremap <buffer> { {}<Left>
@@ -133,8 +137,6 @@ let g:ale_linters = {'python': ['flake8', 'pylint']}
 let g:ale_fixers = {
 \   'python': ['remove_trailing_lines', 'trim_whitespace'],
 \}
-"\   'python': ['remove_trailing_lines', 'trim_whitespace'],
-"\   'python': ['remove_trailing_lines', 'trim_whitespace', 'yapf'],
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
