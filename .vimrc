@@ -147,9 +147,11 @@ nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 nnoremap <leader>t :YcmCompleter GetType<CR>
 
 " code folding
-nnoremap <leader>z za 
 set foldmethod=indent
 set foldlevel=99
+let g:vimwiki_folding = 'custom'
+set foldopen-=block " remove block from default value of foldopen
+nnoremap <leader>z za 
 
 " tagbar
 " for ctags with vimwiki:
