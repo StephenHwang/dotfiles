@@ -176,8 +176,6 @@ let g:tagbar_type_vimwiki = {
 
 "" vim-wiki
 " can consider keeping global mappings → currently testing fzf as replacement
-"autocmd FileType vimwiki nnoremap <buffer> <leader>wi <nop>
-"autocmd FileType vimwiki nnoremap <buffer> <leader>w<leader>w <nop>
 let g:vimwiki_list = [{ 'path': '~/Documents/notes/' }]
 let g:vimwiki_key_mappings =
   \ {
@@ -200,39 +198,6 @@ autocmd FileType vimwiki nnoremap <buffer> <cr> :VimwikiFollowLink<cr>
 autocmd FileType vimwiki inoremap <buffer> ( ()<Left>
 autocmd FileType vimwiki inoremap <buffer> " ""<Left>
 
-" vimwiki abbrieviation
-autocmd FileType vimwiki ab <buffer> hte the
-autocmd FileType vimwiki ab <buffer> htey they
-autocmd FileType vimwiki ab <buffer> nad and
-autocmd FileType vimwiki ab <buffer> ofr for
-autocmd FileType vimwiki ab <buffer> ot to
-autocmd FileType vimwiki ab <buffer> ont not
-autocmd FileType vimwiki ab <buffer> ohter other
-autocmd FileType vimwiki ab <buffer> tho though
-autocmd FileType vimwiki ab <buffer> thru through
-autocmd FileType vimwiki ab <buffer> w with
-autocmd FileType vimwiki ab <buffer> isnt isn't
-autocmd FileType vimwiki ab <buffer> cant can't
-autocmd FileType vimwiki ab <buffer> dont don't
-autocmd FileType vimwiki ab <buffer> wouldnt wouldn't
-autocmd FileType vimwiki ab <buffer> wo without
-autocmd FileType vimwiki ab <buffer> bc because
-autocmd FileType vimwiki ab <buffer> bw between
-autocmd FileType vimwiki ab <buffer> diff different
-autocmd FileType vimwiki ab <buffer> ppl people
-autocmd FileType vimwiki ab <buffer> rxn reaction
-autocmd FileType vimwiki ab <buffer> def definitely
-autocmd FileType vimwiki ab <buffer> prb probability
-autocmd FileType vimwiki ab <buffer> prob probably
-autocmd FileType vimwiki ab <buffer> pi π
-autocmd FileType vimwiki ab <buffer> theta θ
-autocmd FileType vimwiki ab <buffer> Delta Δ
-autocmd FileType vimwiki ab <buffer> mu μ
-autocmd FileType vimwiki ab <buffer> dg °
-autocmd FileType vimwiki ab <buffer> <> ⇌
-autocmd FileType vimwiki ab <buffer> url [[link\|desc] ]<esc>10h
-autocmd FileType vimwiki ab <buffer> img {{file_url} }<esc>7h
-
 "" aethetics
 let g:gruvbox_contrast_dark='soft'
 colorscheme gruvbox
@@ -248,8 +213,7 @@ set smartcase " if uppercase in search, consider only uppercase
 set incsearch " move cursor to the matched string while searching
 set hlsearch " highlight search, :noh will temporarily remove highlighting
 nnoremap <leader>h :set hlsearch! hlsearch?<CR>
-" ripgrep (rg)
-"   ignored files under .rgignore
+" ripgrep (rg) with files ignored files under .rgignore
 nnoremap <C-f> :Rg 
 
 " FZF and buffers
