@@ -9,6 +9,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
 Plugin 'tmhedberg/matchit'
 
 Plugin 'Yggdroot/indentLine'
@@ -56,12 +57,7 @@ set smartindent
 set matchpairs+=<:>
 let g:indentLine_char = '▏' "indentation guide
 
-" search and highlight settings
-set ignorecase " ignore uppercase
-set smartcase " if uppercase in search, consider only uppercase
-set incsearch " move cursor to the matched string while searching
-set hlsearch " highlight search, :noh will temporarily remove highlighting
-nnoremap <leader>h :set hlsearch! hlsearch?<CR>
+
 
 " must mkdir the directories 
 set undofile " persistent undo
@@ -83,25 +79,24 @@ vnoremap <C-c> "+y
 " key maps with leader key
 let mapleader="\<space>"
 inoremap jk <Esc>
+inoremap jj <C-o>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>wq :wq<cr>
 nnoremap <leader>r :source ~/.vimrc<CR> 
 nnoremap <leader>c *``cgn
-vnoremap . :norm.<CR>
-nnoremap . :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
+vnoremap <silent>. :norm.<CR>
+nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
 
-" FZF and buffers
-set hidden " allows switching of buffers without saving in between
-nnoremap <leader>b :Buffer<cr>
-nnoremap <leader>k :bn<cr>
-nnoremap <leader>j :bp<cr>
-nnoremap <leader>e :bdel<cr>
-nnoremap <leader>s :Files<CR>
+" NERDTree
+nnoremap <leader>n :NERDTreeToggle<CR> 
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore .pyc files in NERDTree
+let g:NERDTreeQuitOnOpen = 1
+autocmd StdinReadPre * let s:std_in=1
+let NERDTreeMinimalUI=1
 
 " replace commas with space and split line on space
-"nnoremap <leader>ss :s/\s\+/\r/g<cr>
-nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>
+nnoremap <leader>sl :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>
 
 "" Python specific mappings
 au BufNewFile,BufRead *.py
@@ -172,19 +167,15 @@ let g:tagbar_type_vimwiki = {
 			\ , 'ctagsargs': 'default'
 			\ }
 
-" NERDTree
-nnoremap <leader>n :NERDTreeToggle<CR> 
-let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore .pyc files in NERDTree
-let g:NERDTreeQuitOnOpen = 1
-autocmd StdinReadPre * let s:std_in=1
-let NERDTreeMinimalUI=1
-
 "" vim-wiki
+" can consider keeping global mappings → currently testing fzf as replacement
+"autocmd FileType vimwiki nnoremap <buffer> <leader>wi <nop>
+"autocmd FileType vimwiki nnoremap <buffer> <leader>w<leader>w <nop>
 let g:vimwiki_list = [{ 'path': '~/Documents/notes/' }]
 let g:vimwiki_key_mappings =
   \ {
   \   'all_maps': 1,
-  \   'global': 1,
+  \   'global': 0,
   \   'headers': 1,
   \   'text_objs': 1,
   \   'table_format': 1,
@@ -199,9 +190,6 @@ let g:vimwiki_key_mappings =
 autocmd FileType vimwiki nnoremap <buffer> <silent><tab> :VimwikiNextLink<cr>
 autocmd FileType vimwiki nnoremap <buffer> <silent><s-tab> :VimwikiPrevLink<cr>
 autocmd FileType vimwiki nnoremap <buffer> <cr> :VimwikiFollowLink<cr>
-autocmd FileType vimwiki nnoremap <buffer> <leader>table :VimwikiTable<cr>
-autocmd FileType vimwiki nnoremap <buffer> <leader>wi <nop>
-autocmd FileType vimwiki nnoremap <buffer> <leader>w<leader>w <nop>
 autocmd FileType vimwiki inoremap <buffer> ( ()<Left>
 autocmd FileType vimwiki inoremap <buffer> " ""<Left>
 
@@ -236,6 +224,7 @@ autocmd FileType vimwiki ab <buffer> mu μ
 autocmd FileType vimwiki ab <buffer> dg °
 autocmd FileType vimwiki ab <buffer> <> ⇌
 autocmd FileType vimwiki ab <buffer> url [[link\|desc] ]<esc>10h
+autocmd FileType vimwiki ab <buffer> img {{file_url} }<esc>7h
 
 "" aethetics
 let g:gruvbox_contrast_dark='soft'
@@ -245,3 +234,27 @@ colorscheme gruvbox
 let g:airline#extensions#whitespace#enabled = 0 " no trailing whitespace check
 let g:airline#extensions#tabline#enabled = 1 " automatically show all buffers when only one tab open
 let g:airline#extensions#tabline#buffer_nr_show = 1 " show buffer number
+
+" search and highlight settings
+set ignorecase " ignore uppercase
+set smartcase " if uppercase in search, consider only uppercase
+set incsearch " move cursor to the matched string while searching
+set hlsearch " highlight search, :noh will temporarily remove highlighting
+nnoremap <leader>h :set hlsearch! hlsearch?<CR>
+" ripgrep (rg)
+"   ignored files under .rgignore
+nnoremap <C-f> :Rg 
+
+" FZF and buffers
+set hidden " allows switching of buffers without saving in between
+nnoremap <leader>b :Buffer<cr>
+nnoremap <leader>k :bn<cr>
+nnoremap <leader>j :bp<cr>
+nnoremap <leader>e :bdel<cr>
+nnoremap <leader>ss :Files<CR>
+nnoremap <leader>sd :cd %:p:h<CR>
+
+" tab to scroll search matches
+set wildcharm=<c-z>
+cnoremap <expr> <Tab>   getcmdtype() =~ '[?/]' ? "<c-g>" : "<c-z>"
+cnoremap <expr> <S-Tab> getcmdtype() =~ '[?/]' ? "<c-t>" : "<S-Tab>"
