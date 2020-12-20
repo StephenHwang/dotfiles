@@ -38,6 +38,13 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
+" Autosave and reload vimwiki folds
+augroup AutoSaveFolds
+  autocmd!
+  autocmd BufWinLeave *.wiki mkview
+  autocmd BufWinEnter *.wiki silent loadview
+augroup END
+
 " Basic vim options
 set encoding=utf-8
 set lazyredraw
@@ -56,8 +63,6 @@ set autoindent
 set smartindent
 set matchpairs+=<:>
 let g:indentLine_char = '▏' "indentation guide
-
-
 
 " must mkdir the directories 
 set undofile " persistent undo
