@@ -75,7 +75,7 @@ esac
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
+    alias ls='ls --color=auto --group-directories-first'
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
@@ -90,23 +90,21 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
 fi
 
 # use tab and ` scroll complete
-bind '"`":menu-complete'
+#bind '"`":menu-complete'
 
 # some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+alias ll='ls -alF --group-directories-first'
+alias la='ls -A --group-directories-first'
+alias l='ls -CF --group-directories-first'
 alias c='clear'
+alias jk='clear'
 alias e='exit'
 alias h='history'
-#alias rm='/bin/rm -i' # alias for checking removing files
+
 alias tmux='tmux -2'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
 
 alias popen='mimeopen'
-#alias python='python3.8'
-#alias ipython='python3.8 -m IPython'
-#alias anaconda3='anaconda'
 alias classdir='cd /home/stephen/Documents/classes/'
 alias pip='pip3'
 alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
@@ -121,6 +119,14 @@ alias sshcport='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.
 alias ports='netstat -ntlp | grep LISTEN'
 alias portc='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
 alias portk='kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
+
+# fzf and ripgrep (rg)
+# https://github.com/junegunn/fzf#usage
+#     ignored rg files in .rgignore
+export FZF_DEFAULT_COMMAND='rg --files --smart-case --follow'
+alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
+source /usr/share/doc/fzf/examples/key-bindings.bash
+source /usr/share/doc/fzf/examples/completion.bash
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
