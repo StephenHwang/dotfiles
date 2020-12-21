@@ -4,7 +4,6 @@
 " Maintainer:   Benji Fisher, Ph.D. <benji@member.AMS.org>
 " Version:	0.5, for Vim 6.1
 " URL:		http://www.vim.org/scripts/script.php?script_id=386 
-
 " allow user to prevent loading and prevent duplicate loading
 if exists("b:loaded_py_match") || &cp
   finish

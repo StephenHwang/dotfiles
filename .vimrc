@@ -10,25 +10,22 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
-Plugin 'tmhedberg/matchit'
 
-Plugin 'Yggdroot/indentLine'
+Plugin 'Yggdroot/indentLine'    " display vertical indentation level
 Plugin 'dense-analysis/ale'     " linter
 Plugin 'sheerun/vim-polyglot'   " syntax 
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
 
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'majutsushi/tagbar'
 Plugin 'jszakmeister/markdown2ctags'
 Plugin 'vimwiki/vimwiki', {'branch': 'dev'}
 
 Plugin 'morhetz/gruvbox'
-Plugin 'vim-airline/vim-airline' " airline statusbar
-Plugin 'vim-airline/vim-airline-themes' "airline theme
-Plugin 'edkolev/tmuxline.vim'
+Plugin 'vim-airline/vim-airline'          " airline status bar
+Plugin 'vim-airline/vim-airline-themes'   " airline theme
+Plugin 'edkolev/tmuxline.vim'             " tmux status bar
 call vundle#end()
 filetype plugin indent on 
 syntax on
@@ -38,34 +35,28 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-" Autosave and reload vimwiki folds
-augroup AutoSaveFolds
-  autocmd!
-  autocmd BufWinLeave *.wiki mkview
-  autocmd BufWinEnter *.wiki silent loadview
-augroup END
-
 " Basic vim options
 set encoding=utf-8
 set lazyredraw
 set noshowmode
 set noerrorbells
-set laststatus=2 " powerline status line positioning
-set scrolloff=10 " 3 visual lines below the cursor when scrolling
+set hidden                  " switch buffers without having to save
+set laststatus=2            " powerline status line positioning
+set scrolloff=10            " visual scroll gap below the cursor
 set cursorline
 set number 
-set colorcolumn=80 "set line at 80 char
-set tabstop=2 "width of tab is set to 2
-set softtabstop=2 "sets the number of columns for a tab
-set shiftwidth=2 "indents will have width of 2
-set expandtab "expandstabs into spaces
+set colorcolumn=80          " set line at 80 char
+set tabstop=2               " width of tab is set to 2
+set softtabstop=2           " number of columns for a tab
+set shiftwidth=2            " indents width of 2
+set expandtab               " expands tabs into spaces
 set autoindent
 set smartindent
 set matchpairs+=<:>
 let g:indentLine_char = '▏' "indentation guide
 
 " must mkdir the directories 
-set undofile " persistent undo
+set undofile                " persistent undo
 set undodir=~/.vim/undodir/
 set backupdir=~/.vim/backup/
 set directory=~/.vim/swap/
@@ -92,15 +83,6 @@ nnoremap <leader>r :source ~/.vimrc<CR>
 nnoremap <leader>c *``cgn
 vnoremap <silent>. :norm.<CR>
 nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
-
-" NERDTree
-nnoremap <leader>n :NERDTreeToggle<CR> 
-let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore .pyc files in NERDTree
-let g:NERDTreeQuitOnOpen = 1
-autocmd StdinReadPre * let s:std_in=1
-let NERDTreeMinimalUI=1
-
-" replace commas with space and split line on space
 nnoremap <leader>sl :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>
 
 "" Python specific mappings
@@ -110,28 +92,22 @@ au BufNewFile,BufRead *.py
     \ set shiftwidth=4 "indents will have width of 4
     \ set fileformat=unix
 let python_highlight_all=1 " python syntax highlight
-
-" autocomplete of various brackets in Python
 autocmd FileType python inoremap <buffer> { {}<Left>
 autocmd FileType python inoremap <buffer> [ []<Left>
 autocmd FileType python inoremap <buffer> ' ''<Left>
 autocmd FileType python vnoremap <buffer> <leader>f <C-v>0<S-i>#<Esc>
 autocmd FileType python nnoremap <buffer> <leader>f 0i#<Esc>
-
-" python abbreviations
 autocmd FileType python ab <buffer> dbg import ipdb; ipdb.set_trace()
 autocmd FileType python ab <buffer> ipy import IPython; IPython.embed()
 autocmd FileType python ab <buffer> namemain if __name__ == "__main__":<CR> main()
 
-"" C specific mappings
-autocmd FileType c vnoremap <buffer> <leader>f/ <C-v>0<S-i>//<Esc>
-autocmd FileType c inoremap <buffer> { {}<Left>
-autocmd FileType c inoremap <buffer> [ []<Left>
-autocmd FileType c inoremap <buffer> ' ''<Left>
+" youCompleteMe settings
+let g:ycm_autoclose_preview_window_after_completion=1
+autocmd FileType python nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+autocmd FileType python nnoremap <leader>t :YcmCompleter GetType<CR>
 
-" ale linter
-"   must pip install flake8, pylint, and yapf --user
-"   may include 'yapf' to autoformat
+" ale linter:
+"   pip install flake8 and pylint --user
 nnoremap <leader>l :ALEToggle<CR> 
 let g:ale_linters = {'python': ['flake8', 'pylint']}
 let g:ale_fixers = {
@@ -146,36 +122,21 @@ let g:ale_sign_warning = '.'
 nmap <silent> <C-n> <Plug>(ale_previous_wrap)
 nmap <silent> <C-m> <Plug>(ale_next_wrap)
 
-" youCompleteMe settings
-let g:ycm_autoclose_preview_window_after_completion=1
-nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
-nnoremap <leader>t :YcmCompleter GetType<CR>
-
 " code folding
 set foldmethod=indent
 set foldlevel=99
-let g:vimwiki_folding = 'custom'
-set foldopen-=block " remove block from default value of foldopen
+set foldopen-=block
 nnoremap <leader>z za 
 
 " tagbar
 " for ctags with vimwiki:
 "  sudo apt install exuberant-ctags
-"  download https://gist.githubusercontent.com/EinfachToll/9071573/raw/0b5a629a489c4fe14ba57606d761bd8018746d6c/vwtags.py 
-"  add to ctatgsbin path
+"  download and add to ctagsbin path: 
+"     https://gist.githubusercontent.com/EinfachToll/9071573/raw/0b5a629a489c4fe14ba57606d761bd8018746d6c/vwtags.py 
 nnoremap <leader>m :TagbarOpenAutoClose<CR>
-let g:tagbar_type_vimwiki = {
-			\   'ctagstype':'vimwiki'
-			\ , 'kinds':['h:header']
-			\ , 'sro':'&&&'
-			\ , 'kind2scope':{'h':'header'}
-			\ , 'sort':0
-			\ , 'ctagsbin':'/home/stephen/.vim/bundle/markdown2ctags/vwtags.py'
-			\ , 'ctagsargs': 'default'
-			\ }
 
-"" vim-wiki
-" can consider keeping global mappings → currently testing fzf as replacement
+"" vimwiki settings
+"     see vimwiki ftplugin for more
 let g:vimwiki_list = [{ 'path': '~/Documents/notes/' }]
 let g:vimwiki_key_mappings =
   \ {
@@ -191,41 +152,29 @@ let g:vimwiki_key_mappings =
   \   'mouse': 0,
   \ }
 
-" vimwiki mappings
-autocmd FileType vimwiki nnoremap <buffer> <silent><tab> :VimwikiNextLink<cr>
-autocmd FileType vimwiki nnoremap <buffer> <silent><s-tab> :VimwikiPrevLink<cr>
-autocmd FileType vimwiki nnoremap <buffer> <cr> :VimwikiFollowLink<cr>
-autocmd FileType vimwiki inoremap <buffer> ( ()<Left>
-autocmd FileType vimwiki inoremap <buffer> " ""<Left>
-
-"" aethetics
-let g:gruvbox_contrast_dark='soft'
-colorscheme gruvbox
-
-" airline status line
-let g:airline#extensions#whitespace#enabled = 0 " no trailing whitespace check
-let g:airline#extensions#tabline#enabled = 1 " automatically show all buffers when only one tab open
-let g:airline#extensions#tabline#buffer_nr_show = 1 " show buffer number
-
-" search and highlight settings
-set ignorecase " ignore uppercase
-set smartcase " if uppercase in search, consider only uppercase
-set incsearch " move cursor to the matched string while searching
-set hlsearch " highlight search, :noh will temporarily remove highlighting
+"" Search and highlight settings
+set ignorecase           " ignore uppercase
+set smartcase            " if uppercase in search, consider only uppercase
+set incsearch            " move cursor to the matched string while searching
+set hlsearch             " highlight search
+set wildcharm=<c-z>      " tab to scroll search matches
+cnoremap <expr> <Tab>   getcmdtype() =~ '[?/]' ? "<c-g>" : "<c-z>"
+cnoremap <expr> <S-Tab> getcmdtype() =~ '[?/]' ? "<c-t>" : "<S-Tab>"
 nnoremap <leader>h :set hlsearch! hlsearch?<CR>
-" ripgrep (rg) with files ignored files under .rgignore
 nnoremap <C-f> :Rg 
 
 " FZF and buffers
-set hidden " allows switching of buffers without saving in between
 nnoremap <leader>b :Buffer<cr>
 nnoremap <leader>k :bn<cr>
 nnoremap <leader>j :bp<cr>
 nnoremap <leader>e :bdel<cr>
 nnoremap <leader>ss :Files<CR>
 nnoremap <leader>sd :cd %:p:h<CR>
+nnoremap <leader>n :Marks<CR> 
 
-" tab to scroll search matches
-set wildcharm=<c-z>
-cnoremap <expr> <Tab>   getcmdtype() =~ '[?/]' ? "<c-g>" : "<c-z>"
-cnoremap <expr> <S-Tab> getcmdtype() =~ '[?/]' ? "<c-t>" : "<S-Tab>"
+"" aethetics
+let g:gruvbox_contrast_dark='soft'
+colorscheme gruvbox
+let g:airline#extensions#whitespace#enabled = 0 " no trailing whitespace check
+let g:airline#extensions#tabline#enabled = 1 " automatically show all buffers when only one tab open
+let g:airline#extensions#tabline#buffer_nr_show = 1 " show buffer number
