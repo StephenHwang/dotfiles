@@ -19,63 +19,7 @@ setlocal foldexpr=Fold(v:lnum)
  endfunction
 
 
-""" vim-wiki
-"" can consider keeping global mappings → currently testing fzf as replacement
-"let g:vimwiki_list = [{ 'path': '~/Documents/notes/' }]
-"let g:vimwiki_key_mappings =
-"  \ {
-"  \   'all_maps': 1,
-"  \   'global': 0,
-"  \   'headers': 1,
-"  \   'text_objs': 1,
-"  \   'table_format': 1,
-"  \   'table_mappings': 1,
-"  \   'lists': 1,
-"  \   'links': 0,
-"  \   'html': 0,
-"  \   'mouse': 0,
-"  \ }
-"
-"let g:tagbar_type_vimwiki = {
-"			\   'ctagstype':'vimwiki'
-"			\ , 'kinds':['h:header']
-"			\ , 'sro':'&&&'
-"			\ , 'kind2scope':{'h':'header'}
-"			\ , 'sort':0
-"			\ , 'ctagsbin':'/home/stephen/.vim/bundle/markdown2ctags/vwtags.py'
-"			\ , 'ctagsargs': 'default'
-"			\ }
-"let g:vimwiki_folding = 'custom'
-"augroup AutoSaveFolds                  " Autosave and reload vimwiki folds
-"  autocmd!
-"  autocmd BufWinLeave *.wiki mkview
-"  autocmd BufWinEnter *.wiki silent loadview
-"augroup END
-"
-"autocmd FileType vimwiki nnoremap <buffer> <silent><tab> :VimwikiNextLink<cr>
-"autocmd FileType vimwiki nnoremap <buffer> <silent><s-tab> :VimwikiPrevLink<cr>
-"autocmd FileType vimwiki nnoremap <buffer> <cr> :VimwikiFollowLink<cr>
-"autocmd FileType vimwiki inoremap <buffer> ( ()<Left>
-"autocmd FileType vimwiki inoremap <buffer> " ""<Left>
-
-
-"" vim-wiki
-let g:tagbar_type_vimwiki = {
-			\   'ctagstype':'vimwiki'
-			\ , 'kinds':['h:header']
-			\ , 'sro':'&&&'
-			\ , 'kind2scope':{'h':'header'}
-			\ , 'sort':0
-			\ , 'ctagsbin':'/home/stephen/.vim/bundle/markdown2ctags/vwtags.py'
-			\ , 'ctagsargs': 'default'
-			\ }
-let g:vimwiki_folding = 'custom'
-augroup AutoSaveFolds                  " Autosave and reload vimwiki folds
-  autocmd!
-  autocmd BufWinLeave *.wiki mkview
-  autocmd BufWinEnter *.wiki silent loadview
-augroup END
-
+"" mappings
 nnoremap <buffer> <silent><tab> :VimwikiNextLink<cr>
 nnoremap <buffer> <silent><s-tab> :VimwikiPrevLink<cr>
 nnoremap <buffer> <cr> :VimwikiFollowLink<cr>
