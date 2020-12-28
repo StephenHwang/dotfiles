@@ -161,9 +161,12 @@ export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
 export PATH="/home/stephen/bin/pymol/:$PATH"
 #export PATH="/home/stephen/bin/ctags-5.8/:$PATH"
 
+# ibus
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODUlE=ibus
 
-#export PYTHONPATH="${PYTHONPATH}:/home/stephen/.local/lib/python3.8/site-packages/python_codon_tables"
-#export PYTHONPATH="${PYTHONPATH}:/home/stephen/.local/lib/python3.8/site-packages"
+
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
