@@ -48,6 +48,7 @@ ab <buffer> diff different
 ab <buffer> ppl people
 ab <buffer> rxn reaction
 ab <buffer> def definitely
+ab <buffer> bf before
 ab <buffer> prb probability
 ab <buffer> prob probably
 ab <buffer> pi π

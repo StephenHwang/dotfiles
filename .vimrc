@@ -50,6 +50,7 @@ set tabstop=2               " width of tab is set to 2
 set softtabstop=2           " number of columns for a tab
 set shiftwidth=2            " indents width of 2
 set expandtab               " expands tabs into spaces
+set helpheight=35
 set autoindent
 set smartindent
 set matchpairs+=<:>
@@ -80,10 +81,19 @@ nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>wq :wq<cr>
 nnoremap <leader>r :source ~/.vimrc<CR> 
-nnoremap <leader>c *``cgn
+nnoremap <silent>ciww *``cgn
 vnoremap <silent>. :norm.<CR>
 nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
 nnoremap <leader>sl :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>
+
+" code folding
+set foldmethod=indent
+set foldlevel=99
+set foldopen-=block
+nnoremap <leader>z za 
+
+" tagbar
+nnoremap <leader>m :TagbarOpenAutoClose<CR>
 
 "" Python specific mappings
 au BufNewFile,BufRead *.py
@@ -100,6 +110,7 @@ autocmd FileType python nnoremap <buffer> <leader>f 0i#<Esc>
 autocmd FileType python ab <buffer> dbg import ipdb; ipdb.set_trace()
 autocmd FileType python ab <buffer> ipy import IPython; IPython.embed()
 autocmd FileType python ab <buffer> namemain if __name__ == "__main__":<CR> main()
+ab ar →
 
 " youCompleteMe settings
 let g:ycm_autoclose_preview_window_after_completion=1
@@ -122,21 +133,10 @@ let g:ale_sign_warning = '.'
 nmap <silent> <C-n> <Plug>(ale_previous_wrap)
 nmap <silent> <C-m> <Plug>(ale_next_wrap)
 
-" code folding
-set foldmethod=indent
-set foldlevel=99
-set foldopen-=block
-nnoremap <leader>z za 
-
-" tagbar
-" for ctags with vimwiki:
-"  sudo apt install exuberant-ctags
-"  download and add to ctagsbin path: 
-"     https://gist.githubusercontent.com/EinfachToll/9071573/raw/0b5a629a489c4fe14ba57606d761bd8018746d6c/vwtags.py 
-nnoremap <leader>m :TagbarOpenAutoClose<CR>
 
 "" vimwiki settings
 "     see vimwiki ftplugin for more
+let g:vimwiki_folding = 'custom'
 let g:vimwiki_list = [{ 'path': '~/Documents/notes/' }]
 let g:vimwiki_key_mappings =
   \ {
@@ -151,6 +151,19 @@ let g:vimwiki_key_mappings =
   \   'html': 0,
   \   'mouse': 0,
   \ }
+" vimwiki ctags:
+"    >sudo apt install exuberant-ctags
+"    download and add to bin/ctags: https://gist.github.com/EinfachToll/9071573
+let g:tagbar_type_vimwiki = {
+			\   'ctagstype':'vimwiki'
+			\ , 'kinds':['h:header']
+			\ , 'sro':'&&&'
+			\ , 'kind2scope':{'h':'header'}
+			\ , 'sort':0
+			\ , 'ctagsbin':'/home/stephen/.vim/bundle/markdown2ctags/vwtags.py'
+			\ , 'ctagsargs': 'default'
+			\ }
+
 
 "" Search and highlight settings
 set ignorecase           " ignore uppercase
@@ -175,6 +188,5 @@ nnoremap <leader>n :Marks<CR>
 "" aethetics
 let g:gruvbox_contrast_dark='soft'
 colorscheme gruvbox
-let g:airline#extensions#whitespace#enabled = 0 " no trailing whitespace check
-let g:airline#extensions#tabline#enabled = 1 " automatically show all buffers when only one tab open
-let g:airline#extensions#tabline#buffer_nr_show = 1 " show buffer number
+let g:airline#extensions#whitespace#enabled = 0     " no trailing whitespace check
+let g:airline#extensions#tabline#enabled = 1        " always show buffers status bar
