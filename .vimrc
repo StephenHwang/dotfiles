@@ -202,6 +202,7 @@ nnoremap <C-f>f :Files<CR>
 nnoremap <C-f>m :Marks<CR>
 nnoremap <C-f>g :GFiles?<CR>
 nnoremap <C-f>h :History<CR>
+nnoremap <C-f>w [I
 
 "" aethetics
 let g:gruvbox_contrast_dark='soft'
