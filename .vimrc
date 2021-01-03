@@ -94,7 +94,7 @@ set foldopen-=block
 nnoremap <leader>z za 
 
 " tagbar
-nnoremap <leader>n :TagbarOpenAutoClose<CR>
+nnoremap <leader>m :TagbarOpenAutoClose<CR>
 
 "" Python specific mappings
 au BufNewFile,BufRead *.py
@@ -187,16 +187,21 @@ set wildcharm=<c-z>      " tab to scroll search matches
 cnoremap <expr> <Tab>   getcmdtype() =~ '[?/]' ? "<c-g>" : "<c-z>"
 cnoremap <expr> <S-Tab> getcmdtype() =~ '[?/]' ? "<c-t>" : "<S-Tab>"
 nnoremap <leader>h :set hlsearch! hlsearch?<CR>
-nnoremap <C-f> :Rg 
 
 " FZF and buffers
 nnoremap <leader>b :Buffer<cr>
 nnoremap <leader>k :bn<cr>
 nnoremap <leader>j :bp<cr>
 nnoremap <leader>e :bdel<cr>
-nnoremap <leader>ss :Files<CR>
 nnoremap <leader>sd :cd %:p:h<CR>
-nnoremap <leader>m :Marks<CR> 
+
+" fuzzy find assorted items
+nnoremap <C-f>a :Rg 
+nnoremap <C-f>i :BLines<CR>
+nnoremap <C-f>f :Files<CR>
+nnoremap <C-f>m :Marks<CR>
+nnoremap <C-f>g :GFiles?<CR>
+nnoremap <C-f>h :History<CR>
 
 "" aethetics
 let g:gruvbox_contrast_dark='soft'
