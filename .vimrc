@@ -9,23 +9,21 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
-
+Plugin 'tpope/vim-repeat'       " dot command for vim surround
 Plugin 'Yggdroot/indentLine'    " display vertical indentation level
+
 Plugin 'dense-analysis/ale'     " linter
-Plugin 'sheerun/vim-polyglot'   " syntax 
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'sheerun/vim-polyglot'   " syntax highlighter
+Plugin 'Valloric/YouCompleteMe' " autocomplete
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
 
 Plugin 'majutsushi/tagbar'
-Plugin 'jszakmeister/markdown2ctags'
 Plugin 'vimwiki/vimwiki', {'branch': 'dev'}
 Plugin 'jpalardy/vim-slime.git' 
 
 Plugin 'morhetz/gruvbox'
 Plugin 'vim-airline/vim-airline'          " airline status bar
-Plugin 'vim-airline/vim-airline-themes'   " airline theme
 Plugin 'edkolev/tmuxline.vim'             " tmux status bar
 call vundle#end()
 filetype plugin indent on 
@@ -93,9 +91,6 @@ set foldlevel=99
 set foldopen-=block
 nnoremap <leader>z za 
 
-" tagbar
-nnoremap <leader>m :TagbarOpenAutoClose<CR>
-
 "" Python specific mappings
 au BufNewFile,BufRead *.py
     \ set tabstop=4 "width of tab is set to 4
@@ -157,13 +152,17 @@ let g:vimwiki_key_mappings =
 " vimwiki ctags:
 "    >sudo apt install exuberant-ctags
 "    download and add to bin/ctags: https://gist.github.com/EinfachToll/9071573
+"    alter file:
+"       chmod +x file
+"       convert print to python3
+nnoremap <leader>m :TagbarOpenAutoClose<CR>
 let g:tagbar_type_vimwiki = {
 			\   'ctagstype':'vimwiki'
 			\ , 'kinds':['h:header']
 			\ , 'sro':'&&&'
 			\ , 'kind2scope':{'h':'header'}
 			\ , 'sort':0
-			\ , 'ctagsbin':'/home/stephen/.vim/bundle/markdown2ctags/vwtags.py'
+			\ , 'ctagsbin': '/home/stephen/bin/ctags-5.8/vwtags.py'
 			\ , 'ctagsargs': 'default'
 			\ }
 
