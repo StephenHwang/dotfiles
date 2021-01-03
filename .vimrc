@@ -21,6 +21,7 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'jszakmeister/markdown2ctags'
 Plugin 'vimwiki/vimwiki', {'branch': 'dev'}
+Plugin 'jpalardy/vim-slime.git' 
 
 Plugin 'morhetz/gruvbox'
 Plugin 'vim-airline/vim-airline'          " airline status bar
@@ -68,6 +69,7 @@ nnoremap <silent> gs xph
 nnoremap <silent> gc ~
 noremap x "_x<silent>
 nnoremap <BS> X
+
 nnoremap Y y$
 nnoremap yy "+yy
 vnoremap y "+y
@@ -93,7 +95,7 @@ set foldopen-=block
 nnoremap <leader>z za 
 
 " tagbar
-nnoremap <leader>m :TagbarOpenAutoClose<CR>
+nnoremap <leader>n :TagbarOpenAutoClose<CR>
 
 "" Python specific mappings
 au BufNewFile,BufRead *.py
@@ -110,8 +112,6 @@ autocmd FileType python nnoremap <buffer> <leader>f 0i#<Esc>
 autocmd FileType python ab <buffer> dbg import ipdb; ipdb.set_trace()
 autocmd FileType python ab <buffer> ipy import IPython; IPython.embed()
 autocmd FileType python ab <buffer> namemain if __name__ == "__main__":<CR> main()
-ab ar →
-
 " youCompleteMe settings
 let g:ycm_autoclose_preview_window_after_completion=1
 autocmd FileType python nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
@@ -164,6 +164,16 @@ let g:tagbar_type_vimwiki = {
 			\ , 'ctagsargs': 'default'
 			\ }
 
+" vim-silme
+"   tmux REPL integration
+let g:slime_target = 'tmux'
+let g:slime_paste_file = '$HOME/.slime_paste'
+let g:slime_default_config = {'socket_name': get(split($TMUX, ','), 0), 'target_pane': ':.1'}
+let g:slime_dont_ask_default = 1
+let g:slime_no_mappings = 1
+xmap <c-c><c-c> <Plug>SlimeRegionSend
+nmap <c-c><c-c> <Plug>SlimeParagraphSend
+nmap <c-c>v     <Plug>SlimeConfig
 
 "" Search and highlight settings
 set ignorecase           " ignore uppercase
@@ -183,7 +193,7 @@ nnoremap <leader>j :bp<cr>
 nnoremap <leader>e :bdel<cr>
 nnoremap <leader>ss :Files<CR>
 nnoremap <leader>sd :cd %:p:h<CR>
-nnoremap <leader>n :Marks<CR> 
+nnoremap <leader>m :Marks<CR> 
 
 "" aethetics
 let g:gruvbox_contrast_dark='soft'

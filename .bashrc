@@ -103,6 +103,7 @@ alias h='history'
 
 alias tmux='tmux -2'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
+alias ipython='ipython --no-autoindent'
 
 alias popen='mimeopen'
 alias classdir='cd /home/stephen/Documents/classes/'
