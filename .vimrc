@@ -65,11 +65,8 @@ set directory=~/.vim/swap/
 
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
-nnoremap <silent> gs xph
-nnoremap <silent> gc ~
 noremap x "_x<silent>
 nnoremap <BS> X
-
 nnoremap Y y$
 nnoremap yy "+yy
 vnoremap y "+y
@@ -87,6 +84,8 @@ nnoremap <silent>ciww *``cgn
 vnoremap <silent>. :norm.<CR>
 nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
 nnoremap <leader>sl :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>
+nnoremap <silent> gs xph
+nnoremap <silent> gc ~
 
 " code folding
 set foldmethod=indent
@@ -111,9 +110,11 @@ autocmd FileType python vnoremap <buffer> <leader>f <C-v>0<S-i>#<Esc>
 autocmd FileType python nnoremap <buffer> <leader>f 0i#<Esc>
 autocmd FileType python ab <buffer> dbg import ipdb; ipdb.set_trace()
 autocmd FileType python ab <buffer> ipy import IPython; IPython.embed()
-autocmd FileType python ab <buffer> namemain if __name__ == "__main__":<CR> main()
+
 " youCompleteMe settings
 let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_auto_hover = ''
+nmap <leader>d <plug>(YCMHover)
 autocmd FileType python nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 autocmd FileType python nnoremap <leader>t :YcmCompleter GetType<CR>
 
@@ -122,8 +123,9 @@ autocmd FileType python nnoremap <leader>t :YcmCompleter GetType<CR>
 nnoremap <leader>l :ALEToggle<CR> 
 let g:ale_linters = {'python': ['flake8', 'pylint']}
 let g:ale_fixers = {
-\   'python': ['remove_trailing_lines', 'trim_whitespace'],
+\   'python': ['remove_trailing_lines', 'trim_whitespace', 'isort'],
 \}
+let g:ale_hover_cursor = 0
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
 let g:ale_lint_on_save = 1
@@ -151,6 +153,7 @@ let g:vimwiki_key_mappings =
   \   'html': 0,
   \   'mouse': 0,
   \ }
+
 " vimwiki ctags:
 "    >sudo apt install exuberant-ctags
 "    download and add to bin/ctags: https://gist.github.com/EinfachToll/9071573
