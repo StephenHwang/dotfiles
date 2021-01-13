@@ -28,6 +28,9 @@ keysym m = m M Prior
 keysym i = i I BackSpace U222B
 keysym o = o O Delete U2192
 
+keycode 108 = BackSpace
+
+
 ! Keybinds for special characters useful when coding 
 keysym 5 = 5 percent percent 
 keysym 3 = 3 numbersign numbersign
