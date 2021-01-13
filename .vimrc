@@ -7,24 +7,31 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
+
+" Basics
+Plugin 'tpope/vim-fugitive'     " git integration
+Plugin 'tpope/vim-surround'     " text surround
 Plugin 'tpope/vim-repeat'       " dot command for vim surround
 Plugin 'Yggdroot/indentLine'    " display vertical indentation level
 
+" Python
 Plugin 'dense-analysis/ale'     " linter
-Plugin 'sheerun/vim-polyglot'   " syntax highlighter
+Plugin 'sheerun/vim-polyglot'   " syntax recognition
 Plugin 'Valloric/YouCompleteMe' " autocomplete
+
+" Optional
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
-
 Plugin 'majutsushi/tagbar'
 Plugin 'vimwiki/vimwiki', {'branch': 'dev'}
+Plugin 'tools-life/taskwiki' 
 Plugin 'jpalardy/vim-slime.git' 
 
+" Aesthetics
 Plugin 'morhetz/gruvbox'
 Plugin 'vim-airline/vim-airline'          " airline status bar
 Plugin 'edkolev/tmuxline.vim'             " tmux status bar
+
 call vundle#end()
 filetype plugin indent on 
 syntax on
@@ -78,12 +85,21 @@ nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>wq :wq<cr>
 nnoremap <leader>r :source ~/.vimrc<CR> 
-nnoremap <silent>ciww *``cgn
+
+nnoremap <silent>ciww ciw
+nnoremap <silent>ciw *``cgn
 vnoremap <silent>. :norm.<CR>
 nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
 nnoremap <leader>sl :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>
 nnoremap <silent> gs xph
-nnoremap <silent> gc ~
+nnoremap <leader>n [I
+
+" marks
+"   mm and mn to set marks
+"   gm and gM to go to marks
+noremap <silent> mn mN
+noremap <silent> gm `m
+noremap <silent> gM `N
 
 " code folding
 set foldmethod=indent
@@ -102,23 +118,25 @@ autocmd FileType python inoremap <buffer> { {}<Left>
 autocmd FileType python inoremap <buffer> [ []<Left>
 autocmd FileType python inoremap <buffer> ' ''<Left>
 autocmd FileType python vnoremap <buffer> <leader>f <C-v>0<S-i>#<Esc>
-autocmd FileType python nnoremap <buffer> <leader>f 0i#<Esc>
+autocmd FileType python nnoremap <buffer> <leader>f I#<Esc>
+autocmd FileType python noremap <buffer> <leader>ff :s/#/\=''/<cr>
 autocmd FileType python ab <buffer> dbg import ipdb; ipdb.set_trace()
 autocmd FileType python ab <buffer> ipy import IPython; IPython.embed()
+autocmd FileType python ab <buffer> pri print
 
 " youCompleteMe settings
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_auto_hover = ''
-nmap <leader>d <plug>(YCMHover)
 autocmd FileType python nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
 autocmd FileType python nnoremap <leader>t :YcmCompleter GetType<CR>
+autocmd FileType python nmap <leader>d <plug>(YCMHover)
 
 " ale linter:
 "   pip install flake8 and pylint --user
 nnoremap <leader>l :ALEToggle<CR> 
 let g:ale_linters = {'python': ['flake8', 'pylint']}
 let g:ale_fixers = {
-\   'python': ['remove_trailing_lines', 'trim_whitespace', 'isort'],
+\   'python': ['remove_trailing_lines', 'trim_whitespace'],
 \}
 let g:ale_hover_cursor = 0
 let g:ale_fix_on_save = 1
@@ -148,13 +166,15 @@ let g:vimwiki_key_mappings =
   \   'html': 0,
   \   'mouse': 0,
   \ }
+"let g:taskwiki_suppress_mappings='yes'
+
 
 " vimwiki ctags:
-"    >sudo apt install exuberant-ctags
-"    download and add to bin/ctags: https://gist.github.com/EinfachToll/9071573
-"    alter file:
+"    sudo apt install exuberant-ctags
+"    download tagbar
+"    download file to bin/ctags: 
+"       https://raw.githubusercontent.com/vimwiki/utils/master/vwtags.py
 "       chmod +x file
-"       convert print to python3
 nnoremap <leader>m :TagbarOpenAutoClose<CR>
 let g:tagbar_type_vimwiki = {
 			\   'ctagstype':'vimwiki'
@@ -187,24 +207,24 @@ cnoremap <expr> <Tab>   getcmdtype() =~ '[?/]' ? "<c-g>" : "<c-z>"
 cnoremap <expr> <S-Tab> getcmdtype() =~ '[?/]' ? "<c-t>" : "<S-Tab>"
 nnoremap <leader>h :set hlsearch! hlsearch?<CR>
 
-" FZF and buffers
+"" buffers
 nnoremap <leader>b :Buffer<cr>
 nnoremap <leader>k :bn<cr>
 nnoremap <leader>j :bp<cr>
 nnoremap <leader>e :bdel<cr>
 nnoremap <leader>sd :cd %:p:h<CR>
 
-" fuzzy find assorted items
+"" fuzzy find assorted items
+nnoremap <C-f>f :Files<CR>
 nnoremap <C-f>a :Rg 
 nnoremap <C-f>i :BLines<CR>
-nnoremap <C-f>f :Files<CR>
 nnoremap <C-f>m :Marks<CR>
-nnoremap <C-f>g :GFiles?<CR>
 nnoremap <C-f>h :History<CR>
-nnoremap <C-f>w [I
+nnoremap <C-f>g :BCommits<CR>
+nnoremap <C-f>G :GFiles?<CR>
 
 "" aethetics
-let g:gruvbox_contrast_dark='soft'
+let g:gruvbox_contrast_dark='medium'
 colorscheme gruvbox
-let g:airline#extensions#whitespace#enabled = 0     " no trailing whitespace check
-let g:airline#extensions#tabline#enabled = 1        " always show buffers status bar
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
