@@ -37,25 +37,34 @@ ab <buffer> ohter other
 ab <buffer> tho though
 ab <buffer> thru through
 ab <buffer> w with
+
 ab <buffer> isnt isn't
 ab <buffer> cant can't
 ab <buffer> dont don't
+ab <buffer> didt did't
+ab <buffer> wont won't
 ab <buffer> wouldnt wouldn't
+
 ab <buffer> wo without
 ab <buffer> bc because
 ab <buffer> bw between
 ab <buffer> diff different
+ab <buffer> cont continue
 ab <buffer> ppl people
 ab <buffer> rxn reaction
 ab <buffer> def definitely
 ab <buffer> bf before
 ab <buffer> prb probability
 ab <buffer> prob probably
+ab <buffer> dist distribution
+
 ab <buffer> pi π
 ab <buffer> theta θ
 ab <buffer> Delta Δ
 ab <buffer> mu μ
 ab <buffer> dg °
+ab <buffer> omega Ω 
+
 ab <buffer> <> ⇌
 ab <buffer> url [[link\|desc] ]<esc>10h
 ab <buffer> img {{file_url} }<esc>7h
