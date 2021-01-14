@@ -68,6 +68,21 @@ set undodir=~/.vim/undodir/
 set backupdir=~/.vim/backup/
 set directory=~/.vim/swap/
 
+" key maps with leader key
+let mapleader="\<space>"
+inoremap jk <Esc>
+nnoremap <leader>q :q<cr>
+nnoremap <leader>w :w<cr>
+nnoremap <leader>wq :wq<cr>
+nnoremap <leader>r :source ~/.vimrc<CR> 
+nnoremap <silent>ciww ciw
+nnoremap <silent>ciw *``cgn
+vnoremap <silent>. :norm.<CR>
+nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
+nnoremap <leader>sl :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
+nnoremap <silent> gs xph
+nnoremap <leader>n [I
+
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
 noremap x "_x<silent>
@@ -76,22 +91,6 @@ nnoremap Y y$
 nnoremap yy "+yy
 vnoremap y "+y
 vnoremap <C-c> "+y
-
-" key maps with leader key
-let mapleader="\<space>"
-inoremap jk <Esc>
-nnoremap <leader>q :q<cr>
-nnoremap <leader>w :w<cr>
-nnoremap <leader>wq :wq<cr>
-nnoremap <leader>r :source ~/.vimrc<CR> 
-
-nnoremap <silent>ciww ciw
-nnoremap <silent>ciw *``cgn
-vnoremap <silent>. :norm.<CR>
-nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
-nnoremap <leader>sl :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>
-nnoremap <silent> gs xph
-nnoremap <leader>n [I
 
 " marks
 "   mm and mn to set marks
@@ -168,10 +167,8 @@ let g:vimwiki_key_mappings =
 
 " vimwiki ctags:
 "    sudo apt install exuberant-ctags
-"    download tagbar
-"    download file to bin/ctags: 
+"    download tagbar and add file to bin/ctags (chmod +x)
 "       https://raw.githubusercontent.com/vimwiki/utils/master/vwtags.py
-"       chmod +x file
 nnoremap <leader>m :TagbarOpenAutoClose<CR>
 let g:tagbar_type_vimwiki = {
 			\   'ctagstype':'vimwiki'
@@ -183,8 +180,8 @@ let g:tagbar_type_vimwiki = {
 			\ , 'ctagsargs': 'default'
 			\ }
 
-" vim-silme
-"   tmux REPL integration
+" vim-silme: tmux REPL integration
+"   :SlimeConfig to configure panels
 let g:slime_target = 'tmux'
 let g:slime_paste_file = '$HOME/.slime_paste'
 let g:slime_default_config = {'socket_name': get(split($TMUX, ','), 0), 'target_pane': ':.1'}
@@ -192,7 +189,6 @@ let g:slime_dont_ask_default = 1
 let g:slime_no_mappings = 1
 xmap <c-c><c-c> <Plug>SlimeRegionSend
 nmap <c-c><c-c> <Plug>SlimeParagraphSend
-nmap <c-c>v     <Plug>SlimeConfig
 
 "" Search and highlight settings
 set ignorecase           " ignore uppercase
@@ -211,6 +207,7 @@ nnoremap <leader>e :bdel<cr>
 nnoremap <leader>sd :cd %:p:h<CR>
 
 "" fuzzy find assorted items
+nnoremap <C-f> :Files<CR>
 nnoremap <C-f>f :Files<CR>
 nnoremap <C-f>b :Buffer<cr>
 nnoremap <C-f>a :Rg 
@@ -247,7 +244,7 @@ function! ToggleComment()
             end
         end
     else
-        echo "No comment leader found for filetype"
+        echo "No comment for filetype"
     end
 endfunction
 

@@ -104,12 +104,14 @@ alias h='history'
 alias tmux='tmux -2'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
 alias ipython='ipython --no-autoindent'
+alias tasks='task'
 
 alias popen='mimeopen'
 alias classdir='cd /home/stephen/Documents/classes/'
 alias pip='pip3'
 alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
 alias cursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
+alias pycharm='pycharm-community'
 
 # clear and ls
 cls() { clear && ls; }
@@ -120,14 +122,6 @@ alias sshcport='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.
 alias ports='netstat -ntlp | grep LISTEN'
 alias portc='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
 alias portk='kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
-
-# fzf and ripgrep (rg)
-# https://github.com/junegunn/fzf#usage
-#     ignored rg files in .rgignore
-export FZF_DEFAULT_COMMAND='rg --files --smart-case --follow'
-alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
-source /usr/share/doc/fzf/examples/key-bindings.bash
-source /usr/share/doc/fzf/examples/completion.bash
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -167,8 +161,6 @@ export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODUlE=ibus
 
-
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/home/stephen/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
@@ -184,6 +176,13 @@ fi
 unset __conda_setup
 conda deactivate
 # <<< conda initialize <<<
+
+#  https://medium.com/@_ahmed_ab/crazy-super-fast-fuzzy-search-9d44c29e14f
+fd() { 
+  local dir 
+  dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d  -print 2> /dev/null | fzf +m) && 
+  cd "$dir"
+  }
 
 # Petar Marinov, http:/geocities.com/h2428
 # This function defines a 'cd' replacement function capable of keeping,
@@ -241,9 +240,15 @@ cd_func()
     if [[ "$1" == "-" ]] ; then  # special case: cd -
        dir="$OLDPWD"
     fi
+
+    if [[ "$1" == "---" ]] ; then  # special case: cd -
+	    fd 
+      return $?
+    fi
+
     if [[ "$1" ==  "--" ]]; then  # special case: cd -- (list dirs)
-	xcd_func --
-	return $?
+	     xcd_func --
+	     return $?
     fi
     if [ $badcd == 0 ]  # if we have a real place to go, find its inode
     then
@@ -269,7 +274,16 @@ cd_func()
    fi
    return $rv
 }
-
-# uncomment for original cd
 alias cd=cd_func
+
+# fzf and ripgrep (rg)
+# https://github.com/junegunn/fzf#usage
+#     ignored rg files in .rgignore
+alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
+export FZF_DEFAULT_COMMAND='rg --files --smart-case --follow --no-hidden'
+export FZF_COMPLETION_TRIGGER='--'
+source /usr/share/doc/fzf/examples/key-bindings.bash
+source /usr/share/doc/fzf/examples/completion.bash
+
+
 
