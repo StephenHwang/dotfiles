@@ -80,7 +80,6 @@ vnoremap <C-c> "+y
 " key maps with leader key
 let mapleader="\<space>"
 inoremap jk <Esc>
-inoremap jj <C-o>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>wq :wq<cr>
@@ -97,9 +96,11 @@ nnoremap <leader>n [I
 " marks
 "   mm and mn to set marks
 "   gm and gM to go to marks
-noremap <silent> mn mN
+"   gb to go between
+noremap <silent> mn mNmn
 noremap <silent> gm `m
 noremap <silent> gM `N
+noremap <silent> gb `nv`m
 
 " code folding
 set foldmethod=indent
@@ -117,9 +118,6 @@ let python_highlight_all=1 " python syntax highlight
 autocmd FileType python inoremap <buffer> { {}<Left>
 autocmd FileType python inoremap <buffer> [ []<Left>
 autocmd FileType python inoremap <buffer> ' ''<Left>
-autocmd FileType python vnoremap <buffer> <leader>f <C-v>0<S-i>#<Esc>
-autocmd FileType python nnoremap <buffer> <leader>f I#<Esc>
-autocmd FileType python noremap <buffer> <leader>ff :s/#/\=''/<cr>
 autocmd FileType python ab <buffer> dbg import ipdb; ipdb.set_trace()
 autocmd FileType python ab <buffer> ipy import IPython; IPython.embed()
 autocmd FileType python ab <buffer> pri print
@@ -168,7 +166,6 @@ let g:vimwiki_key_mappings =
   \ }
 "let g:taskwiki_suppress_mappings='yes'
 
-
 " vimwiki ctags:
 "    sudo apt install exuberant-ctags
 "    download tagbar
@@ -208,7 +205,6 @@ cnoremap <expr> <S-Tab> getcmdtype() =~ '[?/]' ? "<c-t>" : "<S-Tab>"
 nnoremap <leader>h :set hlsearch! hlsearch?<CR>
 
 "" buffers
-nnoremap <leader>b :Buffer<cr>
 nnoremap <leader>k :bn<cr>
 nnoremap <leader>j :bp<cr>
 nnoremap <leader>e :bdel<cr>
@@ -216,12 +212,48 @@ nnoremap <leader>sd :cd %:p:h<CR>
 
 "" fuzzy find assorted items
 nnoremap <C-f>f :Files<CR>
+nnoremap <C-f>b :Buffer<cr>
 nnoremap <C-f>a :Rg 
 nnoremap <C-f>i :BLines<CR>
 nnoremap <C-f>m :Marks<CR>
 nnoremap <C-f>h :History<CR>
 nnoremap <C-f>g :BCommits<CR>
 nnoremap <C-f>G :GFiles?<CR>
+
+"" Toggle comment
+let s:comment_map = { 
+    \   "c": '\/\/',
+    \   "cpp": '\/\/',
+    \   "python": '#',
+    \   "r": '#',
+    \   "sh": '#',
+    \   "bashrc": '#',
+    \   "vim": '"',
+    \ }
+
+function! ToggleComment()
+    if has_key(s:comment_map, &filetype)
+        let comment_leader = s:comment_map[&filetype]
+        if getline('.') =~ "^\\s*" . comment_leader . " " 
+            " Uncomment the line
+            execute "silent s/^\\(\\s*\\)" . comment_leader . " /\\1/"
+        else 
+            if getline('.') =~ "^\\s*" . comment_leader
+                " Uncomment the line
+                execute "silent s/^\\(\\s*\\)" . comment_leader . "/\\1/"
+            else
+                " Comment the line
+                execute "silent s/^\\(\\s*\\)/\\1" . comment_leader . " /"
+            end
+        end
+    else
+        echo "No comment leader found for filetype"
+    end
+endfunction
+
+map <silent><Plug>ToggleCommentMap :call ToggleComment()<cr>:call repeat#set("\<Plug>ToggleCommentMap", v:count)<cr>
+nmap <leader>f <Plug>ToggleCommentMap
+vmap <leader>f <Plug>ToggleCommentMap
 
 "" aethetics
 let g:gruvbox_contrast_dark='medium'
