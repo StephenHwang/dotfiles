@@ -14,17 +14,16 @@ Plugin 'tpope/vim-surround'     " text surround
 Plugin 'tpope/vim-repeat'       " dot command for vim surround
 Plugin 'Yggdroot/indentLine'    " display vertical indentation level
 
-" Python
-Plugin 'dense-analysis/ale'     " linter
+" Programming
 Plugin 'sheerun/vim-polyglot'   " syntax recognition
 Plugin 'Valloric/YouCompleteMe' " autocomplete
+Plugin 'dense-analysis/ale'     " linter
 
 " Optional
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'vimwiki/vimwiki', {'branch': 'dev'}
-Plugin 'tools-life/taskwiki' 
 Plugin 'jpalardy/vim-slime.git' 
 
 " Aesthetics
@@ -129,11 +128,13 @@ autocmd FileType python nnoremap <leader>t :YcmCompleter GetType<CR>
 autocmd FileType python nmap <leader>d <plug>(YCMHover)
 
 " ale linter:
-"   pip install flake8 and pylint --user
-nnoremap <leader>l :ALEToggle<CR> 
-let g:ale_linters = {'python': ['flake8', 'pylint']}
+"   pip install flake8 --user
+"   edit flake8 config at: ~/.config/flake8
+"let g:ale_enabled = 1                       " enable by default
+"nnoremap <leader>l :ALEToggle<CR> 
+let g:ale_linters = {'python': ['flake8']}  " pylint too pedantic
 let g:ale_fixers = {
-\   'python': ['remove_trailing_lines', 'trim_whitespace'],
+\   'python': ['trim_whitespace'],
 \}
 let g:ale_hover_cursor = 0
 let g:ale_fix_on_save = 1
@@ -142,9 +143,8 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_sign_error = '•'
 let g:ale_sign_warning = '.'
-nmap <silent> <C-n> <Plug>(ale_previous_wrap)
-nmap <silent> <C-m> <Plug>(ale_next_wrap)
-
+nmap <silent> <leader>L <Plug>(ale_previous_wrap):call repeat#set("\<Plug>(ale_previous_wrap)", v:count)<CR>
+nmap <silent> <leader>l <Plug>(ale_next_wrap):call repeat#set("\<Plug>(ale_next_wrap)", v:count)<CR>
 
 "" vimwiki settings
 "     see vimwiki ftplugin for more
@@ -163,7 +163,6 @@ let g:vimwiki_key_mappings =
   \   'html': 0,
   \   'mouse': 0,
   \ }
-"let g:taskwiki_suppress_mappings='yes'
 
 " vimwiki ctags:
 "    sudo apt install exuberant-ctags
@@ -212,7 +211,6 @@ nnoremap <C-f>f :Files<CR>
 nnoremap <C-f>b :Buffer<cr>
 nnoremap <C-f>a :Rg 
 nnoremap <C-f>i :BLines<CR>
-nnoremap <C-f>m :Marks<CR>
 nnoremap <C-f>h :History<CR>
 nnoremap <C-f>g :BCommits<CR>
 nnoremap <C-f>G :GFiles?<CR>
