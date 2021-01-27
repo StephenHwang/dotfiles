@@ -5,6 +5,7 @@ setlocal foldenable
 setlocal foldmethod=expr
 setlocal foldexpr=Fold(v:lnum)
 
+" Fold function
 function! Fold(lnum)
   let fold_level = strlen(matchstr(getline(a:lnum), '^' . '=' . '\+'))
   if (fold_level)
@@ -19,18 +20,29 @@ function! Fold(lnum)
   return '='            " return previous fold level
 endfunction
 
-" leader+l to toggle
-" dot command to toggle and continue to next line
-map <silent><Plug>ReToggleListMap :VimwikiToggleListItem<cr>:norm j<cr>:call repeat#set("\<Plug>ReToggleListMap", v:count)<cr>
-map <silent><Plug>ToggleListMap :VimwikiToggleListItem<cr>:call repeat#set("\<Plug>ReToggleListMap", v:count)<cr>
-nmap <leader>l <Plug>ToggleListMap
-vmap <leader>l <Plug>ToggleListMap
+" save vimwiki folds between sessions
+augroup save_vimwiki_folds
+  autocmd!
+  autocmd BufWinLeave *.wiki mkview
+  autocmd BufWinEnter *.wiki silent loadview
+augroup END
 
-"" mappings
+" mappings
 nnoremap <buffer> <silent><tab> :VimwikiNextLink<cr>
 nnoremap <buffer> <silent><s-tab> :VimwikiPrevLink<cr>
 nnoremap <buffer> <cr> :VimwikiFollowLink<cr>
-inoremap <buffer> ( ()<Left>
+
+" toggle checkbox with dot command to next line
+map <silent><Plug>ReToggleListMap :VimwikiToggleListItem<cr>:norm j<cr>:call repeat#set("\<Plug>ReToggleListMap", v:count)<cr>
+map <silent><Plug>ToggleListMap :VimwikiToggleListItem<cr>:call repeat#set("\<Plug>ReToggleListMap", v:count)<cr>
+nmap <leader>f <Plug>ToggleListMap
+vmap <leader>f <Plug>ToggleListMap
+
+" url and img embedding
+ab <buffer> url [[link\|desc] ]<esc>10h
+ab <buffer> img {{file_url} }<esc>7h
+
+" complete quotations
 inoremap <buffer> " ""<Left>
 
 " Vimwiki abbrieviations
@@ -44,6 +56,13 @@ ab <buffer> ohter other
 ab <buffer> tho though
 ab <buffer> thru through
 ab <buffer> w with
+ab <buffer> bf before
+ab <buffer> wo without
+ab <buffer> bc because
+ab <buffer> bw between
+ab <buffer> diff different
+ab <buffer> cont continue
+ab <buffer> ppl people
 
 ab <buffer> isnt isn't
 ab <buffer> cant can't
@@ -52,15 +71,8 @@ ab <buffer> didt did't
 ab <buffer> wont won't
 ab <buffer> wouldnt wouldn't
 
-ab <buffer> wo without
-ab <buffer> bc because
-ab <buffer> bw between
-ab <buffer> diff different
-ab <buffer> cont continue
-ab <buffer> ppl people
 ab <buffer> rxn reaction
 ab <buffer> def definitely
-ab <buffer> bf before
 ab <buffer> prb probability
 ab <buffer> prob probably
 ab <buffer> dist distribution
@@ -71,8 +83,5 @@ ab <buffer> Delta Δ
 ab <buffer> mu μ
 ab <buffer> dg °
 ab <buffer> omega Ω 
-
 ab <buffer> <> ⇌
-ab <buffer> url [[link\|desc] ]<esc>10h
-ab <buffer> img {{file_url} }<esc>7h
 
