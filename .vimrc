@@ -130,12 +130,10 @@ autocmd FileType python nmap <leader>d <plug>(YCMHover)
 " ale linter:
 "   pip install flake8 --user
 "   edit flake8 config at: ~/.config/flake8
-"let g:ale_enabled = 1                       " enable by default
+let g:ale_enabled = 1                       " 0 to disable by default
 "nnoremap <leader>l :ALEToggle<CR> 
 let g:ale_linters = {'python': ['flake8']}  " pylint too pedantic
-let g:ale_fixers = {
-\   'python': ['trim_whitespace'],
-\}
+" let g:ale_fixers = {'python': ['trim_whitespace']}
 let g:ale_hover_cursor = 0
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
@@ -146,10 +144,20 @@ let g:ale_sign_warning = '.'
 nmap <silent> <leader>L <Plug>(ale_previous_wrap):call repeat#set("\<Plug>(ale_previous_wrap)", v:count)<CR>
 nmap <silent> <leader>l <Plug>(ale_next_wrap):call repeat#set("\<Plug>(ale_next_wrap)", v:count)<CR>
 
+" Trim whitespace
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+" Trim whitespace on Python files
+autocmd FileType python autocmd BufWritePre <buffer> :call TrimWhitespace()
+
 "" vimwiki settings
 "     see vimwiki ftplugin for more
 let g:vimwiki_folding = 'custom'
 let g:vimwiki_list = [{ 'path': '~/Documents/notes/' }]
+let g:vimwiki_listsyms = ' oX'
 let g:vimwiki_key_mappings =
   \ {
   \   'all_maps': 1,
@@ -158,7 +166,7 @@ let g:vimwiki_key_mappings =
   \   'text_objs': 1,
   \   'table_format': 1,
   \   'table_mappings': 1,
-  \   'lists': 1,
+  \   'lists': 0,
   \   'links': 0,
   \   'html': 0,
   \   'mouse': 0,

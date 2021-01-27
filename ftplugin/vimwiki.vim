@@ -5,19 +5,24 @@ setlocal foldenable
 setlocal foldmethod=expr
 setlocal foldexpr=Fold(v:lnum)
 
- function! Fold(lnum)
-   let fold_level = strlen(matchstr(getline(a:lnum), '^' . '=' . '\+'))
-   if (fold_level)
-     return '>' . fold_level  " start a fold level
-   endif
-   if getline(a:lnum) =~? '\v^\s*$'
-     if (strlen(matchstr(getline(a:lnum + 1), '^' . '=' . '\+')) > 0 && !0)
-       return '-1' " don't fold last blank line before header
-     endif
-   endif
-   return '=' " return previous fold level
- endfunction
+function! Fold(lnum)
+  let fold_level = strlen(matchstr(getline(a:lnum), '^' . '=' . '\+'))
+  if (fold_level)
+    return '>' . fold_level  " start a fold level
+  endif
+  if getline(a:lnum) =~? '\v^\s*$'
+    " set !1 to fold blank lines set !0 to not fold blank lines
+    if (strlen(matchstr(getline(a:lnum + 1), '^' . '=' . '\+')) > 0 && !1)
+      return '-1'       " don't fold last blank line before header
+    endif
+  endif
+  return '='            " return previous fold level
+endfunction
 
+" leader+l to toggle
+map <silent><Plug>ToggleListMap :VimwikiToggleListItem<cr>:call repeat#set("\<Plug>ToggleListMap", v:count)<cr>
+nmap <leader>l <Plug>ToggleListMap
+vmap <leader>l <Plug>ToggleListMap
 
 "" mappings
 nnoremap <buffer> <silent><tab> :VimwikiNextLink<cr>
