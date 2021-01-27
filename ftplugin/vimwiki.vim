@@ -20,7 +20,9 @@ function! Fold(lnum)
 endfunction
 
 " leader+l to toggle
-map <silent><Plug>ToggleListMap :VimwikiToggleListItem<cr>:call repeat#set("\<Plug>ToggleListMap", v:count)<cr>
+" dot command to toggle and continue to next line
+map <silent><Plug>ReToggleListMap :VimwikiToggleListItem<cr>:norm j<cr>:call repeat#set("\<Plug>ReToggleListMap", v:count)<cr>
+map <silent><Plug>ToggleListMap :VimwikiToggleListItem<cr>:call repeat#set("\<Plug>ReToggleListMap", v:count)<cr>
 nmap <leader>l <Plug>ToggleListMap
 vmap <leader>l <Plug>ToggleListMap
 
