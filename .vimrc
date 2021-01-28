@@ -101,10 +101,17 @@ nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>wq :wq<cr>
 nnoremap <leader>r :source ~/.vimrc<CR> 
-nnoremap <silent>ciww ciw
-nnoremap <silent>ciw *``cgn
+nnoremap U <C-R>
+
+" repeat command in visual mode and with count
 vnoremap <silent>. :norm.<CR>
 nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
+
+" dot command ciw with gc force change
+nnoremap ciw *``cgn
+nnoremap gc *``cgn<C-r>.<ESC>
+
+" assorted other shorcuts
 nnoremap <leader>sl :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
 nnoremap <silent> gs xph
 nnoremap <leader>n [I
@@ -193,7 +200,7 @@ let g:vimwiki_key_mappings =
   \   'text_objs': 1,
   \   'table_format': 1,
   \   'table_mappings': 1,
-  \   'lists': 0,
+  \   'lists': 1,
   \   'links': 0,
   \   'html': 0,
   \   'mouse': 0,
@@ -214,7 +221,7 @@ let g:tagbar_type_vimwiki = {
 			\ , 'ctagsargs': 'default'
 			\ }
 
-" vim-silme: tmux REPL integration
+" vim-slime: tmux REPL integration
 "   :SlimeConfig to configure panels
 let g:slime_target = 'tmux'
 let g:slime_paste_file = '$HOME/.slime_paste'
