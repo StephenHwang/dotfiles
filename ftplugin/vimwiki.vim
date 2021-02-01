@@ -21,11 +21,11 @@ function! Fold(lnum)
 endfunction
 
 " save vimwiki folds between sessions
-augroup save_vimwiki_folds
-  autocmd!
-  autocmd BufWinLeave *.wiki mkview
-  autocmd BufWinEnter *.wiki silent loadview
-augroup END
+" augroup save_vimwiki_folds
+  " autocmd!
+  " autocmd BufWinLeave *.wiki mkview
+  " autocmd BufWinEnter *.wiki silent loadview
+" augroup END
 
 " mappings
 nnoremap <buffer> <silent><tab> :VimwikiNextLink<cr>
