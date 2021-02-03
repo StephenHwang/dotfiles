@@ -138,7 +138,13 @@ noremap <silent> gb `nv`m
 set foldmethod=indent
 set foldlevel=99
 set foldopen-=block
-nnoremap <leader>z za 
+" function for repeat fold with dot command
+function! ToggleFold()
+  norm za
+endfunction
+map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>ToggleFoldMap", v:count)<cr>
+nmap <leader>z <Plug>ToggleFoldMap
+
 
 "" Python specific mappings
 au BufNewFile,BufRead *.py

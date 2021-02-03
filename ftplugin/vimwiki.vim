@@ -20,30 +20,39 @@ function! Fold(lnum)
   return '='            " return previous fold level
 endfunction
 
-" save vimwiki folds between sessions
-" augroup save_vimwiki_folds
-  " autocmd!
-  " autocmd BufWinLeave *.wiki mkview
-  " autocmd BufWinEnter *.wiki silent loadview
-" augroup END
+" Change to bullet or toggle checkbox function
+function! MakeListToggleList()
+  if getline('.') =~ '^\s*$'   " Skip empty line
+    return
+  endif
+  if getline('.') =~ '^\s*-'   " toggle list item
+    :VimwikiToggleListItem
+  else
+    norm I- 
+  end
+endfunction
 
-" mappings
+" Toggle checkbox with dot command to next line
+map <silent><Plug>ReToggleListMap :call MakeListToggleList()<cr>:norm j<cr>:call repeat#set("\<Plug>ReToggleListMap", v:count)<cr>
+map <silent><Plug>ToggleListMap :call MakeListToggleList()<cr>:call repeat#set("\<Plug>ReToggleListMap", v:count)<cr>
+
+" Toggle list checkbox
+nmap <leader>f <Plug>ToggleListMap
+vmap <leader>f <Plug>ToggleListMap
+
+" Mappings
 nnoremap <buffer> <silent><tab> :VimwikiNextLink<cr>
 nnoremap <buffer> <silent><s-tab> :VimwikiPrevLink<cr>
 nnoremap <buffer> <cr> :VimwikiFollowLink<cr>
 
-" toggle checkbox with dot command to next line
-map <silent><Plug>ReToggleListMap :VimwikiToggleListItem<cr>:norm j<cr>:call repeat#set("\<Plug>ReToggleListMap", v:count)<cr>
-map <silent><Plug>ToggleListMap :VimwikiToggleListItem<cr>:call repeat#set("\<Plug>ReToggleListMap", v:count)<cr>
-nmap <leader>f <Plug>ToggleListMap
-vmap <leader>f <Plug>ToggleListMap
+
+
+" complete quotations
+inoremap <buffer> " ""<Left>
 
 " url and img embedding
 ab <buffer> url [[link\|desc] ]<esc>10h
 ab <buffer> img {{file_url} }<esc>7h
-
-" complete quotations
-inoremap <buffer> " ""<Left>
 
 " Vimwiki abbrieviations
 ab <buffer> hte the
