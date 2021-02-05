@@ -22,10 +22,14 @@ endfunction
 
 " Change to bullet or toggle checkbox function
 function! MakeListToggleList()
-  if getline('.') =~ '^\s*$'   " Skip empty line
+  if getline('.') =~ '^\s*$'        " Skip empty line
     return
   endif
-  if getline('.') =~ '^\s*-'   " toggle list item
+  if getline('.') =~ '^\s*\d. '     " toggle numerical list checkbox
+    :VimwikiToggleListItem
+    return
+  endif
+  if getline('.') =~ '^\s*- '       " toggle normal list item checkbox
     :VimwikiToggleListItem
   else
     norm I- 

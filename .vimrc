@@ -107,7 +107,7 @@ nnoremap U <C-R>
 vnoremap <silent>. :norm.<CR>
 nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
 
-" dot command ciw with gc force change
+" ciw '.' repeat with gc force change word under cursor
 nnoremap ciw *``cgn
 nnoremap gc *``cgn<C-r>.<ESC>
 
