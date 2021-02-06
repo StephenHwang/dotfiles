@@ -16,6 +16,7 @@ shopt -s histappend
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
+HISTTIMEFORMAT="%l:%M:%S %p ▏ "
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -89,9 +90,6 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     tmux attach -t default || tmux new -s default
 fi
 
-# use tab and ` scroll complete
-#bind '"`":menu-complete'
-
 # some more ls aliases
 alias ll='ls -alF --group-directories-first'
 alias la='ls -A --group-directories-first'
@@ -106,22 +104,19 @@ alias pwdc='pwd | xclip -selection clipboard && pwd'
 alias ipython='ipython --no-autoindent'
 alias tasks='task'
 
-alias popen='mimeopen'
+alias popen='mimeopen -a'
 alias classdir='cd /home/stephen/Documents/classes/'
 alias pip='pip3'
 alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
 alias cursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
 alias pycharm='pycharm-community'
-
-# clear and ls
-cls() { clear && ls; }
-
-# jupyter notebook
+alias lab='jupyter-lab'
 alias sshc='ssh sjhwang@courtyard.gi.ucsc.edu' # alias for ssh
 alias sshcport='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
 alias ports='netstat -ntlp | grep LISTEN'
 alias portc='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
 alias portk='kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
+
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -240,12 +235,10 @@ cd_func()
     if [[ "$1" == "-" ]] ; then  # special case: cd -
        dir="$OLDPWD"
     fi
-
-    if [[ "$1" == "---" ]] ; then  # special case: cd -
+    if [[ "$1" == "---" ]] ; then  # special case: cd --- for fzf directory search
 	    fd 
       return $?
     fi
-
     if [[ "$1" ==  "--" ]]; then  # special case: cd -- (list dirs)
 	     xcd_func --
 	     return $?
@@ -286,4 +279,4 @@ source /usr/share/doc/fzf/examples/key-bindings.bash
 source /usr/share/doc/fzf/examples/completion.bash
 
 
-
+cls() { clear && ls; }
