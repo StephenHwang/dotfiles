@@ -40,33 +40,6 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-
-" ale linter:
-"   pip install flake8 --user
-"   edit flake8 config at: ~/.config/flake8
-let g:ale_enabled = 1                       " 0 to disable by default
-"nnoremap <leader>l :ALEToggle<CR> 
-let g:ale_linters = {'python': ['flake8']}  " pylint too pedantic
-" let g:ale_fixers = {'python': ['trim_whitespace']}
-let g:ale_hover_cursor = 0
-let g:ale_fix_on_save = 1
-let g:ale_lint_on_enter = 1
-let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_sign_error = '•'
-let g:ale_sign_warning = '.'
-nmap <silent> <leader>L <Plug>(ale_previous_wrap):call repeat#set("\<Plug>(ale_previous_wrap)", v:count)<CR>
-nmap <silent> <leader>l <Plug>(ale_next_wrap):call repeat#set("\<Plug>(ale_next_wrap)", v:count)<CR>
-
-" Trim whitespace
-fun! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
-endfun
-" Trim whitespace on Python files
-
-
 " Basic vim options
 set encoding=utf-8
 set lazyredraw
@@ -86,6 +59,7 @@ set helpheight=35
 set autoindent
 set smartindent
 set matchpairs+=<:>
+set mouse=n                 " mouse in normal mode
 let g:indentLine_char = '▏' "indentation guide
 
 " must mkdir the directories 
@@ -100,12 +74,11 @@ inoremap jk <Esc>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>wq :wq<cr>
-nnoremap <leader>r :source ~/.vimrc<CR> 
-nnoremap U <C-R>
+nnoremap <leader>r :source ~/.vimrc<cr> 
 
 " repeat command in visual mode and with count
-vnoremap <silent>. :norm.<CR>
-nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<CR>
+vnoremap <silent>. :norm.<cr>
+nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<cr>
 
 " ciw '.' repeat with gc force change word under cursor
 nnoremap ciw *``cgn
@@ -113,13 +86,14 @@ nnoremap gc *``cgn<C-r>.<ESC>
 
 " assorted other shorcuts
 nnoremap <leader>sl :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
-nnoremap <silent> gs xph
+nnoremap <silent>gs xph
 nnoremap <leader>n [I
+nnoremap <BS> X
+nnoremap U <C-R>
 
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
 noremap x "_x<silent>
-nnoremap <BS> X
 nnoremap Y y$
 nnoremap yy "+yy
 vnoremap y "+y
@@ -129,10 +103,10 @@ vnoremap <C-c> "+y
 "   mm and mn to set marks
 "   gm and gM to go to marks
 "   gb to go between
-noremap <silent> mn mNmn
-noremap <silent> gm `m
-noremap <silent> gM `N
-noremap <silent> gb `nv`m
+noremap <silent>mn mNmn
+noremap <silent>gm `m
+noremap <silent>gM `N
+noremap <silent>gb `nv`m
 
 " code folding
 set foldmethod=indent
@@ -145,7 +119,6 @@ endfunction
 map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>ToggleFoldMap", v:count)<cr>
 nmap <leader>z <Plug>ToggleFoldMap
 
-
 "" Python specific mappings
 au BufNewFile,BufRead *.py
     \ set tabstop=4 "width of tab is set to 4
@@ -153,6 +126,7 @@ au BufNewFile,BufRead *.py
     \ set shiftwidth=4 "indents will have width of 4
     \ set fileformat=unix
 let python_highlight_all=1 " python syntax highlight
+autocmd FileType python autocmd BufWritePre <buffer> :call TrimWhitespace() " Trim whitespace on Python files
 autocmd FileType python inoremap <buffer> { {}<Left>
 autocmd FileType python inoremap <buffer> [ []<Left>
 autocmd FileType python inoremap <buffer> ' ''<Left>
@@ -163,17 +137,15 @@ autocmd FileType python ab <buffer> pri print
 " youCompleteMe settings
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_auto_hover = ''
-autocmd FileType python nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
-autocmd FileType python nnoremap <leader>t :YcmCompleter GetType<CR>
+autocmd FileType python nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<cr>
+autocmd FileType python nnoremap <leader>t :YcmCompleter GetType<cr>
 autocmd FileType python nmap <leader>d <plug>(YCMHover)
 
-" ale linter:
+" ale linter: (:ALEToggle)
 "   pip install flake8 --user
 "   edit flake8 config at: ~/.config/flake8
 let g:ale_enabled = 1                       " 0 to disable by default
-"nnoremap <leader>l :ALEToggle<CR> 
 let g:ale_linters = {'python': ['flake8']}  " pylint too pedantic
-" let g:ale_fixers = {'python': ['trim_whitespace']}
 let g:ale_hover_cursor = 0
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
@@ -181,8 +153,8 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_sign_error = '•'
 let g:ale_sign_warning = '.'
-nmap <silent> <leader>L <Plug>(ale_previous_wrap):call repeat#set("\<Plug>(ale_previous_wrap)", v:count)<CR>
-nmap <silent> <leader>l <Plug>(ale_next_wrap):call repeat#set("\<Plug>(ale_next_wrap)", v:count)<CR>
+nmap <silent> <leader>L <Plug>(ale_previous_wrap):call repeat#set("\<Plug>(ale_previous_wrap)", v:count)<cr>
+nmap <silent> <leader>l <Plug>(ale_next_wrap):call repeat#set("\<Plug>(ale_next_wrap)", v:count)<cr>
 
 " Trim whitespace
 fun! TrimWhitespace()
@@ -190,8 +162,6 @@ fun! TrimWhitespace()
     keeppatterns %s/\s\+$//e
     call winrestview(l:save)
 endfun
-" Trim whitespace on Python files
-autocmd FileType python autocmd BufWritePre <buffer> :call TrimWhitespace()
 
 "" vimwiki settings
 "     see vimwiki ftplugin for more
@@ -216,7 +186,7 @@ let g:vimwiki_key_mappings =
 "    sudo apt install exuberant-ctags
 "    download tagbar and add file to bin/ctags (chmod +x)
 "       https://raw.githubusercontent.com/vimwiki/utils/master/vwtags.py
-nnoremap <leader>m :TagbarOpenAutoClose<CR>
+nnoremap <leader>m :TagbarOpenAutoClose<cr>
 let g:tagbar_type_vimwiki = {
 			\   'ctagstype':'vimwiki'
 			\ , 'kinds':['h:header']
@@ -242,26 +212,23 @@ set ignorecase           " ignore uppercase
 set smartcase            " if uppercase in search, consider only uppercase
 set incsearch            " move cursor to the matched string while searching
 set hlsearch             " highlight search
-set wildcharm=<c-z>      " tab to scroll search matches
-cnoremap <expr> <Tab>   getcmdtype() =~ '[?/]' ? "<c-g>" : "<c-z>"
-cnoremap <expr> <S-Tab> getcmdtype() =~ '[?/]' ? "<c-t>" : "<S-Tab>"
-nnoremap <leader>h :set hlsearch! hlsearch?<CR>
+nnoremap <leader>h :set hlsearch! hlsearch?<cr>
 
 "" buffers
 nnoremap <leader>k :bn<cr>
 nnoremap <leader>j :bp<cr>
 nnoremap <leader>e :bdel<cr>
-nnoremap <leader>sd :cd %:p:h<CR>
+nnoremap <leader>sd :cd %:p:h<cr>
 
 "" fuzzy find assorted items
-nnoremap <C-f> :Files<CR>
-nnoremap <C-f>f :Files<CR>
+nnoremap <C-f> :Files<cr>
+nnoremap <C-f>f :Files<cr>
 nnoremap <C-f>b :Buffer<cr>
 nnoremap <C-f>a :Rg 
-nnoremap <C-f>i :BLines<CR>
-nnoremap <C-f>h :History<CR>
-nnoremap <C-f>g :BCommits<CR>
-nnoremap <C-f>G :GFiles?<CR>
+nnoremap <C-f>i :BLines<cr>
+nnoremap <C-f>h :History<cr>
+nnoremap <C-f>g :BCommits<cr>
+nnoremap <C-f>G :GFiles?<cr>
 
 "" Toggle comment
 let s:comment_map = { 
