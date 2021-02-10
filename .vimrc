@@ -91,6 +91,13 @@ nnoremap <leader>n [I
 nnoremap <BS> X
 nnoremap U <C-R>
 
+" remove character after abbr
+func Eatchar(pat)
+      let c = nr2char(getchar(0))
+      return (c =~ a:pat) ? '' : c
+   endfunc
+iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
+
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
 noremap x "_x<silent>
@@ -130,9 +137,9 @@ autocmd FileType python autocmd BufWritePre <buffer> :call TrimWhitespace() " Tr
 autocmd FileType python inoremap <buffer> { {}<Left>
 autocmd FileType python inoremap <buffer> [ []<Left>
 autocmd FileType python inoremap <buffer> ' ''<Left>
-autocmd FileType python ab <buffer> dbg import ipdb; ipdb.set_trace()
-autocmd FileType python ab <buffer> ipy import IPython; IPython.embed()
-autocmd FileType python ab <buffer> pri print
+autocmd FileType python iabbr <buffer><silent> ipy import IPython; IPython.embed()<c-r>=Eatchar('\m\s\<bar>/')<cr>
+autocmd FileType python iabbr <buffer><silent> dbg import ipdb; ipdb.set_trace()<c-r>=Eatchar('\m\s\<bar>/')<cr>
+autocmd FileType python iabbr <buffer> pri print
 
 " youCompleteMe settings
 let g:ycm_autoclose_preview_window_after_completion=1
