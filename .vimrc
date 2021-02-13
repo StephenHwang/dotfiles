@@ -152,7 +152,7 @@ autocmd FileType python nmap <leader>d <plug>(YCMHover)
 "   pip install flake8 --user
 "   edit flake8 config at: ~/.config/flake8
 let g:ale_enabled = 1                       " 0 to disable by default
-let g:ale_linters = {'python': ['flake8']}  " pylint too pedantic
+let g:ale_linters = {'python': ['flake8']}
 let g:ale_hover_cursor = 0
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
@@ -193,7 +193,9 @@ let g:vimwiki_key_mappings =
 "    sudo apt install exuberant-ctags
 "    download tagbar and add file to bin/ctags (chmod +x)
 "       https://raw.githubusercontent.com/vimwiki/utils/master/vwtags.py
-nnoremap <leader>m :TagbarOpenAutoClose<cr>
+" R:
+"    https://tinyheero.github.io/2017/05/13/r-vim-ctags.html
+nnoremap <leader>m :TagbarToggle<cr>
 let g:tagbar_type_vimwiki = {
 			\   'ctagstype':'vimwiki'
 			\ , 'kinds':['h:header']
@@ -203,6 +205,15 @@ let g:tagbar_type_vimwiki = {
 			\ , 'ctagsbin': '/home/stephen/bin/ctags-5.8/vwtags.py'
 			\ , 'ctagsargs': 'default'
 			\ }
+let g:tagbar_type_r = {
+    \ 'ctagstype' : 'r',
+    \ 'kinds'     : [
+        \ 'f:Functions',
+        \ 'g:GlobalVariables',
+        \ 'v:FunctionVariables',
+    \ ]
+\ }
+
 
 " vim-slime: tmux REPL integration
 "   :SlimeConfig to configure panels
