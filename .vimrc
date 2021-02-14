@@ -95,8 +95,7 @@ nnoremap U <C-R>
 func Eatchar(pat)
       let c = nr2char(getchar(0))
       return (c =~ a:pat) ? '' : c
-   endfunc
-iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
+endfunc
 
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
@@ -152,7 +151,8 @@ autocmd FileType python nmap <leader>d <plug>(YCMHover)
 "   pip install flake8 --user
 "   edit flake8 config at: ~/.config/flake8
 let g:ale_enabled = 1                       " 0 to disable by default
-let g:ale_linters = {'python': ['flake8']}
+let g:ale_linters = {'python': ['flake8'], 'r': ['lintr']}
+let g:ale_fixers = {'r': ['styler']}
 let g:ale_hover_cursor = 0
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
@@ -160,8 +160,16 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_sign_error = '•'
 let g:ale_sign_warning = '.'
-nmap <silent> <leader>L <Plug>(ale_previous_wrap):call repeat#set("\<Plug>(ale_previous_wrap)", v:count)<cr>
 nmap <silent> <leader>l <Plug>(ale_next_wrap):call repeat#set("\<Plug>(ale_next_wrap)", v:count)<cr>
+nmap <silent> <leader>L <Plug>(ale_previous_wrap):call repeat#set("\<Plug>(ale_previous_wrap)", v:count)<cr>
+
+
+"" R specific mappings
+autocmd FileType r autocmd BufWritePre <buffer> :call TrimWhitespace() " Trim whitespace on Python files
+autocmd FileType r inoremap <buffer> { {}<Left>
+autocmd FileType r inoremap <buffer> [ []<Left>
+autocmd FileType r inoremap <buffer> ' ''<Left>
+autocmd FileType r iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
 
 " Trim whitespace
 fun! TrimWhitespace()
@@ -195,7 +203,7 @@ let g:vimwiki_key_mappings =
 "       https://raw.githubusercontent.com/vimwiki/utils/master/vwtags.py
 " R:
 "    https://tinyheero.github.io/2017/05/13/r-vim-ctags.html
-nnoremap <leader>m :TagbarToggle<cr>
+nnoremap <leader>m :TagbarOpenAutoClose<cr>
 let g:tagbar_type_vimwiki = {
 			\   'ctagstype':'vimwiki'
 			\ , 'kinds':['h:header']
