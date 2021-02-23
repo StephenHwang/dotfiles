@@ -25,7 +25,7 @@ function! MakeListToggleList()
   if getline('.') =~ '^\s*$'        " Skip empty line
     return
   endif
-  if getline('.') =~ '^\s*\d. '     " toggle numerical list checkbox
+  if getline('.') =~ '^\s*\d\+. '     " toggle numerical list checkbox
     :VimwikiToggleListItem
     return
   endif
