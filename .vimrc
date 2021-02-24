@@ -85,17 +85,11 @@ nnoremap ciw *``cgn
 nnoremap gc *``cgn<C-r>.<ESC>
 
 " assorted other shorcuts
-nnoremap <leader>sl :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
+nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
 nnoremap <silent>gs xph
 nnoremap <leader>n [I
 nnoremap <BS> X
 nnoremap U <C-R>
-
-" remove character after abbr
-func Eatchar(pat)
-      let c = nr2char(getchar(0))
-      return (c =~ a:pat) ? '' : c
-endfunc
 
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
@@ -132,7 +126,7 @@ au BufNewFile,BufRead *.py
     \ set shiftwidth=4 "indents will have width of 4
     \ set fileformat=unix
 let python_highlight_all=1 " python syntax highlight
-autocmd FileType python autocmd BufWritePre <buffer> :call TrimWhitespace() " Trim whitespace on Python files
+autocmd FileType python autocmd BufWritePre <buffer> :call TrimWhitespace()
 autocmd FileType python inoremap <buffer> { {}<Left>
 autocmd FileType python inoremap <buffer> [ []<Left>
 autocmd FileType python inoremap <buffer> ' ''<Left>
@@ -152,7 +146,6 @@ autocmd FileType python nmap <leader>d <plug>(YCMHover)
 "   edit flake8 config at: ~/.config/flake8
 let g:ale_enabled = 1                       " 0 to disable by default
 let g:ale_linters = {'python': ['flake8'], 'r': ['lintr']}
-let g:ale_fixers = {'r': ['styler']}
 let g:ale_hover_cursor = 0
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_enter = 1
@@ -162,7 +155,6 @@ let g:ale_sign_error = '•'
 let g:ale_sign_warning = '.'
 nmap <silent> <leader>l <Plug>(ale_next_wrap):call repeat#set("\<Plug>(ale_next_wrap)", v:count)<cr>
 nmap <silent> <leader>L <Plug>(ale_previous_wrap):call repeat#set("\<Plug>(ale_previous_wrap)", v:count)<cr>
-
 
 "" R specific mappings
 autocmd FileType r autocmd BufWritePre <buffer> :call TrimWhitespace() " Trim whitespace on Python files
@@ -177,6 +169,19 @@ fun! TrimWhitespace()
     keeppatterns %s/\s\+$//e
     call winrestview(l:save)
 endfun
+
+" Remove character after abbr
+func Eatchar(pat)
+      let c = nr2char(getchar(0))
+      return (c =~ a:pat) ? '' : c
+endfunc
+
+function! BreakHere()
+    s/^\(\s*\)\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\2\r\1\4\6
+    call histdel("/", -1)
+endfunction
+
+nnoremap <leader>sl :<C-u>call BreakHere()<CR>
 
 "" vimwiki settings
 "     see vimwiki ftplugin for more
@@ -199,10 +204,11 @@ let g:vimwiki_key_mappings =
 
 " vimwiki ctags:
 "    sudo apt install exuberant-ctags
-"    download tagbar and add file to bin/ctags (chmod +x)
+"    python:
+"      download tagbar and add file to bin/ctags (chmod +x)
 "       https://raw.githubusercontent.com/vimwiki/utils/master/vwtags.py
-" R:
-"    https://tinyheero.github.io/2017/05/13/r-vim-ctags.html
+"    r:
+"      https://tinyheero.github.io/2017/05/13/r-vim-ctags.html
 nnoremap <leader>m :TagbarOpenAutoClose<cr>
 let g:tagbar_type_vimwiki = {
 			\   'ctagstype':'vimwiki'
@@ -221,7 +227,6 @@ let g:tagbar_type_r = {
         \ 'v:FunctionVariables',
     \ ]
 \ }
-
 
 " vim-slime: tmux REPL integration
 "   :SlimeConfig to configure panels
