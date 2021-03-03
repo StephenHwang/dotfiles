@@ -133,6 +133,7 @@ autocmd FileType python inoremap <buffer> ' ''<Left>
 autocmd FileType python iabbr <buffer><silent> ipy import IPython; IPython.embed()<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer><silent> dbg import ipdb; ipdb.set_trace()<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer> pri print
+autocmd FileType python nnoremap <buffer><leader>sp :w<CR>:exec '!python' shellescape(@%, 1)<CR>
 
 " youCompleteMe settings
 let g:ycm_autoclose_preview_window_after_completion=1
@@ -157,7 +158,7 @@ nmap <silent> <leader>l <Plug>(ale_next_wrap):call repeat#set("\<Plug>(ale_next_
 nmap <silent> <leader>L <Plug>(ale_previous_wrap):call repeat#set("\<Plug>(ale_previous_wrap)", v:count)<cr>
 
 "" R specific mappings
-autocmd FileType r autocmd BufWritePre <buffer> :call TrimWhitespace() " Trim whitespace on Python files
+autocmd FileType r autocmd BufWritePre <buffer> :call TrimWhitespace() " Trim whitespace on R files
 autocmd FileType r inoremap <buffer> { {}<Left>
 autocmd FileType r inoremap <buffer> [ []<Left>
 autocmd FileType r inoremap <buffer> ' ''<Left>
@@ -250,6 +251,7 @@ nnoremap <leader>k :bn<cr>
 nnoremap <leader>j :bp<cr>
 nnoremap <leader>e :bdel<cr>
 nnoremap <leader>sd :cd %:p:h<cr>
+nnoremap <leader>sf :r !ls %:p:h<cr>
 
 "" fuzzy find assorted items
 nnoremap <C-f> :Files<cr>
