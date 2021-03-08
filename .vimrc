@@ -181,7 +181,6 @@ function! BreakHere()
     s/^\(\s*\)\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\2\r\1\4\6
     call histdel("/", -1)
 endfunction
-
 nnoremap <leader>sl :<C-u>call BreakHere()<CR>
 
 "" vimwiki settings
@@ -236,8 +235,10 @@ let g:slime_paste_file = '$HOME/.slime_paste'
 let g:slime_default_config = {'socket_name': get(split($TMUX, ','), 0), 'target_pane': ':.1'}
 let g:slime_dont_ask_default = 1
 let g:slime_no_mappings = 1
-xmap <c-c><c-c> <Plug>SlimeRegionSend
-nmap <c-c><c-c> <Plug>SlimeParagraphSend
+autocmd FileType python xmap <c-c><c-c> <Plug>SlimeRegionSend
+autocmd FileType python nmap <c-c><c-c> <Plug>SlimeParagraphSend
+autocmd FileType r xmap <c-c><c-c> <Plug>SlimeRegionSend
+autocmd FileType r nmap <c-c><c-c> <Plug>SlimeParagraphSend
 
 "" Search and highlight settings
 set ignorecase           " ignore uppercase
