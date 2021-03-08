@@ -140,7 +140,7 @@ autocmd FileType python nnoremap <buffer><leader>sp :w<CR>:exec '!python' shelle
 " youCompleteMe settings
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_auto_hover = ''
-autocmd FileType python nnoremap <leader>g :YcmCompleter GoToDefinitionElseDeclaration<cr>
+autocmd FileType python nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<cr>
 autocmd FileType python nnoremap <leader>t :YcmCompleter GetType<cr>
 autocmd FileType python nmap <leader>d <plug>(YCMHover)
 
@@ -230,8 +230,8 @@ let g:slime_paste_file = '$HOME/.slime_paste'
 let g:slime_default_config = {'socket_name': get(split($TMUX, ','), 0), 'target_pane': ':.1'}
 let g:slime_dont_ask_default = 1
 let g:slime_no_mappings = 1
-autocmd FileType python,r xmap <c-c> <Plug>SlimeRegionSend
 autocmd FileType python,r nnoremap <c-c> vip
+autocmd FileType python,r xmap <c-c> <Plug>SlimeRegionSend
 
 "" Search and highlight settings
 set ignorecase           " ignore uppercase
