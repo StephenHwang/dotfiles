@@ -18,6 +18,7 @@ Plugin 'Yggdroot/indentLine'    " display vertical indentation level
 Plugin 'sheerun/vim-polyglot'   " syntax recognition
 Plugin 'Valloric/YouCompleteMe' " autocomplete
 Plugin 'dense-analysis/ale'     " linter
+" Plug 'jalvesaq/Nvim-R'
 
 " Optional
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -85,6 +86,7 @@ nnoremap ciw *``cgn
 nnoremap gc *``cgn<C-r>.<ESC>
 
 " assorted other shorcuts
+nnoremap Q <nop>
 nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
 nnoremap <silent>gs xph
 nnoremap <leader>n [I
@@ -94,18 +96,13 @@ nnoremap U <C-R>
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
 noremap x "_x<silent>
-nnoremap Y y$
+nnoremap Y "+y$
 nnoremap yy "+yy
 vnoremap y "+y
-vnoremap <C-c> "+y
 
-" marks
-"   mm and mn to set marks
-"   gm and gM to go to marks
-"   gb to go between
-noremap <silent>mn mNmn
-noremap <silent>gm `m
-noremap <silent>gM `N
+" marks: gb to go between m and n marks
+noremap <silent>mm mMmm
+noremap <silent>`` `m
 noremap <silent>gb `nv`m
 
 " code folding
@@ -119,6 +116,15 @@ endfunction
 map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>ToggleFoldMap", v:count)<cr>
 nmap <leader>z <Plug>ToggleFoldMap
 
+"" Python and R specific mappings
+autocmd FileType python,r autocmd BufWritePre <buffer> :call TrimWhitespace() " Trim whitespace on R files
+autocmd FileType python,r inoremap <buffer> { {}<Left>
+autocmd FileType python,r inoremap <buffer> [ []<Left>
+autocmd FileType python,r inoremap <buffer> ' ''<Left>
+
+"" R specific
+autocmd FileType r iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
+
 "" Python specific mappings
 au BufNewFile,BufRead *.py
     \ set tabstop=4 "width of tab is set to 4
@@ -126,10 +132,6 @@ au BufNewFile,BufRead *.py
     \ set shiftwidth=4 "indents will have width of 4
     \ set fileformat=unix
 let python_highlight_all=1 " python syntax highlight
-autocmd FileType python autocmd BufWritePre <buffer> :call TrimWhitespace()
-autocmd FileType python inoremap <buffer> { {}<Left>
-autocmd FileType python inoremap <buffer> [ []<Left>
-autocmd FileType python inoremap <buffer> ' ''<Left>
 autocmd FileType python iabbr <buffer><silent> ipy import IPython; IPython.embed()<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer><silent> dbg import ipdb; ipdb.set_trace()<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer> pri print
@@ -156,13 +158,6 @@ let g:ale_sign_error = '•'
 let g:ale_sign_warning = '.'
 nmap <silent> <leader>l <Plug>(ale_next_wrap):call repeat#set("\<Plug>(ale_next_wrap)", v:count)<cr>
 nmap <silent> <leader>L <Plug>(ale_previous_wrap):call repeat#set("\<Plug>(ale_previous_wrap)", v:count)<cr>
-
-"" R specific mappings
-autocmd FileType r autocmd BufWritePre <buffer> :call TrimWhitespace() " Trim whitespace on R files
-autocmd FileType r inoremap <buffer> { {}<Left>
-autocmd FileType r inoremap <buffer> [ []<Left>
-autocmd FileType r inoremap <buffer> ' ''<Left>
-autocmd FileType r iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
 
 " Trim whitespace
 fun! TrimWhitespace()
@@ -235,10 +230,8 @@ let g:slime_paste_file = '$HOME/.slime_paste'
 let g:slime_default_config = {'socket_name': get(split($TMUX, ','), 0), 'target_pane': ':.1'}
 let g:slime_dont_ask_default = 1
 let g:slime_no_mappings = 1
-autocmd FileType python xmap <c-c><c-c> <Plug>SlimeRegionSend
-autocmd FileType python nmap <c-c><c-c> <Plug>SlimeParagraphSend
-autocmd FileType r xmap <c-c><c-c> <Plug>SlimeRegionSend
-autocmd FileType r nmap <c-c><c-c> <Plug>SlimeParagraphSend
+autocmd FileType python,r xmap <c-c> <Plug>SlimeRegionSend
+autocmd FileType python,r nnoremap <c-c> vip
 
 "" Search and highlight settings
 set ignorecase           " ignore uppercase
