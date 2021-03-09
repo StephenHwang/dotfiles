@@ -34,17 +34,24 @@ function temporizeHorizontalScroll {
 
 case "$button" in
 
-  "Scroll_L")
-    temporizeHorizontalScroll "L"
-    # # Previous tab
-    # xdotool key --clearmodifiers ctrl+shift+Tab; ;;
-    xte 'keydown Control_L' 'keydown Shift_L' 'key Tab' 'keyup Shift_L' 'keyup Control_L'; ;;
-
   "Scroll_R")
     temporizeHorizontalScroll "R"
     #;; # Next tab
     xte 'keydown Control_L' 'key Tab' 'keyup Control_L'; ;;
 
-  # ...
+  "Scroll_L")
+    temporizeHorizontalScroll "L"
+    # # Previous tab
+    xte 'keydown Control_L' 'keydown Shift_L' 'key Tab' 'keyup Shift_L' 'keyup Control_L'; ;;
+
+  "Alt_Scroll_R")
+    temporizeHorizontalScroll "R"
+    #;; # Next window
+    xte 'key a'; ;;
+
+  "Alt_Scroll_L")
+    temporizeHorizontalScroll "L"
+    # # Previous window
+    xte 'key z'; ;;
 
 esac
