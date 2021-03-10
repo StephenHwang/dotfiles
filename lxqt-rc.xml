@@ -258,12 +258,20 @@
         <wrap>yes</wrap>
       </action>
     </keybind>
+
+
+    <!-- Minimize window -->
     <keybind key="A-s">
-      <action name="GoToDesktop">
+      <action name="Lower"/>
+      <action name="FocusToBottom"/>
+      <action name="Unfocus"/>
+      <!-- <action name="GoToDesktop">
         <to>last</to>
         <wrap>yes</wrap>
-      </action>
+      <action name="Iconify"/>
+      </action> -->
     </keybind>
+
     <!-- Keybindings for window switching -->
     <!-- like alt+tab, use pause key -->
     <keybind key="A-a">
