@@ -18,7 +18,6 @@ Plugin 'Yggdroot/indentLine'    " display vertical indentation level
 Plugin 'sheerun/vim-polyglot'   " syntax recognition
 Plugin 'Valloric/YouCompleteMe' " autocomplete
 Plugin 'dense-analysis/ale'     " linter
-" Plug 'jalvesaq/Nvim-R'
 
 " Optional
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -101,7 +100,7 @@ nnoremap yy "+yy
 vnoremap y "+y
 
 " marks: gb to go between m and n marks
-noremap <silent>mm mMmm
+" noremap <silent>mm mMmm
 noremap <silent>`` `m
 noremap <silent>gb `nv`m
 
@@ -246,6 +245,12 @@ nnoremap <leader>j :bp<cr>
 nnoremap <leader>e :bdel<cr>
 nnoremap <leader>sd :cd %:p:h<cr>
 nnoremap <leader>sf :r !ls %:p:h<cr>
+
+" setting mouse horizontal scroll: 
+"    https://vi.stackexchange.com/questions/2350/how-to-map-alt-key
+execute "set <M-y>=\ey"
+nnoremap <M-y> :bn<cr>
+nnoremap <C-y> :bp<cr>
 
 "" fuzzy find assorted items
 nnoremap <C-f> :Files<cr>

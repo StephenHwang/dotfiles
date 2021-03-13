@@ -37,12 +37,12 @@ case "$button" in
   "Scroll_R")
     temporizeHorizontalScroll "R"
     #;; # Next tab
-    xte 'keydown Control_L' 'key Tab' 'keyup Control_L'; ;;
+    xte 'keydown Control_L' 'key Tab' 'keyup Control_L' 'keydown Alt_L' 'key y' 'keyup Alt_L'; ;;
 
   "Scroll_L")
     temporizeHorizontalScroll "L"
     # # Previous tab
-    xte 'keydown Control_L' 'keydown Shift_L' 'key Tab' 'keyup Shift_L' 'keyup Control_L'; ;;
+    xte 'keydown Control_L' 'keydown Shift_L' 'key Tab' 'keyup Shift_L' 'keyup Control_L' 'keydown Control_L' 'key y' 'keyup Control_L'; ;;
 
   "Alt_Scroll_R")
     temporizeHorizontalScroll "R"
@@ -52,6 +52,7 @@ case "$button" in
   "Alt_Scroll_L")
     temporizeHorizontalScroll "L"
     # # Previous window
+    #xte 'keydown Control_L' 'keydown Shift_L' 'key Tab' 'keyup Shift_L' 'keyup Control_L'; ;;
     xte 'key z'; ;;
 
 esac
