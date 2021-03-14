@@ -3,7 +3,7 @@
 button=$1
 
 # Horizontal scroll sensitivity reduction
-hScrollModulo=3
+hScrollModulo=4
 hScrollIndexBuffer="/dev/shm/LogitechMXMaster3HScroll"
 
 function temporizeHorizontalScroll {
