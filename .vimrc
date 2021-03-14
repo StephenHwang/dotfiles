@@ -101,6 +101,7 @@ vnoremap y "+y
 
 " marks: gb to go between m and n marks
 " noremap <silent>mm mMmm
+noremap <silent>mM mMmm
 noremap <silent>`` `m
 noremap <silent>gb `nv`m
 
