@@ -250,8 +250,9 @@ nnoremap <leader>sf :r !ls %:p:h<cr>
 " setting mouse horizontal scroll: 
 "    https://vi.stackexchange.com/questions/2350/how-to-map-alt-key
 execute "set <M-y>=\ey"
-nnoremap <M-y> :bn<cr>
-nnoremap <C-y> :bp<cr>
+execute "set <M-u>=\eu"
+nnoremap <M-u> :bn<cr>
+nnoremap <M-y> :bp<cr>
 
 "" fuzzy find assorted items
 nnoremap <C-f> :Files<cr>

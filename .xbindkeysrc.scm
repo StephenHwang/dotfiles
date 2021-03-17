@@ -25,7 +25,6 @@
 ;;
 ;; run with command
 ;;    >killall xbindkeys && xbindkeys
-;;
 
 ;; normal mouse usage
 ;; 9 is forward button
@@ -52,6 +51,12 @@
 (xbindkey '(b:6) "~/dotfiles/MX-Master-3-bindings.sh Scroll_L")
 
 ;;# thumb wheel up => next window
-(xbindkey '(alt b:7) "~/dotfiles/MX-Master-3-bindings.sh Alt_Scroll_R")
+;;(xbindkey '(alt b:7) "~/dotfiles/MX-Master-3-bindings.sh Alt_Scroll_R")
 ;; thumb wheel down => previous window
-(xbindkey '(alt b:6) "~/dotfiles/MX-Master-3-bindings.sh Alt_Scroll_L")
+;;(xbindkey '(alt b:6) "~/dotfiles/MX-Master-3-bindings.sh Alt_Scroll_L")
+
+
+;;# thumb wheel up => increase volume
+(xbindkey '(alt b:7) "pactl set-sink-volume @DEFAULT_SINK@ +3%")
+;; thumb wheel down => lower volume
+(xbindkey '(alt b:6) "pactl set-sink-volume @DEFAULT_SINK@ -3%")
