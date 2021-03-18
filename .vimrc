@@ -85,12 +85,15 @@ nnoremap ciw *``cgn
 nnoremap gc *``cgn<C-r>.<ESC>
 
 " assorted other shorcuts
-nnoremap Q <nop>
+map Q gq
 nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
 nnoremap <silent>gs xph
 nnoremap <leader>n [I
 nnoremap <BS> X
 nnoremap U <C-R>
+
+" commands
+command! CD cd %:p:h
 
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
@@ -135,7 +138,7 @@ let python_highlight_all=1 " python syntax highlight
 autocmd FileType python iabbr <buffer><silent> ipy import IPython; IPython.embed()<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer><silent> dbg import ipdb; ipdb.set_trace()<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer> pri print
-autocmd FileType python nnoremap <buffer><leader>sp :w<CR>:exec '!python' shellescape(@%, 1)<CR>
+autocmd FileType python command! PY execute '!python %'
 
 " youCompleteMe settings
 let g:ycm_autoclose_preview_window_after_completion=1
@@ -172,11 +175,20 @@ func Eatchar(pat)
       return (c =~ a:pat) ? '' : c
 endfunc
 
+" timestamp
+iabbr ctime <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
+if !exists("*TimeStamp")
+    fun TimeStamp()
+        return strftime("%a %d %b %Y, %X")
+    endfun
+endif
+
+" split line
+nnoremap <leader>sl :<C-u>call BreakHere()<CR>
 function! BreakHere()
     s/^\(\s*\)\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\2\r\1\4\6
     call histdel("/", -1)
 endfunction
-nnoremap <leader>sl :<C-u>call BreakHere()<CR>
 
 "" vimwiki settings
 "     see vimwiki ftplugin for more
@@ -244,8 +256,6 @@ nnoremap <leader>h :set hlsearch! hlsearch?<cr>
 nnoremap <leader>k :bn<cr>
 nnoremap <leader>j :bp<cr>
 nnoremap <leader>e :bdel<cr>
-nnoremap <leader>sd :cd %:p:h<cr>
-nnoremap <leader>sf :r !ls %:p:h<cr>
 
 " setting mouse horizontal scroll: 
 "    https://vi.stackexchange.com/questions/2350/how-to-map-alt-key

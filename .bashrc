@@ -98,6 +98,7 @@ alias c='clear'
 alias jk='clear'
 alias e='exit'
 alias h='history'
+alias plz='sudo $(fc -nl -1)'
 
 alias tmux='tmux -2'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
