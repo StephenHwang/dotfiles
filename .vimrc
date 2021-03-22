@@ -130,9 +130,10 @@ autocmd FileType r iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
 
 "" Python specific mappings
 au BufNewFile,BufRead *.py
-    \ set tabstop=4 "width of tab is set to 4
-    \ set softtabstop=4 "sets the number of columns for a tab
-    \ set shiftwidth=4 "indents will have width of 4
+    \ set relativenumber |
+    \ set tabstop=4 | "width of tab is set to 4
+    \ set softtabstop=4 | "sets the number of columns for a tab
+    \ set shiftwidth=4 | "indents will have width of 4
     \ set fileformat=unix
 let python_highlight_all=1 " python syntax highlight
 autocmd FileType python iabbr <buffer><silent> ipy import IPython; IPython.embed()<c-r>=Eatchar('\m\s\<bar>/')<cr>
