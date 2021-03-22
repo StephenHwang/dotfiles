@@ -66,21 +66,25 @@ case "$button" in
     xdotool key --clearmodifiers XF86AudioLowerVolume;
   ;;
 
-  #"TopMiddle")
-  #  case "$Wname" in
-  #    '"RotMGExalt"')
-  #        xte 'key 4'; ;;
-  #    *) xte 'keydown Alt_L' 'key w' 'keyup Alt_L'; ;;
-  #  esac
-  #;;
+  # forward and backward buttons
+  "Forward")
+    case "$Wname" in
+      '"qterminal"')
+          xte 'keydown Control_L' 'key a' 'keyup Control_L' 'key f'; ;;
+      '"RStudio"')
+          xte 'keydown Control_L' 'key 2' 'keyup Control_L'; ;;
+      *) xte 'keydown Control_L' 'key bracketleft' 'keyup Control_L'; ;;
+    esac
+    ;;
 
-  #"Alt_TopMiddle")
-  #  case "$Wname" in
-  #    '"RotMGExalt"')
-  #        xte 'key 4'; ;;
-  #    *) xte 'keydown Alt_L' 'key q' 'keyup Alt_L'; ;;
-  #  esac
-  #;;
-
+  "Backward")
+    case "$Wname" in
+      '"qterminal"')
+          xte 'keydown Control_L' 'key j' 'keyup Control_L'; ;;
+      '"RStudio"')
+          xte 'keydown Control_L' 'key Return' 'keyup Control_L'; ;;
+      *) xte 'keydown Control_L' 'key bracketright' 'keyup Control_L'; ;;
+    esac
+    ;;
 
 esac

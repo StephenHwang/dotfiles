@@ -26,20 +26,21 @@
 ;; run with command
 ;;    >killall xbindkeys && xbindkeys
 
-;; normal mouse usage
-;; 9 is forward button
-(xbindkey '(b:9) "xte 'keydown Control_R' 'key bracketleft' 'keyup Control_R'")
-;; 8 is backward button
-(xbindkey '(b:8) "xte 'keydown Control_L' 'key Tab' 'keyup Control_L'")
+;; Forward and backward buttons
+;; 9,8 forward, backward buttons
+(xbindkey '(b:9) "~/dotfiles/MX-Master-3-bindings.sh Forward")
+(xbindkey '(b:8) "~/dotfiles/MX-Master-3-bindings.sh Backward")
+;;(xbindkey '(b:9) "xte 'keydown Control_R' 'key bracketleft' 'keyup Control_R'")
+;;(xbindkey '(b:8) "xte 'keydown Control_L' 'key Tab' 'keyup Control_L'")
+
 ;; 10 is middle button
 (xbindkey '(b:10) "xte 'keydown Alt_L' 'key w' 'keyup Alt_L'")
 
-;;# thumb wheel up => next tab
+;; Thumb wheel
+;;# thumb wheel up => next tab/volume up
 (xbindkey '(b:7) "~/dotfiles/MX-Master-3-bindings.sh Scroll_R")
-;; thumb wheel down => last tab
-(xbindkey '(b:6) "~/dotfiles/MX-Master-3-bindings.sh Scroll_L")
-
-;;# thumb wheel up => next window
 (xbindkey '(alt b:7) "~/dotfiles/MX-Master-3-bindings.sh Alt_Scroll_R")
-;; thumb wheel down => previous window
+;; thumb wheel down => last tab/volume down
+(xbindkey '(b:6) "~/dotfiles/MX-Master-3-bindings.sh Scroll_L")
 (xbindkey '(alt b:6) "~/dotfiles/MX-Master-3-bindings.sh Alt_Scroll_L")
+

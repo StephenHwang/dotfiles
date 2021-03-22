@@ -258,21 +258,12 @@
         <wrap>yes</wrap>
       </action>
     </keybind>
-
-    <keybind key="A-q">
-      <action name="GoToDesktop">
-        <to>previous</to>
-        <wrap>yes</wrap>
-      </action>
-    </keybind>
-
     <!-- Minimize window -->
-    <keybind key="A-s">
+    <keybind key="A-q">
       <action name="Lower"/>
       <action name="FocusToBottom"/>
       <action name="Unfocus"/>
     </keybind>
-
     <!-- Pick window -->
     <keybind key="A-space">
       <action name="NextWindow">
@@ -284,7 +275,6 @@
         <allDesktops>no</allDesktops>
       </action>
     </keybind>
-
   </keyboard>
   <mouse>
     <!--
