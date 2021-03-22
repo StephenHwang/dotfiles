@@ -66,4 +66,21 @@ case "$button" in
     xdotool key --clearmodifiers XF86AudioLowerVolume;
   ;;
 
+  #"TopMiddle")
+  #  case "$Wname" in
+  #    '"RotMGExalt"')
+  #        xte 'key 4'; ;;
+  #    *) xte 'keydown Alt_L' 'key w' 'keyup Alt_L'; ;;
+  #  esac
+  #;;
+
+  #"Alt_TopMiddle")
+  #  case "$Wname" in
+  #    '"RotMGExalt"')
+  #        xte 'key 4'; ;;
+  #    *) xte 'keydown Alt_L' 'key q' 'keyup Alt_L'; ;;
+  #  esac
+  #;;
+
+
 esac
