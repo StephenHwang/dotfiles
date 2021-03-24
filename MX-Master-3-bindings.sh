@@ -80,7 +80,7 @@ case "$button" in
   "Backward")
     case "$Wname" in
       '"qterminal"')
-          xte 'keydown Control_L' 'key j' 'keyup Control_L'; ;;
+          xte 'keydown Control_L' 'key a' 'keyup Control_L' 'key n'; ;;
       '"RStudio"')
           xte 'keydown Control_L' 'key Return' 'keyup Control_L'; ;;
       *) xte 'keydown Control_L' 'key bracketright' 'keyup Control_L'; ;;

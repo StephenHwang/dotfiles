@@ -9,10 +9,10 @@
 #define DSH 0x2014 // —
 
 enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
-  LOWER,
-  RAISE,
-  ADJUST,
+  QWERTY = SAFE_RANGE, // 0
+  LOWER,               // 1
+  RAISE,               // 2
+  ADJUST,              // 3
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -49,15 +49,85 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                              KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______, _______, _______, _______, _______, _______,                            _______, _______, _______, _______, _______, _______,
+     _______, M(1),    M(0),    _______, _______, _______,                            _______, _______, KC_PGUP, KC_PGDN, _______, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______, _______, _______, _______, _______, _______,                            _______, _______, _______, _______, _______, _______,
+     _______, M(10),   M(11),   M(12),   M(13),   M(9),                               M(3),    M(4),    M(5),    M(6),    _______, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
      _______, _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                    _______, _______, _______,                   _______, KC_BTN1, KC_BTN2 
+                                    _______, _______, _______,                   _______, KC_BTN1, M(2) 
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
   )
+};
+
+
+const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
+{
+      switch(id) {
+        // VIM macros
+        case 0:
+          // vim save document
+          return MACRODOWN( TYPE(KC_ESC), DOWN(KC_LSFT), TYPE(KC_SCLN), UP(KC_LSFT), TYPE(KC_W), TYPE(KC_ENT), END );
+          break;
+        case 1:
+          // vim quit document
+          return MACRODOWN( TYPE(KC_ESC), DOWN(KC_LSFT), TYPE(KC_SCLN), UP(KC_LSFT), TYPE(KC_Q), TYPE(KC_ENT), END );
+          break;
+
+        // TMUX macros
+          // tmux press ctrl-a
+        case 2:
+          return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_A), UP(KC_LCTL), END );
+          break;
+          // tmux full screen
+        case 3:
+          return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_A), UP(KC_LCTL), TYPE(KC_F), END );
+          break;
+          // tmux next window
+        case 4:
+          return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_A), UP(KC_LCTL), TYPE(KC_N), END );
+          break;
+          // tmux navigate pane down/up
+        case 5:
+          return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_A), UP(KC_LCTL), TYPE(KC_K), END );
+          break;
+          // tmux navigate pane left/right
+        case 6:
+          return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_A), UP(KC_LCTL), TYPE(KC_L), END );
+          break;
+          // tmux horizontal split
+        case 7:
+          return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_A), UP(KC_LCTL), TYPE(KC_PMNS), END );
+          break;
+          // tmux vertical split
+        case 8:
+          return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_A), UP(KC_LCTL), TYPE(KC_PEQL), END );
+          break;
+
+        // Openbox macros
+          // toggle window on top
+        case 9:
+          return MACRODOWN( DOWN(KC_LALT), TYPE(KC_G), UP(KC_LALT), END );
+          break;
+          // move to desktop 1
+        case 10:
+          return MACRODOWN( DOWN(KC_LALT), TYPE(KC_A), UP(KC_LALT), END );
+          break;
+          // move to desktop 2
+        case 11:
+          return MACRODOWN( DOWN(KC_LALT), TYPE(KC_S), UP(KC_LALT), END );
+          break;
+          // move to desktop 3
+        case 12:
+          return MACRODOWN( DOWN(KC_LALT), TYPE(KC_D), UP(KC_LALT), END );
+          break;
+          // move to desktop 4
+        case 13:
+          return MACRODOWN( DOWN(KC_LALT), TYPE(KC_F), UP(KC_LALT), END );
+          break;
+
+      }
+    return MACRO_NONE;
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -100,7 +170,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-void matrix_init_user(void) {
-    set_unicode_input_mode(UC_LNX); // REPLACE UC_XXXX with the Unicode Input Mode for your OS. See table below.
-};
+//void matrix_init_user(void) {
+//    set_unicode_input_mode(UC_LNX); // REPLACE UC_XXXX with the Unicode Input Mode for your OS. See table below.
+//};
 

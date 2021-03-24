@@ -49,52 +49,50 @@ nnoremap <buffer> <silent><tab> :VimwikiNextLink<cr>
 nnoremap <buffer> <silent><s-tab> :VimwikiPrevLink<cr>
 nnoremap <buffer> <cr> :VimwikiFollowLink<cr>
 
-
-
 " complete quotations
 inoremap <buffer> " ""<Left>
 
 " url and img embedding
-ab <buffer> url [[link\|desc] ]<esc>10h
-ab <buffer> img {{file_url} }<esc>7h
+iabbr <buffer> url [[link\|desc] ]<esc>10h
+iabbr <buffer> img {{file_url} }<esc>7h
 
 " Vimwiki abbrieviations
-ab <buffer> hte the
-ab <buffer> htey they
-ab <buffer> nad and
-ab <buffer> ofr for
-ab <buffer> ot to
-ab <buffer> ont not
-ab <buffer> ohter other
-ab <buffer> tho though
-ab <buffer> thru through
-ab <buffer> w with
-ab <buffer> bf before
-ab <buffer> wo without
-ab <buffer> bc because
-ab <buffer> bw between
-ab <buffer> diff different
-ab <buffer> cont continue
-ab <buffer> ppl people
+iabbr <buffer> hte the
+iabbr <buffer> htey they
+iabbr <buffer> nad and
+iabbr <buffer> ofr for
+iabbr <buffer> ot to
+iabbr <buffer> ont not
+iabbr <buffer> ohter other
+iabbr <buffer> tho though
+iabbr <buffer> thru through
+iabbr <buffer> w with
+iabbr <buffer> bf before
+iabbr <buffer> wo without
+iabbr <buffer> bc because
+iabbr <buffer> bw between
+iabbr <buffer> diff different
+iabbr <buffer> cont continue
+iabbr <buffer> ppl people
 
-ab <buffer> isnt isn't
-ab <buffer> cant can't
-ab <buffer> dont don't
-ab <buffer> didt did't
-ab <buffer> wont won't
-ab <buffer> wouldnt wouldn't
+iabbr <buffer> isnt isn't
+iabbr <buffer> cant can't
+iabbr <buffer> dont don't
+iabbr <buffer> didt did't
+iabbr <buffer> wont won't
+iabbr <buffer> wouldnt wouldn't
 
-ab <buffer> rxn reaction
-ab <buffer> def definitely
-ab <buffer> prb probability
-ab <buffer> prob probably
-ab <buffer> dist distribution
+iabbr <buffer> rxn reaction
+iabbr <buffer> def definitely
+iabbr <buffer> prb probability
+iabbr <buffer> prob probably
+iabbr <buffer> dist distribution
 
-ab <buffer> pi π
-ab <buffer> theta θ
-ab <buffer> Delta Δ
-ab <buffer> mu μ
-ab <buffer> dg °
-ab <buffer> omega Ω 
-ab <buffer> <> ⇌
+iabbr <buffer> pi π
+iabbr <buffer> theta θ
+iabbr <buffer> Delta Δ
+iabbr <buffer> mu μ
+iabbr <buffer> dg °
+iabbr <buffer> omega Ω 
+iabbr <buffer> <> ⇌
 
