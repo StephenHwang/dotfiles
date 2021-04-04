@@ -84,6 +84,28 @@ nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<cr>
 nnoremap ciw *``cgn
 nnoremap gc *``cgn<C-r>.<ESC>
 
+
+" Jump to first non-blank, non-bullet character
+function! JumpStart()
+  if getline('.') =~ '^\s*$'        " Skip empty line
+    :call search('[A-Za-z]', '')
+    return
+  endif
+  if getline('.') =~ '^\s*\d\+. '     " toggle numerical list checkbox
+    :norm 0
+    :call search('[A-Za-z]', '', line('.'))
+    return
+  endif
+  if getline('.') =~ '^\s*- '       " toggle normal list item checkbox
+    :norm 0
+    :call search('[A-Za-z]', '', line('.'))
+  else
+    :norm ^
+  end
+endfunction
+
+nnoremap _ :call JumpStart()<cr>
+
 " assorted other shorcuts
 map Q gq
 nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
@@ -177,10 +199,16 @@ func Eatchar(pat)
 endfunc
 
 " timestamp
-iabbr ctime <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
+iabbr ctime <C-R>=DateStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
+iabbr ctimee <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
 if !exists("*TimeStamp")
     fun TimeStamp()
         return strftime("%a %d %b %Y, %X")
+    endfun
+endif
+if !exists("*DateStamp")
+    fun DateStamp()
+        return strftime("%a %d %b %Y")
     endfun
 endif
 
