@@ -49,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
      KC_F12,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                              KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-     _______, M(1),    M(0),    _______, _______, _______,                            _______, _______, KC_PGUP, KC_PGDN, _______, _______,
+     _______, _______, _______, _______, _______, _______,                            M(14),   M(15),   KC_PGUP, KC_PGDN, _______, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______, M(10),   M(11),   M(12),   M(13),   M(9),                               M(3),    M(4),    M(5),    M(6),    _______, _______,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
@@ -124,6 +124,14 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
           // move to desktop 4
         case 13:
           return MACRODOWN( DOWN(KC_LALT), TYPE(KC_F), UP(KC_LALT), END );
+          break;
+
+        // Scroll tabs ctrl-tab
+        case 14:
+          return MACRODOWN( DOWN(KC_LCTL), DOWN(KC_LSFT), TYPE(KC_TAB), UP(KC_LSFT), UP(KC_LCTL), END );
+          break;
+        case 15:
+          return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_TAB), UP(KC_LCTL), END );
           break;
 
       }

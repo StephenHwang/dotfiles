@@ -11,6 +11,9 @@ remove Shift = Caps_Lock
 keycode 66 = NoSymbol NoSymbol
 keycode 66 = Mode_switch
 
+! alt as backspace
+keycode 108 = BackSpace
+
 ! modeswitch+Tab as capslock
 keysym Tab = Tab Tab Caps_Lock
 
@@ -19,50 +22,72 @@ keysym j = j J Down
 keysym k = k K Up
 keysym h = h H Left
 keysym l = l L Right
-keysym u = u U End 
+
 keysym y = y Y Home
-keysym n = n N Next 
-keysym m = m M Prior
+keysym u = u U End
 
-! Deletion with ∫ and →
-keysym i = i I BackSpace U222B
-keysym o = o O Delete U2192
+keysym i = i I braceleft
+keysym o = o O braceright
 
-keycode 108 = BackSpace
+keysym p = p P BackSpace Delete
 
+keysym bracketleft = bracketleft braceleft Next
+keysym bracketright = bracketright braceright Prior
 
-! Keybinds for special characters useful when coding 
-keysym 5 = 5 percent percent 
+keysym n = n N bracketleft bracketleft
+keysym m = m M bracketright bracketright
+
+keysym comma = comma less less
+keysym period = period greater greater
+
+keysym semicolon = semicolon colon colon 
+keysym apostrophe = apostrophe quotedbl quotedbl 
+keysym slash = slash question question 
+
+! q?
+! w`
+! e(
+! r)
+! t~
+keysym q = q Q question question
+keysym w = w W grave grave 
+keysym e = e E parenleft parenleft    
+keysym r = r R parenright parenright 
+keysym t = t T asciitilde asciitilde
+
+! a!
+! s%
+! d-
+! f_
+! g=
+keysym a = a A exclam exclam
+keysym s = s S percent percent
+keysym d = d D minus minus
+keysym f = f F underscore underscore
+keysym g = g G equal equal
+
+! z
+! x→
+! c#
+! v+
+! b*
+keysym z = z Z
+keysym x = x X U2192 U2192
+keysym c = c C numbersign numbersign
+keysym v = v V plus plus
+keysym b = b B asterisk asterisk
+
+! numbers
+keysym 1 = 1 exclam exclam
+keysym 2 = 2 at at
 keysym 3 = 3 numbersign numbersign
+keysym 4 = 4 dollar dollar
+keysym 5 = 5 percent percent 
+keysym 6 = 6 asciicircum asciicircum 
+keysym 7 = 7 ampersand ampersand 
+keysym 8 = 8 asterisk asterisk 
 keysym 9 = 9 parenleft parenleft
 keysym 0 = 0 parenright parenright
-keysym semicolon = semicolon colon colon
-keysym apostrophe = apostrophe quotedbl quotedbl  
-keysym bracketleft = bracketleft braceleft braceleft
-keysym bracketright = bracketright braceright braceright
 keysym minus = minus underscore U2014
-
-! Greek letter and math symbol maps
-! see http://kestrel.nmt.edu/~raymond/software/howtos/greekscape.xhtml 
-! a : α β "alpha beta"
-! d : δ Δ "delta"
-! f : π Π "pi" 
-! g : γ Γ "gamma" 
-! s : σ Σ "sigma"
-! z : ω Ω "omega"
-! e : θ ε "theta and epsilon"
-! r : μ λ "mu and lambda"
-! t : ∴ ⋂ "therefore and intersect"
-! w : ⊂ ∊ "subset and element of"
-
-keysym a = a A U03B1 U03B2
-keysym d = d D U03B4 U0394 
-keysym g = g G U03B3 U0393    
-keysym f = f F U03C0 U03A0 
-keysym s = s S U03C3 U03A3
-keysym z = z Z U03C9 U03A9
-keysym e = e E U03B8 U03B5
-keysym r = r R U03BC U03BB
-keysym t = t T U2234 U22C2
-keysym w = w W U2282 U220A
+keysym equal = equal plus plus
 
