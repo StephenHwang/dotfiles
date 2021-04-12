@@ -22,56 +22,17 @@ HISTTIMEFORMAT="%l:%M:%S %p ▏ "
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
+# pattern "**" used in a pathname expansion matches all files and directories
+shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
-# set a fancy prompt (non-color, unless we know we "want" color)
-case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
-esac
-
-# command line prompt colors
-PS1="\[\e[32m\]\u@\h:\[\e[m\]\[\e[31m\]\w\[\e[m\]\$ "
-
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
-#force_color_prompt=yes
-if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
-fi
-
-if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
+# command line prompt colors with git directory
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]$(parse_git_branch)\[\033[00m\]$ '
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -85,6 +46,14 @@ fi
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
+# vim as Manual page
+export MANPAGER="vim -M +MANPAGER -"
+
+# ibus
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODUlE=ibus
+
 # auto-start a tmux session on terminal open
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     tmux attach -t default || tmux new -s default
@@ -94,8 +63,10 @@ fi
 alias ll='ls -alF --group-directories-first'
 alias la='ls -A --group-directories-first'
 alias l='ls -CF --group-directories-first'
+alias lsmb='ls -l --block-size=M'
+alias lsgb='ls -l --block-size=G'
+
 alias c='clear'
-alias jk='clear'
 alias e='exit'
 alias h='history'
 alias plz='sudo $(fc -nl -1)'
@@ -112,20 +83,13 @@ alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
 alias cursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
 alias pycharm='pycharm-community'
 alias lab='jupyter-lab'
+alias ApE='wine /home/stephen/bin/ApE/ApE_win_current.exe'
+
 alias sshc='ssh sjhwang@courtyard.gi.ucsc.edu' # alias for ssh
 alias sshcport='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
 alias ports='netstat -ntlp | grep LISTEN'
 alias portc='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
 alias portk='kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
-
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -150,12 +114,6 @@ export PATH="/home/stephen/anaconda3/bin/:$PATH"
 export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
 export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
 export PATH="/home/stephen/bin/pymol/:$PATH"
-#export PATH="/home/stephen/bin/ctags-5.8/:$PATH"
-
-# ibus
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODUlE=ibus
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -271,6 +229,7 @@ cd_func()
 alias cd=cd_func
 
 # fzf and ripgrep (rg)
+# export FZF_DEFAULT_COMMAND='find * -type f' # if no rg or ag
 # https://github.com/junegunn/fzf#usage
 #     ignored rg files in .rgignore
 alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
@@ -279,4 +238,3 @@ export FZF_COMPLETION_TRIGGER='--'
 source /usr/share/doc/fzf/examples/key-bindings.bash
 source /usr/share/doc/fzf/examples/completion.bash
 
-cls() { clear && ls; }
