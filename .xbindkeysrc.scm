@@ -25,13 +25,14 @@
 ;;
 ;; run with command
 ;;    >killall xbindkeys && xbindkeys
+;;
+;;(xbindkey '(b:9) "xte 'keydown Control_R' 'key bracketleft' 'keyup Control_R'")
+;;(xbindkey '(b:8) "xte 'keydown Control_L' 'key Tab' 'keyup Control_L'")
 
 ;; Forward and backward buttons
 ;; 9,8 forward, backward buttons
 (xbindkey '(b:9) "~/dotfiles/MX-Master-3-bindings.sh Forward")
 (xbindkey '(b:8) "~/dotfiles/MX-Master-3-bindings.sh Backward")
-;;(xbindkey '(b:9) "xte 'keydown Control_R' 'key bracketleft' 'keyup Control_R'")
-;;(xbindkey '(b:8) "xte 'keydown Control_L' 'key Tab' 'keyup Control_L'")
 
 ;; 10 is middle button
 (xbindkey '(b:10) "xte 'keydown Alt_L' 'key w' 'keyup Alt_L'")
@@ -43,4 +44,3 @@
 ;; thumb wheel down => last tab/volume down
 (xbindkey '(b:6) "~/dotfiles/MX-Master-3-bindings.sh Scroll_L")
 (xbindkey '(alt b:6) "~/dotfiles/MX-Master-3-bindings.sh Alt_Scroll_L")
-

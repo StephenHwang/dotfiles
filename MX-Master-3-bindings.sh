@@ -69,6 +69,8 @@ case "$button" in
   # forward and backward buttons
   "Forward")
     case "$Wname" in
+      '"steam_proton"')
+          xte 'key 1'; ;;
       '"qterminal"')
           xte 'keydown Control_L' 'key a' 'keyup Control_L' 'key f'; ;;
       '"RStudio"')
@@ -79,6 +81,8 @@ case "$button" in
 
   "Backward")
     case "$Wname" in
+      '"steam_proton"')
+          xte 'key 2'; ;;
       '"qterminal"')
           xte 'keydown Control_L' 'key a' 'keyup Control_L' 'key n'; ;;
       '"RStudio"')
