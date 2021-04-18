@@ -73,7 +73,6 @@ let mapleader="\<space>"
 inoremap jk <Esc>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
-nnoremap <leader>wq :wq<cr>
 nnoremap <leader>r :source ~/.vimrc<cr> 
 
 " repeat command in visual mode and with count

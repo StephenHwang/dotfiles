@@ -69,7 +69,7 @@ alias lsgb='ls -l --block-size=G'
 alias c='clear'
 alias e='exit'
 alias h='history'
-alias plz='sudo $(fc -nl -1)'
+alias pls='sudo $(fc -nl -1)'
 
 alias tmux='tmux -2'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
