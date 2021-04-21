@@ -5,6 +5,11 @@ setlocal foldenable
 setlocal foldmethod=expr
 setlocal foldexpr=Fold(v:lnum)
 
+augroup vimrc
+  au BufReadPre * setlocal foldmethod=expr
+  au BufWinEnter * if &fdm == 'expr' | setlocal foldmethod=manual | endif
+augroup END
+
 " Fold function
 function! Fold(lnum)
   let fold_level = strlen(matchstr(getline(a:lnum), '^' . '=' . '\+'))
@@ -19,6 +24,7 @@ function! Fold(lnum)
   endif
   return '='            " return previous fold level
 endfunction
+
 
 " Change to bullet or toggle checkbox function
 function! MakeListToggleList()

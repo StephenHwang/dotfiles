@@ -130,15 +130,20 @@ noremap <silent>`` `m
 noremap <silent>gb `nv`m
 
 " code folding
-set foldmethod=indent
 set foldlevel=99
 set foldopen-=block
+augroup vimrc
+  au BufReadPre * setlocal foldmethod=indent
+  au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
+augroup END
+
 " function for repeat fold with dot command
 function! ToggleFold()
   norm za
 endfunction
 map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>ToggleFoldMap", v:count)<cr>
 nmap <leader>z <Plug>ToggleFoldMap
+vnoremap <leader>z zf
 
 "" Python and R specific mappings
 autocmd FileType python,r autocmd BufWritePre <buffer> :call TrimWhitespace() " Trim whitespace on R files
