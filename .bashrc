@@ -28,7 +28,8 @@ shopt -s globstar
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# command line prompt colors with git directory
+# Non-git tracking bash:
+# export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 parse_git_branch() {
   # git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
   OUTPUT=$(git status 2> /dev/null | grep 'Changes not staged for commit' >/dev/null && echo \*)
@@ -71,15 +72,12 @@ alias lsgb='ls -l --block-size=G'
 alias c='clear'
 alias e='exit'
 alias h='history'
-alias pls='sudo $(fc -nl -1)'
 
 alias tmux='tmux -2'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
 alias ipython='ipython --no-autoindent'
-alias tasks='task'
 
 alias popen='mimeopen -a'
-alias classdir='cd /home/stephen/Documents/classes/'
 alias pip='pip3'
 alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
 alias cursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
@@ -116,22 +114,6 @@ export PATH="/home/stephen/anaconda3/bin/:$PATH"
 export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
 export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
 export PATH="/home/stephen/bin/pymol/:$PATH"
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/stephen/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/stephen/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/stephen/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/stephen/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-conda deactivate
-# <<< conda initialize <<<
 
 #  https://medium.com/@_ahmed_ab/crazy-super-fast-fuzzy-search-9d44c29e14f
 fd() { 
