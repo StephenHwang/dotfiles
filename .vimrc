@@ -83,7 +83,6 @@ nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<cr>
 nnoremap ciw *``cgn
 nnoremap gc *``cgn<C-r>.<ESC>
 
-
 " Jump to first non-blank, non-bullet character
 function! JumpStart()
   if getline('.') =~ '^\s*$'        " Skip empty line
@@ -124,8 +123,6 @@ nnoremap yy "+yy
 vnoremap y "+y
 
 " marks: gb to go between m and n marks
-" noremap <silent>mm mMmm
-noremap <silent>mM mMmm
 noremap <silent>`` `m
 noremap <silent>gb `nv`m
 
@@ -146,7 +143,7 @@ nmap <leader>z <Plug>ToggleFoldMap
 vnoremap <leader>z zf
 
 "" Python and R specific mappings
-autocmd FileType python,r autocmd BufWritePre <buffer> :call TrimWhitespace() " Trim whitespace on R files
+autocmd FileType python,r,vimwiki autocmd BufWritePre <buffer> :call TrimWhitespace()
 autocmd FileType python,r inoremap <buffer> { {}<Left>
 autocmd FileType python,r inoremap <buffer> [ []<Left>
 autocmd FileType python,r inoremap <buffer> ' ''<Left>
@@ -301,6 +298,7 @@ nnoremap <M-y> :bp<cr>
 nnoremap <C-f> :Files<cr>
 nnoremap <C-f>f :Files<cr>
 nnoremap <C-f>b :Buffer<cr>
+nnoremap <leader>b :Buffer<cr>
 nnoremap <C-f>a :Rg 
 nnoremap <C-f>i :BLines<cr>
 nnoremap <C-f>h :History<cr>
