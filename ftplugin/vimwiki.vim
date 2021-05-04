@@ -51,8 +51,13 @@ nmap <leader>f <Plug>ToggleListMap
 vmap <leader>f <Plug>ToggleListMap
 
 " Mappings
-nnoremap <buffer> <silent><tab> :VimwikiNextLink<cr>
-nnoremap <buffer> <silent><s-tab> :VimwikiPrevLink<cr>
+function! VWLink()
+  VimwikiNextLink
+endfunction
+map <silent><Plug>VWLinkMap :call VWLink()<cr>:call repeat#set("\<Plug>VWLinkMap", v:count)<cr>
+
+nmap <leader>l <Plug>VWLinkMap
+nnoremap <buffer> <silent> <leader>L :VimwikiPrevLink<cr>
 nnoremap <buffer> <cr> :VimwikiFollowLink<cr>
 
 " complete quotations
