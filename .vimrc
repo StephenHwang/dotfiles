@@ -152,8 +152,8 @@ autocmd FileType python,r inoremap <buffer> ' ''<Left>
 autocmd FileType r iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
 
 "" Python specific mappings
+    " \ set relativenumber |
 au BufNewFile,BufRead *.py
-    \ set relativenumber |
     \ set tabstop=4 | "width of tab is set to 4
     \ set softtabstop=4 | "sets the number of columns for a tab
     \ set shiftwidth=4 | "indents will have width of 4
@@ -341,7 +341,12 @@ nmap <leader>f <Plug>ToggleCommentMap
 vmap <leader>f <Plug>ToggleCommentMap
 
 "" aethetics
-let g:gruvbox_contrast_dark='medium'
+let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
-let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline_section_x = 0
+let g:airline_section_y = 0
+let g:airline_section_z = airline#section#create(['%5l/%L:%3v'])
+let g:airline_section_error = 0
+let g:airline_section_warning = 0

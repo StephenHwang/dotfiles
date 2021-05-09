@@ -50,15 +50,17 @@ map <silent><Plug>ToggleListMap :call MakeListToggleList()<cr>:call repeat#set("
 nmap <leader>f <Plug>ToggleListMap
 vmap <leader>f <Plug>ToggleListMap
 
+
+
 " Mappings
 function! VWLink()
   VimwikiNextLink
 endfunction
 map <silent><Plug>VWLinkMap :call VWLink()<cr>:call repeat#set("\<Plug>VWLinkMap", v:count)<cr>
-
 nmap <leader>l <Plug>VWLinkMap
 nnoremap <buffer> <silent> <leader>L :VimwikiPrevLink<cr>
-nnoremap <buffer> <cr> :VimwikiFollowLink<cr>
+" nnoremap <buffer> <cr> :VimwikiFollowLink<cr>
+nnoremap gf :VimwikiFollowLink<cr>
 
 " complete quotations
 inoremap <buffer> " ""<Left>
