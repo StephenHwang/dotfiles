@@ -13,6 +13,7 @@ Plugin 'tpope/vim-fugitive'     " git integration
 Plugin 'tpope/vim-surround'     " text surround
 Plugin 'tpope/vim-repeat'       " dot command for vim surround
 Plugin 'Yggdroot/indentLine'    " display vertical indentation level
+Plugin 'romainl/vim-qf'    " display vertical indentation level
 
 " Programming
 Plugin 'sheerun/vim-polyglot'   " syntax recognition
@@ -75,6 +76,12 @@ nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>r :source ~/.vimrc<cr> 
 
+" navigate windows with C-hjkl
+nnoremap <silent> <C-k> :wincmd k<CR>
+nnoremap <silent> <C-j> :wincmd j<CR>
+nnoremap <silent> <C-h> :wincmd h<CR>
+nnoremap <silent> <C-l> :wincmd l<CR>
+
 " repeat command in visual mode and with count
 vnoremap <silent>. :norm.<cr>
 nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<cr>
@@ -101,18 +108,14 @@ function! JumpStart()
     :norm ^
   end
 endfunction
-
 nnoremap _ :call JumpStart()<cr>
 
 " assorted other shorcuts
 map Q gq
 nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
 nnoremap <silent>gs xph
-nnoremap <leader>n [I
 nnoremap <BS> X
 nnoremap U <C-R>
-
-" commands
 command! CD cd %:p:h
 
 " copy pasting with system
@@ -141,6 +144,25 @@ endfunction
 map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>ToggleFoldMap", v:count)<cr>
 nmap <leader>z <Plug>ToggleFoldMap
 vnoremap <leader>z zf
+
+
+"" Quickfix
+" toggle quickfix
+nnoremap <silent> <leader>c :copen<cr>
+autocmd FileType qf nnoremap <silent> <buffer> <leader>c :ccl<cr>
+autocmd FileType qf nnoremap <silent> <buffer> <leader>n :ccl<cr>
+
+" add word under cursor to quickfix
+nnoremap <silent> <leader>n :vimgrep <cword> %<cr>:copen<cr>
+
+" delete element from quickfix list usind dd
+autocmd FileType qf nnoremap <silent> <buffer> dd :.Reject<cr>
+autocmd FileType qf vnoremap <silent> <buffer> d :'<,'>Reject<cr>
+
+" cycle quick fix
+nmap <C-m> <Plug>(qf_qf_previous)
+nmap <C-n> <Plug>(qf_qf_next)
+
 
 "" Python and R specific mappings
 autocmd FileType python,r,vimwiki autocmd BufWritePre <buffer> :call TrimWhitespace()
@@ -200,8 +222,6 @@ func Eatchar(pat)
 endfunc
 
 " timestamp
-iabbr ctime <C-R>=DateStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
-iabbr ctimee <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
 if !exists("*TimeStamp")
     fun TimeStamp()
         return strftime("%a %d %b %Y, %X")
@@ -212,6 +232,8 @@ if !exists("*DateStamp")
         return strftime("%a %d %b %Y")
     endfun
 endif
+iabbr ctime <C-R>=DateStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
+iabbr ctimee <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
 
 " split line
 nnoremap <leader>sl :<C-u>call BreakHere()<CR>
