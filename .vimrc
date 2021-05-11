@@ -13,7 +13,7 @@ Plugin 'tpope/vim-fugitive'     " git integration
 Plugin 'tpope/vim-surround'     " text surround
 Plugin 'tpope/vim-repeat'       " dot command for vim surround
 Plugin 'Yggdroot/indentLine'    " display vertical indentation level
-Plugin 'romainl/vim-qf'    " display vertical indentation level
+Plugin 'romainl/vim-qf'         " quickfix assists
 
 " Programming
 Plugin 'sheerun/vim-polyglot'   " syntax recognition
@@ -145,24 +145,20 @@ map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>T
 nmap <leader>z <Plug>ToggleFoldMap
 vnoremap <leader>z zf
 
-
 "" Quickfix
-" toggle quickfix
+"    - toggle quickfix with leader c
+"    - cycle quick fix
+"    - move between qf using :colder :cnewer
+"    - search (:BG <word>) or word under cursor (_n)
+"    - dd delete element
 nnoremap <silent> <leader>c :copen<cr>
 autocmd FileType qf nnoremap <silent> <buffer> <leader>c :ccl<cr>
-autocmd FileType qf nnoremap <silent> <buffer> <leader>n :ccl<cr>
-
-" add word under cursor to quickfix
-nnoremap <silent> <leader>n :vimgrep <cword> %<cr>:copen<cr>
-
-" delete element from quickfix list usind dd
-autocmd FileType qf nnoremap <silent> <buffer> dd :.Reject<cr>
-autocmd FileType qf vnoremap <silent> <buffer> d :'<,'>Reject<cr>
-
-" cycle quick fix
 nmap <C-m> <Plug>(qf_qf_previous)
 nmap <C-n> <Plug>(qf_qf_next)
-
+nnoremap <silent> <leader>n :silent! vimgrep <cword> %<cr>:cw<cr>
+command! -bang -nargs=+ BG execute 'vimgrep<bang> <args> ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')
+autocmd FileType qf nnoremap <silent> <buffer> dd :.Reject<cr>
+autocmd FileType qf vnoremap <silent> <buffer> d :'<,'>Reject<cr>
 
 "" Python and R specific mappings
 autocmd FileType python,r,vimwiki autocmd BufWritePre <buffer> :call TrimWhitespace()
@@ -367,7 +363,6 @@ let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
-let g:airline_section_x = 0
 let g:airline_section_y = 0
 let g:airline_section_z = airline#section#create(['%5l/%L:%3v'])
 let g:airline_section_error = 0
