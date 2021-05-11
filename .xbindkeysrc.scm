@@ -44,3 +44,25 @@
 ;; thumb wheel down => last tab/volume down
 (xbindkey '(b:6) "~/dotfiles/MX-Master-3-bindings.sh Scroll_L")
 (xbindkey '(alt b:6) "~/dotfiles/MX-Master-3-bindings.sh Alt_Scroll_L")
+
+
+;; KeyboardPlay
+;;(xbindkey '(XF86AudioPlay) "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
+(xbindkey '(XF86AudioPlay) "playerctl -p spotify play-pause")
+;;(xbindkey '(XF86AudioPlay) "playerctl -p spotify play")
+
+;; KeyboardStop
+;;(xbindkey '(XF86AudioStop) "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop")
+(xbindkey '(XF86AudioPause) "playerctl -p spotify play-pause")
+;;(xbindkey '(XF86AudioPause) "playerctl -p spotify pause")
+
+;; KeyboardPrev
+;;(xbindkey '(XF86AudioPrev) "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Prev")
+(xbindkey '(XF86AudioPrev) "playerctl -p spotify previous")
+
+;; KeyboardNext
+;;(xbindkey '(XF86AudioNext) "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next")
+(xbindkey '(XF86AudioNext) "playerctl -p spotify next")
+
+
+
