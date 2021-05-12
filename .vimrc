@@ -151,6 +151,7 @@ vnoremap <leader>z zf
 "    - move between qf using :colder :cnewer
 "    - search (:BG <word>) or word under cursor (_n)
 "    - dd delete element
+"    - cc# go to nth element
 nnoremap <silent> <leader>c :copen<cr>
 autocmd FileType qf nnoremap <silent> <buffer> <leader>c :ccl<cr>
 nmap <C-m> <Plug>(qf_qf_previous)
