@@ -156,7 +156,7 @@ nnoremap <silent> <leader>c :copen<cr>
 autocmd FileType qf nnoremap <silent> <buffer> <leader>c :ccl<cr>
 nmap <C-m> <Plug>(qf_qf_previous)
 nmap <C-n> <Plug>(qf_qf_next)
-nnoremap <silent> <leader>n :silent! vimgrep <cword> %<cr>:cw<cr>
+nnoremap <silent> <leader>n :execute 'vimgrep <cword> ' .  join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')<cr><C-o>
 command! -bang -nargs=+ BG execute 'vimgrep<bang> <args> ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')
 autocmd FileType qf nnoremap <silent> <buffer> dd :.Reject<cr>
 autocmd FileType qf vnoremap <silent> <buffer> d :'<,'>Reject<cr>
