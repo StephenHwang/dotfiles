@@ -152,14 +152,41 @@ vnoremap <leader>z zf
 "    - search (:BG <word>) or word under cursor (_n)
 "    - dd delete element
 "    - cc# go to nth element
+"    - Reject and Keep elements
 nnoremap <silent> <leader>c :copen<cr>
 autocmd FileType qf nnoremap <silent> <buffer> <leader>c :ccl<cr>
 nmap <C-m> <Plug>(qf_qf_previous)
 nmap <C-n> <Plug>(qf_qf_next)
-nnoremap <silent> <leader>n :execute 'vimgrep ' . '/\<' . expand("<cword>") . '\>/ ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')<cr><bar>``
-command! -bang -nargs=+ BG silent! execute 'vimgrep<bang> ' . '/\<' . expand("<args>") . '\>/ ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')
 autocmd FileType qf nnoremap <silent> <buffer> dd :.Reject<cr>
 autocmd FileType qf vnoremap <silent> <buffer> d :'<,'>Reject<cr>
+
+" Search/add to quickfix
+nnoremap <silent> <leader>n :execute 'vimgrep ' . '/\<' . expand("<cword>") . '\>/ ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')<cr><bar>``
+command! -nargs=? CF call AddQuickFix(<f-args>)
+function! AddQuickFix(...)
+    let arg1 = get(a:, 0, 0)
+    if arg1
+      silent! execute 'vimgrepa ' . '/\<' . expand(a:1) . '\>/ ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')
+    else
+      caddexpr expand("%") . ":" . line(".") .  ":" . getline(".")
+      wincmd k
+    endif
+endfunction
+
+" Save/Load quickfix
+function! s:qf_to_filename(qf) abort
+  for i in range(len(a:qf.items))
+    let d = a:qf.items[i]
+    if bufexists(d.bufnr)
+      let d.filename = fnamemodify(bufname(d.bufnr), ':p')
+    endif
+    silent! call remove(d, 'bufnr')
+    let a:qf.items[i] = d
+  endfor
+  return a:qf
+endfunction
+command! -bar -nargs=1 -complete=file CW call writefile([js_encode(s:qf_to_filename(getqflist({'all': 1})))], $HOME . '/.vim/qfix/'.<f-args>)
+command! -bar -nargs=1 -complete=file CR call setqflist([], ' ', js_decode(get(readfile($HOME . '/.vim/qfix/'.<f-args>), 0, '')))<bar>cw<bar>wincmd k
 
 "" Python and R specific mappings
 autocmd FileType python,r,vimwiki autocmd BufWritePre <buffer> :call TrimWhitespace()
@@ -266,15 +293,6 @@ let g:vimwiki_key_mappings =
 "    r:
 "      https://tinyheero.github.io/2017/05/13/r-vim-ctags.html
 nnoremap <leader>m :TagbarOpenAutoClose<cr>
-let g:tagbar_type_vimwiki = {
-			\   'ctagstype':'vimwiki'
-			\ , 'kinds':['h:header']
-			\ , 'sro':'&&&'
-			\ , 'kind2scope':{'h':'header'}
-			\ , 'sort':0
-			\ , 'ctagsbin': '/home/stephen/bin/ctags-5.8/vwtags.py'
-			\ , 'ctagsargs': 'default'
-			\ }
 let g:tagbar_type_r = {
     \ 'ctagstype' : 'r',
     \ 'kinds'     : [
@@ -333,6 +351,7 @@ let s:comment_map = {
     \   "sh": '#',
     \   "bashrc": '#',
     \   "vim": '"',
+    \   "scheme": ';;',
     \ }
 
 function! ToggleComment()

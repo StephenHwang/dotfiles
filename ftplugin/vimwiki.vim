@@ -5,8 +5,8 @@ setlocal foldenable
 setlocal foldmethod=expr
 setlocal foldexpr=Fold(v:lnum)
 
-autocmd BufWinLeave * mkview
-autocmd BufWinEnter * silent loadview 
+autocmd BufWinLeave ?* silent! mkview 1
+autocmd BufWinEnter ?* silent! silent loadview 1
 
 " Fold function
 function! Fold(lnum)
@@ -47,7 +47,15 @@ map <silent><Plug>ToggleListMap :call MakeListToggleList()<cr>:call repeat#set("
 nmap <leader>f <Plug>ToggleListMap
 vmap <leader>f <Plug>ToggleListMap
 
-
+let g:tagbar_type_vimwiki = {
+			\   'ctagstype':'vimwiki'
+			\ , 'kinds':['h:header']
+			\ , 'sro':'&&&'
+			\ , 'kind2scope':{'h':'header'}
+			\ , 'sort':0
+			\ , 'ctagsbin': '/home/stephen/bin/ctags-5.8/vwtags.py'
+			\ , 'ctagsargs': 'default'
+			\ }
 
 " Mappings
 function! VWLink()
