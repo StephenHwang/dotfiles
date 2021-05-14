@@ -168,7 +168,11 @@ function! AddQuickFix(...)
     if arg1
       silent! execute 'vimgrepa ' . '/\<' . expand(a:1) . '\>/ ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')
     else
-      caddexpr expand("%") . ":" . line(".") .  ":" . getline(".")
+        if getline('.') =~ '^\s*$'        " Skip empty line
+          cw
+          return
+        endif
+       silent! caddexpr expand("%") . ":" . line(".") .  ":" . getline(".")
       wincmd k
     endif
 endfunction
