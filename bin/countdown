@@ -1,0 +1,13 @@
+#!/bin/bash
+
+stopwatch=~/bin/stopwatch
+
+date1=$((`date +%s` + $1*60));
+while [ "$date1" -ge `date +%s` ]; do
+  echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
+  sleep 0.1
+done
+
+espeak "$1"
+espeak "minutes counted"
+exec $stopwatch
