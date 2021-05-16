@@ -31,38 +31,22 @@
 
 ;; Forward and backward buttons
 ;; 9,8 forward, backward buttons
-(xbindkey '(b:9) "~/dotfiles/MX-Master-3-bindings.sh Forward")
-(xbindkey '(b:8) "~/dotfiles/MX-Master-3-bindings.sh Backward")
+(xbindkey '(b:9) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Forward")
+(xbindkey '(b:8) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Backward")
 
 ;; 10 is middle button
 (xbindkey '(b:10) "xte 'keydown Alt_L' 'key w' 'keyup Alt_L'")
 
 ;; Thumb wheel
-;;# thumb wheel up => next tab/volume up
-(xbindkey '(b:7) "~/dotfiles/MX-Master-3-bindings.sh Scroll_R")
-(xbindkey '(alt b:7) "~/dotfiles/MX-Master-3-bindings.sh Alt_Scroll_R")
-;; thumb wheel down => last tab/volume down
-(xbindkey '(b:6) "~/dotfiles/MX-Master-3-bindings.sh Scroll_L")
-(xbindkey '(alt b:6) "~/dotfiles/MX-Master-3-bindings.sh Alt_Scroll_L")
+;;   thumb wheel up and down => next tab/buffer
+(xbindkey '(b:7) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Scroll_R")
+(xbindkey '(b:6) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Scroll_L")
+;;   alt thumbwheel volume
+;;(xbindkey '(alt b:7) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Alt_Scroll_R")
+;;(xbindkey '(alt b:6) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Alt_Scroll_L")
 
-
-;; KeyboardPlay
-;;(xbindkey '(XF86AudioPlay) "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause")
-(xbindkey '(XF86AudioPlay) "playerctl -p spotify play-pause")
-;;(xbindkey '(XF86AudioPlay) "playerctl -p spotify play")
-
-;; KeyboardStop
-;;(xbindkey '(XF86AudioStop) "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop")
+;; Headphones and media keys
+(xbindkey '(XF86AudioPlay) "playerctl -p spotify play") ;; seems to not be picked up
 (xbindkey '(XF86AudioPause) "playerctl -p spotify play-pause")
-;;(xbindkey '(XF86AudioPause) "playerctl -p spotify pause")
-
-;; KeyboardPrev
-;;(xbindkey '(XF86AudioPrev) "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Prev")
 (xbindkey '(XF86AudioPrev) "playerctl -p spotify previous")
-
-;; KeyboardNext
-;;(xbindkey '(XF86AudioNext) "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next")
 (xbindkey '(XF86AudioNext) "playerctl -p spotify next")
-
-
-
