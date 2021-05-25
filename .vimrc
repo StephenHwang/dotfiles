@@ -13,7 +13,7 @@ Plugin 'tpope/vim-fugitive'     " git integration
 Plugin 'tpope/vim-surround'     " text surround
 Plugin 'tpope/vim-repeat'       " dot command for vim surround
 Plugin 'Yggdroot/indentLine'    " display vertical indentation level
-Plugin 'romainl/vim-qf'         " quickfix assists
+Plugin 'romainl/vim-qf'         " quickfix assist
 
 " Programming
 Plugin 'sheerun/vim-polyglot'   " syntax recognition
@@ -28,6 +28,7 @@ Plugin 'vimwiki/vimwiki', {'branch': 'dev'}
 Plugin 'jpalardy/vim-slime.git' 
 
 " Aesthetics
+Plugin 'arcticicestudio/nord-vim'
 Plugin 'morhetz/gruvbox'
 Plugin 'vim-airline/vim-airline'          " airline status bar
 Plugin 'edkolev/tmuxline.vim'             " tmux status bar
@@ -75,6 +76,7 @@ inoremap jk <Esc>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>r :source ~/.vimrc<cr> 
+nnoremap <space> <nop>
 
 " navigate windows with C-hjkl
 nnoremap <silent> <C-k> :wincmd k<CR>
@@ -141,18 +143,18 @@ augroup END
 function! ToggleFold()
   norm za
 endfunction
-map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>ToggleFoldMap", v:count)<cr>
+map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>ToggleFoldMap", v:count)<cr><Down>
 nmap <leader>z <Plug>ToggleFoldMap
-vnoremap <leader>z zf
+vnoremap <silent> <leader>z zf
 
 "" Quickfix
 "    - toggle quickfix with leader c
-"    - cycle quick fix
+"    - <C-m/n> cycle quick fix
 "    - move between qf using :colder :cnewer
-"    - search (:BG <word>) or word under cursor (_n)
+"    - search (:BG <word>) or word under cursor (<leader>n)
 "    - dd delete element
 "    - cc# go to nth element
-"    - Reject and Keep elements
+"    - Reject/Keep to filter elements
 nnoremap <silent> <leader>c :copen<cr>
 autocmd FileType qf nnoremap <silent> <buffer> <leader>c :ccl<cr>
 nmap <C-m> <Plug>(qf_qf_previous)
@@ -202,7 +204,6 @@ autocmd FileType python,r inoremap <buffer> ' ''<Left>
 autocmd FileType r iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
 
 "" Python specific mappings
-    " \ set relativenumber |
 au BufNewFile,BufRead *.py
     \ set tabstop=4 | "width of tab is set to 4
     \ set softtabstop=4 | "sets the number of columns for a tab
@@ -383,11 +384,14 @@ nmap <leader>f <Plug>ToggleCommentMap
 vmap <leader>f <Plug>ToggleCommentMap
 
 "" aethetics
-let g:gruvbox_contrast_dark='hard'
-colorscheme gruvbox
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_section_y = 0
 let g:airline_section_z = airline#section#create(['%5l/%L:%3v'])
 let g:airline_section_error = 0
 let g:airline_section_warning = 0
+
+" colorscheme
+let g:gruvbox_contrast_dark='hard'
+colorscheme gruvbox
+" colorscheme nord

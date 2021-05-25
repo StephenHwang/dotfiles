@@ -5,9 +5,6 @@ setlocal foldenable
 setlocal foldmethod=expr
 setlocal foldexpr=Fold(v:lnum)
 
-autocmd BufWinLeave ?* silent! mkview 1
-autocmd BufWinEnter ?* silent! silent loadview 1
-
 " Fold function
 function! Fold(lnum)
   let fold_level = strlen(matchstr(getline(a:lnum), '^' . '=' . '\+'))
@@ -64,8 +61,13 @@ endfunction
 map <silent><Plug>VWLinkMap :call VWLink()<cr>:call repeat#set("\<Plug>VWLinkMap", v:count)<cr>
 nmap <leader>l <Plug>VWLinkMap
 nnoremap <buffer> <silent> <leader>L :VimwikiPrevLink<cr>
-" nnoremap <buffer> <cr> :VimwikiFollowLink<cr>
 nnoremap gf :VimwikiFollowLink<cr>
+
+nnoremap K :<C-u>call BreakHere()<CR>
+function! BreakHere()
+    s/^\(\s*\)\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\2\r\1\4\6
+    call histdel("/", -1)
+endfunction
 
 " complete quotations
 inoremap <buffer> " ""<Left>
