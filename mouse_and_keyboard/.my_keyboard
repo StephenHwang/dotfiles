@@ -12,7 +12,7 @@ keycode 66 = NoSymbol NoSymbol
 keycode 66 = Mode_switch
 
 ! alt as backspace
-keycode 108 = BackSpace
+keycode 108 = BackSpace BackSpace Delete
 
 ! modeswitch+Tab as capslock
 keysym Tab = Tab Tab Caps_Lock
