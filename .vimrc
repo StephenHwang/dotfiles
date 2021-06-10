@@ -9,16 +9,17 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " Basics
-Plugin 'tpope/vim-fugitive'     " git integration
-Plugin 'tpope/vim-surround'     " text surround
-Plugin 'tpope/vim-repeat'       " dot command for vim surround
-Plugin 'Yggdroot/indentLine'    " display vertical indentation level
-Plugin 'romainl/vim-qf'         " quickfix assist
+Plugin 'tpope/vim-fugitive'         " git integration
+Plugin 'tpope/vim-surround'         " text surround
+Plugin 'tpope/vim-repeat'           " dot command for vim surround
+Plugin 'Yggdroot/indentLine'        " display vertical indentation level
+Plugin 'romainl/vim-qf'             " quickfix assist
 
 " Programming
-Plugin 'sheerun/vim-polyglot'   " syntax recognition
-Plugin 'Valloric/YouCompleteMe' " autocomplete
-Plugin 'dense-analysis/ale'     " linter
+Plugin 'sheerun/vim-polyglot'       " syntax recognition
+Plugin 'dense-analysis/ale'         " linter
+" Plugin 'Valloric/YouCompleteMe'     " autocomplete
+Plugin  'vim-scripts/AutoComplPop'  " improve base autocomplete
 
 " Optional
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -28,7 +29,6 @@ Plugin 'vimwiki/vimwiki', {'branch': 'dev'}
 Plugin 'jpalardy/vim-slime.git' 
 
 " Aesthetics
-Plugin 'arcticicestudio/nord-vim'
 Plugin 'morhetz/gruvbox'
 Plugin 'vim-airline/vim-airline'          " airline status bar
 Plugin 'edkolev/tmuxline.vim'             " tmux status bar
@@ -77,6 +77,12 @@ nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>r :source ~/.vimrc<cr> 
 nnoremap <space> <nop>
+
+" near base autocomplete
+au FileType * execute 'setlocal dict+=~/.vim/words/'.&filetype.'.txt'
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "j"
+set completeopt=menuone,longest
+set shortmess+=c
 
 " navigate windows with C-hjkl
 nnoremap <silent> <C-k> :wincmd k<CR>
@@ -210,8 +216,8 @@ au BufNewFile,BufRead *.py
     \ set shiftwidth=4 | "indents will have width of 4
     \ set fileformat=unix
 let python_highlight_all=1 " python syntax highlight
-autocmd FileType python iabbr <buffer><silent> ipy import IPython; IPython.embed()<c-r>=Eatchar('\m\s\<bar>/')<cr>
-autocmd FileType python iabbr <buffer><silent> dbg import ipdb; ipdb.set_trace()<c-r>=Eatchar('\m\s\<bar>/')<cr>
+autocmd FileType python iabbr <buffer><silent> ipy import IPython; IPython.embed()  # TODO<c-r>=Eatchar('\m\s\<bar>/')<cr>
+autocmd FileType python iabbr <buffer><silent> pdb import ipdb; ipdb.set_trace()  # TODO<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer> pri print
 autocmd FileType python command! PY execute '!python %'
 
@@ -394,4 +400,3 @@ let g:airline_section_warning = 0
 " colorscheme
 let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
-" colorscheme nord

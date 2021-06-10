@@ -115,4 +115,3 @@ iabbr <buffer> mu μ
 iabbr <buffer> dg °
 iabbr <buffer> omega Ω 
 iabbr <buffer> <> ⇌
-
