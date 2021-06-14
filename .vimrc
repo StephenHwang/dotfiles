@@ -16,10 +16,10 @@ Plugin 'Yggdroot/indentLine'        " display vertical indentation level
 Plugin 'romainl/vim-qf'             " quickfix assist
 
 " Programming
+Plugin  'vim-scripts/AutoComplPop'  " autocomplete always open
 Plugin 'sheerun/vim-polyglot'       " syntax recognition
 Plugin 'dense-analysis/ale'         " linter
 " Plugin 'Valloric/YouCompleteMe'     " autocomplete
-Plugin  'vim-scripts/AutoComplPop'  " improve base autocomplete
 
 " Optional
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -78,7 +78,7 @@ nnoremap <leader>w :w<cr>
 nnoremap <leader>r :source ~/.vimrc<cr> 
 nnoremap <space> <nop>
 
-" near base autocomplete
+" always open autocomplete
 au FileType * execute 'setlocal dict+=~/.vim/words/'.&filetype.'.txt'
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "j"
 set completeopt=menuone,longest
@@ -200,13 +200,11 @@ endfunction
 command! -bar -nargs=1 -complete=file CW call writefile([js_encode(s:qf_to_filename(getqflist({'all': 1})))], $HOME . '/.vim/qfix/'.<f-args>)
 command! -bar -nargs=1 -complete=file CR call setqflist([], ' ', js_decode(get(readfile($HOME . '/.vim/qfix/'.<f-args>), 0, '')))<bar>cw<bar>wincmd k
 
-"" Python and R specific mappings
+"" Python and R  mappings
 autocmd FileType python,r,vimwiki autocmd BufWritePre <buffer> :call TrimWhitespace()
 autocmd FileType python,r inoremap <buffer> { {}<Left>
 autocmd FileType python,r inoremap <buffer> [ []<Left>
 autocmd FileType python,r inoremap <buffer> ' ''<Left>
-
-"" R specific
 autocmd FileType r iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
 
 "" Python specific mappings
@@ -218,10 +216,18 @@ au BufNewFile,BufRead *.py
 let python_highlight_all=1 " python syntax highlight
 autocmd FileType python iabbr <buffer><silent> ipy import IPython; IPython.embed()  # TODO<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer><silent> pdb import ipdb; ipdb.set_trace()  # TODO<c-r>=Eatchar('\m\s\<bar>/')<cr>
+autocmd FileType r iabbr <buffer><silent> brow browser()  # TODO<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer> pri print
 autocmd FileType python command! PY execute '!python %'
 
 " youCompleteMe settings
+let g:ycm_filetype_blacklist = {
+      \ 'tagbar': 1,
+      \ 'notes': 1,
+      \ 'markdown': 1,
+      \ 'netrw': 1,
+      \ 'text': 1,
+      \}
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_auto_hover = ''
 autocmd FileType python nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<cr>
@@ -288,8 +294,8 @@ let g:vimwiki_key_mappings =
   \   'global': 0,
   \   'headers': 1,
   \   'text_objs': 1,
-  \   'table_format': 1,
-  \   'table_mappings': 1,
+  \   'table_format': 0,
+  \   'table_mappings': 0,
   \   'lists': 1,
   \   'links': 0,
   \   'html': 0,
