@@ -16,10 +16,11 @@ Plugin 'Yggdroot/indentLine'        " display vertical indentation level
 Plugin 'romainl/vim-qf'             " quickfix assist
 
 " Programming
-Plugin  'vim-scripts/AutoComplPop'  " autocomplete always open
+" see commit for simple autocomplete: 4bbf5449c5340117644e75bb7bf635b1d08c5bfc
+" Plugin  'vim-scripts/AutoComplPop'  " autocomplete always open
 Plugin 'sheerun/vim-polyglot'       " syntax recognition
 Plugin 'dense-analysis/ale'         " linter
-" Plugin 'Valloric/YouCompleteMe'     " autocomplete
+Plugin 'Valloric/YouCompleteMe'     " autocomplete
 
 " Optional
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -77,12 +78,6 @@ nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <leader>r :source ~/.vimrc<cr> 
 nnoremap <space> <nop>
-
-" always open autocomplete
-au FileType * execute 'setlocal dict+=~/.vim/words/'.&filetype.'.txt'
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "j"
-set completeopt=menuone,longest
-set shortmess+=c
 
 " navigate windows with C-hjkl
 nnoremap <silent> <C-k> :wincmd k<CR>
@@ -221,6 +216,11 @@ autocmd FileType python iabbr <buffer> pri print
 autocmd FileType python command! PY execute '!python %'
 
 " youCompleteMe settings
+" always open autocomplete with AutoComplPop
+"au FileType * execute 'setlocal dict+=~/.vim/words/'.&filetype.'.txt'
+"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "j"
+"set completeopt=menuone,longest
+"set shortmess+=c
 let g:ycm_filetype_blacklist = {
       \ 'tagbar': 1,
       \ 'notes': 1,
@@ -233,6 +233,7 @@ let g:ycm_auto_hover = ''
 autocmd FileType python nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<cr>
 autocmd FileType python nnoremap <leader>t :YcmCompleter GetType<cr>
 autocmd FileType python nmap <leader>d <plug>(YCMHover)
+
 
 " ale linter: (:ALEToggle)
 "   pip install flake8 --user
