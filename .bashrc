@@ -78,7 +78,10 @@ alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
 alias cursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
 alias pycharm='pycharm-community'
 alias lab='jupyter-lab'
+
+# software
 alias ApE='wine /home/stephen/bin/ApE/ApE_win_current.exe'
+alias OpenMarkov='java -jar ~/bin/OpenMarkov-0.3.4.jar'
 
 alias sshc='ssh sjhwang@courtyard.gi.ucsc.edu' # alias for ssh
 alias sshcport='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'

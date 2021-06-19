@@ -59,8 +59,8 @@ function! VWLink()
   VimwikiNextLink
 endfunction
 map <silent><Plug>VWLinkMap :call VWLink()<cr>:call repeat#set("\<Plug>VWLinkMap", v:count)<cr>
-nmap <leader>l <Plug>VWLinkMap
-nnoremap <buffer> <silent> <leader>L :VimwikiPrevLink<cr>
+nmap <leader>y <Plug>VWLinkMap
+nnoremap <buffer> <silent> <leader>Y :VimwikiPrevLink<cr>
 nnoremap gf :VimwikiFollowLink<cr>
 
 nnoremap K :<C-u>call BreakHere()<CR>

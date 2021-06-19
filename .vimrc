@@ -17,7 +17,7 @@ Plugin 'romainl/vim-qf'             " quickfix assist
 
 " Programming
 " see commit for simple autocomplete: 4bbf5449c5340117644e75bb7bf635b1d08c5bfc
-" Plugin  'vim-scripts/AutoComplPop'  " autocomplete always open
+Plugin  'vim-scripts/AutoComplPop'  " autocomplete always open
 Plugin 'sheerun/vim-polyglot'       " syntax recognition
 Plugin 'dense-analysis/ale'         " linter
 Plugin 'Valloric/YouCompleteMe'     " autocomplete
@@ -152,10 +152,11 @@ vnoremap <silent> <leader>z zf
 "    - toggle quickfix with leader c
 "    - <C-m/n> cycle quick fix
 "    - move between qf using :colder :cnewer
-"    - search (:BG <word>) or word under cursor (<leader>n)
+"    - search (:CF <word>) or word under cursor (<leader>n)
 "    - dd delete element
 "    - cc# go to nth element
 "    - Reject/Keep to filter elements
+"    - CW/CR <name> to read and write quickfix
 nnoremap <silent> <leader>c :copen<cr>
 autocmd FileType qf nnoremap <silent> <buffer> <leader>c :ccl<cr>
 nmap <C-m> <Plug>(qf_qf_previous)
@@ -247,8 +248,8 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_sign_error = '•'
 let g:ale_sign_warning = '.'
-autocmd FileType python,r nmap <silent> <leader>l <Plug>(ale_next_wrap):call repeat#set("\<Plug>(ale_next_wrap)", v:count)<cr>
-autocmd FileType python,r nmap <silent> <leader>L <Plug>(ale_previous_wrap):call repeat#set("\<Plug>(ale_previous_wrap)", v:count)<cr>
+autocmd FileType python,r nmap <silent> <leader>y <Plug>(ale_next_wrap):call repeat#set("\<Plug>(ale_next_wrap)", v:count)<cr>
+autocmd FileType python,r nmap <silent> <leader>Y <Plug>(ale_previous_wrap):call repeat#set("\<Plug>(ale_previous_wrap)", v:count)<cr>
 
 " Trim whitespace
 fun! TrimWhitespace()
@@ -340,6 +341,7 @@ nnoremap <leader>h :set hlsearch! hlsearch?<cr>
 "" buffers
 nnoremap <leader>k :bn<cr>
 nnoremap <leader>j :bp<cr>
+nnoremap <leader>l <C-^>
 nnoremap <leader>e :bdel<cr>
 
 " setting mouse horizontal scroll: 
