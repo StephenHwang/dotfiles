@@ -39,7 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______, KC_EXLM, KC_PERC, KC_MINS, KC_UNDS, KC_PEQL,                            KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_COLN, KC_DQUO,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_WH_L, KC_WH_R, UC(ARW), KC_HASH, KC_PLUS, KC_ASTR, KC_VOLU,          KC_BRIU, KC_LBRC, KC_RBRC, KC_LT,   KC_GT,   KC_QUES, KC_MUTE,
+     KC_CIRC, KC_DLR,  UC(ARW), KC_HASH, KC_PLUS, KC_ASTR, KC_VOLU,          KC_BRIU, KC_LBRC, KC_RBRC, KC_LT,   KC_GT,   KC_QUES, KC_MUTE,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     _______, _______, KC_VOLD,                   KC_BRID, KC_BSPC, KC_DEL
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
