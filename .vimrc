@@ -118,6 +118,7 @@ map Q gq
 nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
 nnoremap <silent>gs xph
 nnoremap <BS> X
+nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
 
@@ -352,7 +353,6 @@ nnoremap <M-u> :bn<cr>
 nnoremap <M-y> :bp<cr>
 
 "" fuzzy find assorted items
-nnoremap <C-f> :Files<cr>
 nnoremap <C-f>f :Files<cr>
 nnoremap <C-f>b :Buffer<cr>
 nnoremap <leader>b :Buffer<cr>
@@ -372,6 +372,7 @@ let s:comment_map = {
     \   "bashrc": '#',
     \   "vim": '"',
     \   "scheme": ';;',
+    \   "tex": '%',
     \ }
 
 function! ToggleComment()
