@@ -45,6 +45,8 @@ case "$button" in
       case "$Wname" in
         '"qterminal"')
             xte 'keydown Alt_L' 'key u' 'keyup Alt_L'; ;;
+      '"Spotify"')
+          xte 'keydown Control_L' 'key Up' 'keyup Control_L'; ;;
         *) xte 'keydown Control_L' 'key Tab' 'keyup Control_L'; ;;
       esac
       ;;
@@ -54,6 +56,8 @@ case "$button" in
     case "$Wname" in
       '"qterminal"')
           xte 'keydown Alt_L' 'key y' 'keyup Alt_L'; ;;
+      '"Spotify"')
+          xte 'keydown Control_L' 'key Down' 'keyup Control_L'; ;;
       *) xte 'keydown Control_L' 'keydown Shift_L' 'key Tab' 'keyup Shift_L' 'keyup Control_L'; ;;
     esac
   ;;
@@ -73,6 +77,8 @@ case "$button" in
           xte 'keydown Control_L' 'key a' 'keyup Control_L' 'key f'; ;;
       '"RStudio"')
           xte 'keydown Control_L' 'key 2' 'keyup Control_L'; ;;
+      '"Spotify"')
+          playerctl -p spotify next; ;;
       *) xte 'keydown Control_L' 'key bracketleft' 'keyup Control_L'; ;;
     esac
     ;;
@@ -83,6 +89,8 @@ case "$button" in
           xte 'keydown Control_L' 'key a' 'keyup Control_L' 'key n'; ;;
       '"RStudio"')
           xte 'keydown Control_L' 'key Return' 'keyup Control_L'; ;;
+      '"Spotify"')
+          playerctl -p spotify previous; ;;
       *) xte 'keydown Control_L' 'key bracketright' 'keyup Control_L'; ;;
     esac
     ;;
