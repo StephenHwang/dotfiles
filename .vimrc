@@ -93,6 +93,7 @@ nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<cr>
 nnoremap ciw *``cgn
 nnoremap gc *``cgn<C-r>.<ESC>
 
+
 " Jump to first non-blank, non-bullet character
 function! JumpStart()
   if getline('.') =~ '^\s*$'        " Skip empty line
@@ -121,9 +122,12 @@ nnoremap <BS> X
 nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
+nmap S <Plug>Ysurround
 
 " copy pasting with system
-set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
+"   selection and normal clipboard
+"   must have clipboard+ setting
+set clipboard=unnamed
 noremap x "_x<silent>
 nnoremap Y "+y$
 nnoremap yy "+yy
@@ -235,7 +239,6 @@ let g:ycm_auto_hover = ''
 autocmd FileType python nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<cr>
 autocmd FileType python nnoremap <leader>t :YcmCompleter GetType<cr>
 autocmd FileType python nmap <leader>d <plug>(YCMHover)
-
 
 " ale linter: (:ALEToggle)
 "   pip install flake8 --user

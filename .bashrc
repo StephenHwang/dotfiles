@@ -67,6 +67,7 @@ alias lsgb='ls -l --block-size=G'
 alias c='clear'
 alias e='exit'
 alias h='history'
+alias ctime='date'
 
 alias tmux='tmux -2'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
