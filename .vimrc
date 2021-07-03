@@ -123,6 +123,9 @@ nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
 nmap S <Plug>Ysurround
+" google search
+nnoremap go viw"zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
+xnoremap go "zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
 
 " copy pasting with system
 "   selection and normal clipboard
