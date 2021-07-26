@@ -64,7 +64,7 @@ alias l='ls -CF --group-directories-first'
 alias lsmb='ls -l --block-size=M'
 alias lsgb='ls -l --block-size=G'
 
-alias c='clear'
+# alias c='clear'
 alias e='exit'
 alias h='history'
 alias ctime='date'
