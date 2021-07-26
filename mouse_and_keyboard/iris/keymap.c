@@ -39,7 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
      _______, KC_EXLM, KC_PERC, KC_MINS, KC_UNDS, KC_PEQL,                            KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_COLN, KC_DQUO,
   //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-     KC_CIRC, KC_DLR,  UC(ARW), KC_HASH, KC_PLUS, KC_ASTR, KC_VOLU,          KC_BRIU, KC_LBRC, KC_RBRC, KC_LT,   KC_GT,   KC_QUES, KC_MUTE,
+     UC(ARW), KC_CIRC, KC_DLR,  KC_HASH, KC_PLUS, KC_ASTR, KC_VOLU,          KC_BRIU, KC_LBRC, KC_RBRC, KC_LT,   KC_GT,   KC_QUES, KC_MUTE,
   //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
                                     _______, _______, KC_VOLD,                   KC_BRID, KC_BSPC, KC_DEL
                                 // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
@@ -134,7 +134,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
           return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_TAB), UP(KC_LCTL), END );
           break;
 
-        // copy paset
+        // copy paste
         case 16:
           return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_C), UP(KC_LCTL), END );
           break;
