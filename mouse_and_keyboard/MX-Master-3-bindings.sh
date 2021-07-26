@@ -78,7 +78,7 @@ case "$button" in
       '"RStudio"')
           xte 'keydown Control_L' 'key 2' 'keyup Control_L'; ;;
       '"Spotify"')
-          playerctl -p spotify next; ;;
+          playerctl -p spotify previous; ;;
       *) xte 'keydown Control_L' 'key bracketleft' 'keyup Control_L'; ;;
     esac
     ;;
@@ -90,7 +90,7 @@ case "$button" in
       '"RStudio"')
           xte 'keydown Control_L' 'key Return' 'keyup Control_L'; ;;
       '"Spotify"')
-          playerctl -p spotify previous; ;;
+          playerctl -p spotify next; ;;
       *) xte 'keydown Control_L' 'key bracketright' 'keyup Control_L'; ;;
     esac
     ;;
