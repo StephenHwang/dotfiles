@@ -15,9 +15,8 @@ Plugin 'tpope/vim-repeat'           " dot command for vim surround
 Plugin 'Yggdroot/indentLine'        " display vertical indentation level
 Plugin 'romainl/vim-qf'             " quickfix assist
 
-" Programming
-" see commit for simple autocomplete: 4bbf5449c5340117644e75bb7bf635b1d08c5bfc
-Plugin  'vim-scripts/AutoComplPop'  " autocomplete always open
+" Programming (commit for simple autocomplete: 4bbf5449c5340117644e75bb7bf635b1d08c5bfc)
+" Plugin  'vim-scripts/AutoComplPop'  " autocomplete always open
 Plugin 'sheerun/vim-polyglot'       " syntax recognition
 Plugin 'dense-analysis/ale'         " linter
 Plugin 'Valloric/YouCompleteMe'     " autocomplete
@@ -65,6 +64,13 @@ set matchpairs+=<:>
 set mouse=n                 " mouse in normal mode
 let g:indentLine_char = '▏' "indentation guide
 
+"" Search and highlight settings
+set ignorecase           " ignore uppercase
+set smartcase            " if uppercase in search, consider only uppercase
+set incsearch            " move cursor to the matched string while searching
+set hlsearch             " highlight search
+nnoremap <leader>h :set hlsearch! hlsearch?<cr>
+
 " must mkdir the directories 
 set undofile                " persistent undo
 set undodir=~/.vim/undodir/
@@ -79,6 +85,16 @@ nnoremap <leader>w :w<cr>
 nnoremap <leader>r :source ~/.vimrc<cr> 
 nnoremap <space> <nop>
 
+" navigate buffers
+nnoremap <leader>k :bn<cr>
+nnoremap <leader>j :bp<cr>
+nnoremap <leader>l <C-^>
+nnoremap <leader>e :bdel<cr>
+execute "set <M-y>=\ey"
+execute "set <M-u>=\eu"
+nnoremap <M-u> :bn<cr>
+nnoremap <M-y> :bp<cr>
+
 " navigate windows with C-hjkl
 nnoremap <silent> <C-k> :wincmd k<CR>
 nnoremap <silent> <C-j> :wincmd j<CR>
@@ -92,7 +108,6 @@ nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<cr>
 " ciw '.' repeat with gc force change word under cursor
 nnoremap ciw *``cgn
 nnoremap gc *``cgn<C-r>.<ESC>
-
 
 " Jump to first non-blank, non-bullet character
 function! JumpStart()
@@ -122,10 +137,13 @@ nnoremap <BS> X
 nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
-nmap S <Plug>Ysurround
+
+" Vim surround: s instead of ys
+nmap s <Plug>Ysurround
+
 " google search
-nnoremap go viw"zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
-xnoremap go "zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
+autocmd FileType vimwiki nnoremap go viw"zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
+autocmd FileType viwiki xnoremap go "zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
 
 " copy pasting with system
 "   selection and normal clipboard
@@ -161,10 +179,7 @@ vnoremap <silent> <leader>z zf
 "    - <C-m/n> cycle quick fix
 "    - move between qf using :colder :cnewer
 "    - search (:CF <word>) or word under cursor (<leader>n)
-"    - dd delete element
-"    - cc# go to nth element
 "    - Reject/Keep to filter elements
-"    - CW/CR <name> to read and write quickfix
 nnoremap <silent> <leader>c :copen<cr>
 autocmd FileType qf nnoremap <silent> <buffer> <leader>c :ccl<cr>
 nmap <C-m> <Plug>(qf_qf_previous)
@@ -176,47 +191,32 @@ autocmd FileType qf vnoremap <silent> <buffer> d :'<,'>Reject<cr>
 nnoremap <silent> <leader>n :execute 'vimgrep ' . '/\<' . expand("<cword>") . '\>/ ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')<cr><bar>``
 command! -nargs=? CF call AddQuickFix(<f-args>)
 function! AddQuickFix(...)
-    let arg1 = get(a:, 0, 0)
-    if arg1
-      silent! execute 'vimgrepa ' . '/\<' . expand(a:1) . '\>/ ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')
-    else
-        if getline('.') =~ '^\s*$'        " Skip empty line
-          cw
-          return
-        endif
-       silent! caddexpr expand("%") . ":" . line(".") .  ":" . getline(".")
-      wincmd k
+  let arg1 = get(a:, 0, 0)
+  if arg1
+    silent! execute 'vimgrepa ' . '/\<' . expand(a:1) . '\>/ ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')
+  else
+    if getline('.') =~ '^\s*$'        " Skip empty line
+      cw
+      return
     endif
+    silent! caddexpr expand("%") . ":" . line(".") .  ":" . getline(".")
+    wincmd k
+  endif
 endfunction
-
-" Save/Load quickfix
-function! s:qf_to_filename(qf) abort
-  for i in range(len(a:qf.items))
-    let d = a:qf.items[i]
-    if bufexists(d.bufnr)
-      let d.filename = fnamemodify(bufname(d.bufnr), ':p')
-    endif
-    silent! call remove(d, 'bufnr')
-    let a:qf.items[i] = d
-  endfor
-  return a:qf
-endfunction
-command! -bar -nargs=1 -complete=file CW call writefile([js_encode(s:qf_to_filename(getqflist({'all': 1})))], $HOME . '/.vim/qfix/'.<f-args>)
-command! -bar -nargs=1 -complete=file CR call setqflist([], ' ', js_decode(get(readfile($HOME . '/.vim/qfix/'.<f-args>), 0, '')))<bar>cw<bar>wincmd k
 
 "" Python and R  mappings
-autocmd FileType python,r,vimwiki autocmd BufWritePre <buffer> :call TrimWhitespace()
+autocmd FileType python,r,vimwiki,cpp autocmd BufWritePre <buffer> :call TrimWhitespace()
 autocmd FileType python,r inoremap <buffer> { {}<Left>
 autocmd FileType python,r inoremap <buffer> [ []<Left>
 autocmd FileType python,r inoremap <buffer> ' ''<Left>
 autocmd FileType r iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
 
-"" Python specific mappings
+"" Python mappings
 au BufNewFile,BufRead *.py
-    \ set tabstop=4 | "width of tab is set to 4
-    \ set softtabstop=4 | "sets the number of columns for a tab
-    \ set shiftwidth=4 | "indents will have width of 4
-    \ set fileformat=unix
+      \ set tabstop=4 |       " width of tab is set to 4
+      \ set softtabstop=4 |   " sets the number of columns for a tab
+      \ set shiftwidth=4 |    " indents will have width of 4
+      \ set fileformat=unix
 let python_highlight_all=1 " python syntax highlight
 autocmd FileType python iabbr <buffer><silent> ipy import IPython; IPython.embed()  # TODO<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer><silent> pdb import ipdb; ipdb.set_trace()  # TODO<c-r>=Eatchar('\m\s\<bar>/')<cr>
@@ -225,11 +225,6 @@ autocmd FileType python iabbr <buffer> pri print
 autocmd FileType python command! PY execute '!python %'
 
 " youCompleteMe settings
-" always open autocomplete with AutoComplPop
-"au FileType * execute 'setlocal dict+=~/.vim/words/'.&filetype.'.txt'
-"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "j"
-"set completeopt=menuone,longest
-"set shortmess+=c
 let g:ycm_filetype_blacklist = {
       \ 'tagbar': 1,
       \ 'notes': 1,
@@ -260,30 +255,30 @@ autocmd FileType python,r nmap <silent> <leader>Y <Plug>(ale_previous_wrap):call
 
 " Trim whitespace
 fun! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
+  let l:save = winsaveview()
+  keeppatterns %s/\s\+$//e
+  call winrestview(l:save)
 endfun
 
 " Remove character after abbr
 func Eatchar(pat)
-      let c = nr2char(getchar(0))
-      return (c =~ a:pat) ? '' : c
+  let c = nr2char(getchar(0))
+  return (c =~ a:pat) ? '' : c
 endfunc
 
 " timestamp
-if !exists("*TimeStamp")
-    fun TimeStamp()
-        return strftime("%a %d %b %Y, %X")
-    endfun
-endif
 if !exists("*DateStamp")
-    fun DateStamp()
-        return strftime("%a %d %b %Y")
-    endfun
+  fun DateStamp()
+    return strftime("%a %d %b %Y")
+  endfun
 endif
-iabbr ctime <C-R>=DateStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
-iabbr ctimee <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
+if !exists("*TimeStamp")
+  fun TimeStamp()
+    return strftime("%a %d %b %Y, %X")
+  endfun
+endif
+iabbr dtime <C-R>=DateStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
+iabbr ctime <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
 
 " split line
 nnoremap <leader>sl :<C-u>call BreakHere()<CR>
@@ -312,24 +307,17 @@ let g:vimwiki_key_mappings =
   \ }
 
 " vimwiki ctags:
-"    sudo apt install exuberant-ctags
-"    python:
-"      download tagbar and add file to bin/ctags (chmod +x)
-"       https://raw.githubusercontent.com/vimwiki/utils/master/vwtags.py
-"    r:
-"      https://tinyheero.github.io/2017/05/13/r-vim-ctags.html
 nnoremap <leader>m :TagbarOpenAutoClose<cr>
 let g:tagbar_type_r = {
-    \ 'ctagstype' : 'r',
-    \ 'kinds'     : [
-        \ 'f:Functions',
-        \ 'g:GlobalVariables',
-        \ 'v:FunctionVariables',
+      \ 'ctagstype' : 'r',
+      \ 'kinds'     : [
+      \ 'f:Functions',
+      \ 'g:GlobalVariables',
+      \ 'v:FunctionVariables',
     \ ]
-\ }
+  \ }
 
-" vim-slime: tmux REPL integration
-"   :SlimeConfig to configure panels
+" vim-slime: tmux REPL integration (:SlimeConfig to configure panels)
 let g:slime_target = 'tmux'
 let g:slime_paste_file = '$HOME/.slime_paste'
 let g:slime_default_config = {'socket_name': get(split($TMUX, ','), 0), 'target_pane': ':.1'}
@@ -338,27 +326,7 @@ let g:slime_no_mappings = 1
 autocmd FileType python,r nnoremap <c-c> vip
 autocmd FileType python,r xmap <c-c> <Plug>SlimeRegionSend
 
-"" Search and highlight settings
-set ignorecase           " ignore uppercase
-set smartcase            " if uppercase in search, consider only uppercase
-set incsearch            " move cursor to the matched string while searching
-set hlsearch             " highlight search
-nnoremap <leader>h :set hlsearch! hlsearch?<cr>
-
-"" buffers
-nnoremap <leader>k :bn<cr>
-nnoremap <leader>j :bp<cr>
-nnoremap <leader>l <C-^>
-nnoremap <leader>e :bdel<cr>
-
-" setting mouse horizontal scroll: 
-"    https://vi.stackexchange.com/questions/2350/how-to-map-alt-key
-execute "set <M-y>=\ey"
-execute "set <M-u>=\eu"
-nnoremap <M-u> :bn<cr>
-nnoremap <M-y> :bp<cr>
-
-"" fuzzy find assorted items
+"" fuzzy find
 nnoremap <C-f>f :Files<cr>
 nnoremap <C-f>b :Buffer<cr>
 nnoremap <leader>b :Buffer<cr>
@@ -382,23 +350,23 @@ let s:comment_map = {
     \ }
 
 function! ToggleComment()
-    if has_key(s:comment_map, &filetype)
-        let comment_leader = s:comment_map[&filetype]
-        if getline('.') =~ "^\\s*" . comment_leader . " " 
-            " Uncomment the line
-            execute "silent s/^\\(\\s*\\)" . comment_leader . " /\\1/"
-        else 
-            if getline('.') =~ "^\\s*" . comment_leader
-                " Uncomment the line
-                execute "silent s/^\\(\\s*\\)" . comment_leader . "/\\1/"
-            else
-                " Comment the line
-                execute "silent s/^\\(\\s*\\)/\\1" . comment_leader . " /"
-            end
-        end
-    else
-        echo "No comment for filetype"
+  if has_key(s:comment_map, &filetype)
+    let comment_leader = s:comment_map[&filetype]
+    if getline('.') =~ "^\\s*" . comment_leader . " " 
+      " Uncomment the line
+      execute "silent s/^\\(\\s*\\)" . comment_leader . " /\\1/"
+    else 
+      if getline('.') =~ "^\\s*" . comment_leader
+        " Uncomment the line
+        execute "silent s/^\\(\\s*\\)" . comment_leader . "/\\1/"
+      else
+        " Comment the line
+        execute "silent s/^\\(\\s*\\)/\\1" . comment_leader . " /"
+      end
     end
+  else
+    echo "No comment for filetype"
+  end
 endfunction
 
 map <silent><Plug>ToggleCommentMap :call ToggleComment()<cr>:call repeat#set("\<Plug>ToggleCommentMap", v:count)<cr>
