@@ -37,9 +37,10 @@ call vundle#end()
 filetype plugin indent on 
 syntax on
 
-" Save cursor position
+" Save cursor position on enter file and switch buffer
 if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+  au BufEnter  * :normal `"
 endif
 
 " Basic vim options
