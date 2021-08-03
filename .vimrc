@@ -46,6 +46,7 @@ endif
 set encoding=utf-8
 set lazyredraw
 set noshowmode
+set showcmd
 set noerrorbells
 set hidden                  " switch buffers without having to save
 set laststatus=2            " powerline status line positioning
@@ -69,7 +70,6 @@ set ignorecase           " ignore uppercase
 set smartcase            " if uppercase in search, consider only uppercase
 set incsearch            " move cursor to the matched string while searching
 set hlsearch             " highlight search
-nnoremap <leader>h :set hlsearch! hlsearch?<cr>
 
 " must mkdir the directories 
 set undofile                " persistent undo
@@ -98,8 +98,7 @@ nnoremap <M-y> :bp<cr>
 " navigate windows with C-hjkl
 nnoremap <silent> <C-k> :wincmd k<CR>
 nnoremap <silent> <C-j> :wincmd j<CR>
-nnoremap <silent> <C-h> :wincmd h<CR>
-nnoremap <silent> <C-l> :wincmd l<CR>
+nnoremap <silent> <C-l> :wincmd w<CR>
 
 " repeat command in visual mode and with count
 vnoremap <silent>. :norm.<cr>
@@ -138,12 +137,13 @@ nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
 
-" Vim surround: s instead of ys
+" Vim surround: s instead of ys or S
 nmap s <Plug>Ysurround
+xmap s <Plug>VSurround
 
 " google search
-autocmd FileType vimwiki nnoremap go viw"zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
-autocmd FileType viwiki xnoremap go "zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
+nnoremap go viw"zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
+xnoremap go "zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
 
 " copy pasting with system
 "   selection and normal clipboard
@@ -189,8 +189,8 @@ autocmd FileType qf vnoremap <silent> <buffer> d :'<,'>Reject<cr>
 
 " Search/add to quickfix
 nnoremap <silent> <leader>n :execute 'vimgrep ' . '/\<' . expand("<cword>") . '\>/ ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')<cr><bar>``
-command! -nargs=? CF call AddQuickFix(<f-args>)
-function! AddQuickFix(...)
+command! -nargs=? CF call AddQuickFixExact(<f-args>)
+function! AddQuickFixExact(...)
   let arg1 = get(a:, 0, 0)
   if arg1
     silent! execute 'vimgrepa ' . '/\<' . expand(a:1) . '\>/ ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')
@@ -203,6 +203,23 @@ function! AddQuickFix(...)
     wincmd k
   endif
 endfunction
+
+" Add partial matches 
+command! -nargs=? CFF call AddQuickFixPartialMatch(<f-args>)
+function! AddQuickFixPartialMatch(...)
+  let arg1 = get(a:, 0, 0)
+  if arg1
+    silent! execute 'vimgrepa ' expand(a:1) join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')
+  else
+    if getline('.') =~ '^\s*$'        " Skip empty line
+      cw
+      return
+    endif
+    silent! caddexpr expand("%") . ":" . line(".") .  ":" . getline(".")
+    wincmd k
+  endif
+endfunction
+
 
 "" Python and R  mappings
 autocmd FileType python,r,vimwiki,cpp autocmd BufWritePre <buffer> :call TrimWhitespace()
@@ -220,7 +237,7 @@ au BufNewFile,BufRead *.py
 let python_highlight_all=1 " python syntax highlight
 autocmd FileType python iabbr <buffer><silent> ipy import IPython; IPython.embed()  # TODO<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer><silent> pdb import ipdb; ipdb.set_trace()  # TODO<c-r>=Eatchar('\m\s\<bar>/')<cr>
-autocmd FileType r iabbr <buffer><silent> brow browser()  # TODO<c-r>=Eatchar('\m\s\<bar>/')<cr>
+autocmd FileType r iabbr <buffer><silent> brow browser()  # TODO:<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer> pri print
 autocmd FileType python command! PY execute '!python %'
 
@@ -373,8 +390,14 @@ map <silent><Plug>ToggleCommentMap :call ToggleComment()<cr>:call repeat#set("\<
 nmap <leader>f <Plug>ToggleCommentMap
 vmap <leader>f <Plug>ToggleCommentMap
 
+" highlight
+nnoremap <leader>h :set hlsearch! hlsearch?<cr>
+
 "" aethetics
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+" let g:airline#extensions#tabline#buffer_idx_mode = 1
+
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_section_y = 0
 let g:airline_section_z = airline#section#create(['%5l/%L:%3v'])
