@@ -109,6 +109,7 @@ export PATH="/home/stephen/anaconda3/bin/:$PATH"
 export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
 export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
 export PATH="/home/stephen/bin/pymol/:$PATH"
+export PATH="/home/stephen/bin/matlab/bin:$PATH"
 
 #  https://medium.com/@_ahmed_ab/crazy-super-fast-fuzzy-search-9d44c29e14f
 fd() { 
