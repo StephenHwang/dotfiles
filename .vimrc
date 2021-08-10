@@ -159,6 +159,18 @@ vnoremap y "+y
 noremap <silent>`` `m
 noremap <silent>gb `nv`m
 
+" marks for last visited server and ui R files
+augroup VIMRC
+    autocmd!
+    autocmd BufLeave *.py         normal! mP
+    autocmd BufLeave *.R          normal! mR
+    autocmd BufLeave *.wiki       normal! mW
+
+    autocmd BufLeave server*.R    normal! mS
+    autocmd BufLeave ui*.R        normal! mU
+augroup END
+
+
 " code folding
 set foldlevel=99
 set foldopen-=block
