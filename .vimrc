@@ -30,6 +30,7 @@ Plugin 'jpalardy/vim-slime.git'
 
 " Aesthetics
 Plugin 'morhetz/gruvbox'
+Plugin 'lifepillar/vim-gruvbox8'
 Plugin 'vim-airline/vim-airline'          " airline status bar
 Plugin 'edkolev/tmuxline.vim'             " tmux status bar
 
@@ -63,6 +64,7 @@ set helpheight=35
 set autoindent
 set smartindent
 set matchpairs+=<:>
+set autoread                " update file on disk change
 set mouse=n                 " mouse in normal mode
 let g:indentLine_char = '▏' "indentation guide
 
@@ -138,6 +140,7 @@ nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
 
+
 " Vim surround: s instead of ys or S
 nmap s <Plug>Ysurround
 xmap s <Plug>VSurround
@@ -154,6 +157,11 @@ noremap x "_x<silent>
 nnoremap Y "+y$
 nnoremap yy "+yy
 vnoremap y "+y
+
+" remaps
+" move visual selection up and down a line
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
 
 " marks: gb to go between m and n marks
 noremap <silent>`` `m
@@ -418,5 +426,8 @@ let g:airline_section_error = 0
 let g:airline_section_warning = 0
 
 " colorscheme
+" simplified gruvbox
+" set background=dark
+" colorscheme gruvbox8
 let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
