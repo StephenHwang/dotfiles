@@ -15,7 +15,7 @@ Plugin 'tpope/vim-repeat'           " dot command for vim surround
 Plugin 'Yggdroot/indentLine'        " display vertical indentation level
 Plugin 'romainl/vim-qf'             " quickfix assist
 
-" Programming (commit for simple autocomplete: 4bbf5449c5340117644e75bb7bf635b1d08c5bfc)
+" Programming
 " Plugin  'vim-scripts/AutoComplPop'  " autocomplete always open
 Plugin 'sheerun/vim-polyglot'       " syntax recognition
 Plugin 'dense-analysis/ale'         " linter
@@ -139,7 +139,6 @@ nnoremap <BS> X
 nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
-
 
 " Vim surround: s instead of ys or S
 nmap s <Plug>Ysurround
