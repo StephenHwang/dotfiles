@@ -157,6 +157,9 @@ nnoremap Y "+y$
 nnoremap yy "+yy
 vnoremap y "+y
 
+" prevent paste from overwriting original copy
+xnoremap p pgvy
+
 " remaps
 " move visual selection up and down a line
 vnoremap J :m '>+1<CR>gv=gv
@@ -176,6 +179,19 @@ augroup VIMRC
     autocmd BufLeave server*.R    normal! mS
     autocmd BufLeave ui*.R        normal! mU
 augroup END
+
+" Update a buffer's contents on focus if it changed outside of Vim.
+au FocusGained,BufEnter * :checktime
+
+" navigate buffers
+nnoremap <leader>k :bn<cr>
+nnoremap <leader>j :bp<cr>
+nnoremap <leader>l <C-^>
+nnoremap <leader>e :bdel<cr>
+execute "set <M-y>=\ey"
+execute "set <M-u>=\eu"
+nnoremap <M-u> :bn<cr>
+nnoremap <M-y> :bp<cr>
 
 
 " code folding
@@ -412,6 +428,12 @@ vmap <leader>f <Plug>ToggleCommentMap
 
 " highlight
 nnoremap <leader>h :set hlsearch! hlsearch?<cr>
+
+" Disable netrw.
+let g:loaded_netrw  = 1
+let g:loaded_netrwPlugin = 1
+let g:loaded_netrwSettings = 1
+let g:loaded_netrwFileHandlers = 1
 
 "" aethetics
 let g:airline#extensions#tabline#enabled = 1
