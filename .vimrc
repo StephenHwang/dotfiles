@@ -38,11 +38,15 @@ call vundle#end()
 filetype plugin indent on 
 syntax on
 
-" Save cursor position on enter file and switch buffer
+
 if has("autocmd")
+  " Save cursor position on enter file and switch buffer
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
-  au BufEnter  * :normal `"
+
+  " Update a buffer's contents on focus if it changed outside of Vim.
+  au FocusGained,BufEnter * :checktime
 endif
+
 
 " Basic vim options
 set encoding=utf-8
@@ -63,6 +67,7 @@ set expandtab               " expands tabs into spaces
 set helpheight=35
 set autoindent
 set smartindent
+set nostartofline
 set matchpairs+=<:>
 set autoread                " update file on disk change
 set mouse=n                 " mouse in normal mode
@@ -102,6 +107,7 @@ nnoremap <M-y> :bp<cr>
 nnoremap <silent> <C-k> :wincmd k<CR>
 nnoremap <silent> <C-j> :wincmd j<CR>
 nnoremap <silent> <C-l> :wincmd w<CR>
+nnoremap <silent> <leader>o :wincmd w<CR>
 
 " repeat command in visual mode and with count
 vnoremap <silent>. :norm.<cr>
@@ -110,6 +116,15 @@ nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<cr>
 " ciw '.' repeat with gc force change word under cursor
 nnoremap ciw *``cgn
 nnoremap gc *``cgn<C-r>.<ESC>
+
+" prevent paste from overwriting original copy
+xnoremap p pgvy
+
+" start of line on gg and G
+nnoremap gg gg0
+nnoremap G G0
+vnoremap gg gg0
+vnoremap G G0
 
 " Jump to first non-blank, non-bullet character
 function! JumpStart()
@@ -157,9 +172,6 @@ nnoremap Y "+y$
 nnoremap yy "+yy
 vnoremap y "+y
 
-" prevent paste from overwriting original copy
-xnoremap p pgvy
-
 " remaps
 " move visual selection up and down a line
 vnoremap J :m '>+1<CR>gv=gv
@@ -170,7 +182,7 @@ noremap <silent>`` `m
 noremap <silent>gb `nv`m
 
 " marks for last visited server and ui R files
-augroup VIMRC
+augroup setmarks
     autocmd!
     autocmd BufLeave *.py         normal! mP
     autocmd BufLeave *.R          normal! mR
@@ -180,8 +192,6 @@ augroup VIMRC
     autocmd BufLeave ui*.R        normal! mU
 augroup END
 
-" Update a buffer's contents on focus if it changed outside of Vim.
-au FocusGained,BufEnter * :checktime
 
 " navigate buffers
 nnoremap <leader>k :bn<cr>
@@ -197,7 +207,7 @@ nnoremap <M-y> :bp<cr>
 " code folding
 set foldlevel=99
 set foldopen-=block
-augroup vimrc
+augroup folding
   au BufReadPre * setlocal foldmethod=indent
   au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
 augroup END
@@ -438,7 +448,6 @@ let g:loaded_netrwFileHandlers = 1
 "" aethetics
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
-" let g:airline#extensions#tabline#buffer_idx_mode = 1
 
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_section_y = 0
