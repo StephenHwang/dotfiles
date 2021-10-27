@@ -97,6 +97,14 @@ source /usr/share/bash-completion/bash_completion
 # conda initialize
 source /home/stephen/anaconda3/etc/profile.d/conda.sh
 
+# fzf conda activate
+act() {
+  local envs
+  envs=$(ls /home/stephen/anaconda3/envs 2> /dev/null | fzf +m) &&
+  conda activate "$envs"
+  }
+
+
 # tmux and git autocompletion
 source /home/stephen/bin/tmux-completion/tmux
 source /home/stephen/bin/git-completion.bash
@@ -218,3 +226,5 @@ export FZF_COMPLETION_TRIGGER='--'
 source /usr/share/doc/fzf/examples/key-bindings.bash
 source /usr/share/doc/fzf/examples/completion.bash
 
+# fzf a saved commands file
+bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"'
