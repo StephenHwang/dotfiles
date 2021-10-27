@@ -71,7 +71,6 @@ alias ctime='date'
 
 alias tmux='tmux -2'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
-alias ipython='ipython --no-autoindent'
 alias rstudio='nohup rstudio > ~/.nohup_rstudio.out 2>&1 && rm ~/.nohup_rstudio.out &'
 
 alias popen='mimeopen' # 'mimeopen -a'
@@ -80,12 +79,14 @@ alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
 alias cursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
 alias pycharm='pycharm-community'
 alias lab='jupyter-lab'
+alias ipython='ipython --no-autoindent'
+alias ipy='ipython --no-autoindent'
+alias zotero='zotero &'
 
 # software
 alias ApE='wine /home/stephen/bin/ApE/ApE_win_current.exe'
 alias OpenMarkov='java -jar ~/bin/OpenMarkov-0.3.4.jar'
 
-alias sshc='ssh sjhwang@courtyard.gi.ucsc.edu' # alias for ssh
 alias sshcport='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
 alias ports='netstat -ntlp | grep LISTEN'
 alias portc='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
@@ -118,6 +119,7 @@ export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
 export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
 export PATH="/home/stephen/bin/pymol/:$PATH"
 export PATH="/home/stephen/bin/matlab/bin:$PATH"
+export PATH="/home/stephen/bin/syncthing-linux-amd64-v1.18.2:$PATH"
 
 #  https://medium.com/@_ahmed_ab/crazy-super-fast-fuzzy-search-9d44c29e14f
 fd() { 
