@@ -1,11 +1,3 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-
-# If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
-
 # History settings
 shopt -s histappend
 HISTCONTROL=ignoreboth
@@ -13,23 +5,21 @@ HISTSIZE=1000
 HISTFILESIZE=2000
 HISTTIMEFORMAT="%l:%M:%S %p ▏ "
 
-# check the window size after each command and, if necessary,
-# update the values of LINES and COLUMNS.
 shopt -s checkwinsize
-
-# pattern "**" used in a pathname expansion matches all files and directories
 shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Non-git tracking bash:
-# export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 parse_git_branch() {
-  # git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
   OUTPUT=$(git status 2> /dev/null | grep 'Changes not staged for commit' >/dev/null && echo \*)
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1'"$OUTPUT"')/'
 }
+
+# original
+#export PS1='\[\033[32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]$(parse_git_branch)\[\033[00m\]$ '
+# local
 export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]$(parse_git_branch)\[\033[00m\]$ '
 
 # enable color support of ls and also add handy aliases
@@ -47,84 +37,61 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # vim as Manual page
 export MANPAGER="vim -M +MANPAGER -"
 
-# ibus
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODUlE=ibus
-
-# auto-start a tmux session on terminal open
-if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-    tmux attach -t default || tmux new -s default
-fi
-
-# some more ls aliases
+#####################################################################################
 alias ll='ls -alF --group-directories-first'
 alias la='ls -A --group-directories-first'
 alias l='ls -CF --group-directories-first'
 alias lsmb='ls -l --block-size=M'
 alias lsgb='ls -l --block-size=G'
 
-# alias c='clear'
+alias pip='pip3'
+alias python='python3'
 alias e='exit'
 alias h='history'
-alias ctime='date'
-
 alias tmux='tmux -2'
-alias pwdc='pwd | xclip -selection clipboard && pwd'
-alias rstudio='nohup rstudio > ~/.nohup_rstudio.out 2>&1 && rm ~/.nohup_rstudio.out &'
-
-alias popen='mimeopen' # 'mimeopen -a'
-alias pip='pip3'
-alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
-alias cursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
-alias pycharm='pycharm-community'
+alias brain='cd /public/groups/hausslerlab/people/sjhwang && conda activate scRNA'
+alias vg_='cd /public/groups/vg/sjhwang'
 alias lab='jupyter-lab'
 alias ipython='ipython --no-autoindent'
 alias ipy='ipython --no-autoindent'
-alias zotero='zotero &'
 
-# software
-alias ApE='wine /home/stephen/bin/ApE/ApE_win_current.exe'
-alias OpenMarkov='java -jar ~/bin/OpenMarkov-0.3.4.jar'
+#####################################################################################
 
-alias sshcport='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
-alias ports='netstat -ntlp | grep LISTEN'
-alias portc='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
-alias portk='kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/public/home/sjhwang/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/public/home/sjhwang/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/public/home/sjhwang/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/public/home/sjhwang/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
-# bash completion
-source /usr/share/bash-completion/bash_completion
+# fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
+export FZF_DEFAULT_COMMAND='find "$PWD" -name ".*" -prune -o -print'
+export FZF_COMPLETION_TRIGGER='--'
 
-# conda initialize
-source /home/stephen/anaconda3/etc/profile.d/conda.sh
+# fzf a saved commands file
+bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"'
 
 # fzf conda activate
 act() {
   local envs
-  envs=$(ls /home/stephen/anaconda3/envs 2> /dev/null | fzf +m) &&
+  envs=$(ls ~/miniconda3/envs 2> /dev/null | fzf +m) &&
   conda activate "$envs"
   }
 
-
-# tmux and git autocompletion
-source /home/stephen/bin/tmux-completion/tmux
-source /home/stephen/bin/git-completion.bash
-
-# paths
-PATH=$PATH:~/bin
-export PATH="home/stephen/.local/bin:$PATH"
-export PATH="home/stephen/.local/bin/IGV_Linux_2.8.6/:$PATH"
-export PATH="/home/stephen/anaconda3/bin/:$PATH"
-export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
-export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
-export PATH="/home/stephen/bin/pymol/:$PATH"
-export PATH="/home/stephen/bin/matlab/bin:$PATH"
-export PATH="/home/stephen/bin/syncthing-linux-amd64-v1.18.2:$PATH"
-
 #  https://medium.com/@_ahmed_ab/crazy-super-fast-fuzzy-search-9d44c29e14f
-fd() { 
-  local dir 
-  dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d  -print 2> /dev/null | fzf +m) && 
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d  -print 2> /dev/null | fzf +m) &&
   cd "$dir"
   }
 
@@ -185,7 +152,7 @@ cd_func()
        dir="$OLDPWD"
     fi
     if [[ "$1" == "---" ]] ; then  # special case: cd --- for fzf directory search
-	    fd 
+	    fd
       return $?
     fi
     if [[ "$1" ==  "--" ]]; then  # special case: cd -- (list dirs)
@@ -218,15 +185,29 @@ cd_func()
 }
 alias cd=cd_func
 
-# fzf and ripgrep (rg)
-# export FZF_DEFAULT_COMMAND='find * -type f' # if no rg or ag
-# https://github.com/junegunn/fzf#usage
-#     ignored rg files in .rgignore
-alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
-export FZF_DEFAULT_COMMAND='rg --files --smart-case --follow --no-hidden'
-export FZF_COMPLETION_TRIGGER='--'
-source /usr/share/doc/fzf/examples/key-bindings.bash
-source /usr/share/doc/fzf/examples/completion.bash
+conda deactivate
 
-# fzf a saved commands file
-bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"'
+# paths
+export VIMRUNTIME=/public/home/sjhwang/.local/usr/share/vim/vim82
+export PATH="/public/home/sjhwang/.local/bin:$PATH"
+export PATH="/public/home/sjhwang/cmake-3.17.2-Linux-x86_64/bin/:$PATH"
+export PATH="/public/home/sjhwang/R/server/usr/lib/rstudio-server/bin:$PATH"
+export PATH="/public/home/sjhwang/bin/vim/src/:$PATH"
+
+# paths to build VG
+export PATH=/public/home/sjhwang/.local/bin:/public/home/anovak/.local/bin:$PATH
+export LD_LIBRARY_PATH=/public/home/sjhwang/.local/lib:/public/home/anovak/.local/lib64/:/public/home/anovak/.local/lib/:$LD_LIBRARY_PATH
+export LD_RUN_PATH=/public/home/sjhwang/.local/lib:/public/home/anovak/.local/lib64/:/public/home/anovak/.local/lib/:$LD_RUN_PATH
+export LIBRARY_PATH=/public/home/sjhwang/.local/lib:/public/home/anovak/.local/lib64/:/public/home/anovak/.local/lib/:$LIBRARY_PATH
+export PKG_CONFIG_PATH=/public/home/anovak/.local/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib64/pkgconfig:$PKG_CONFIG_PATH
+export C_INCLUDE_PATH=/public/home/sjhwang/.local/include:/public/home/anovak/.local/include
+export CPLUS_INCLUDE_PATH=/public/home/sjhwang/.local/include:/public/home/anovak/.local/include
+export CPATH=$CPATH:/public/home/sjhwang/.local/install/miniconda/include/python2.7
+
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/lib64:/usr/lib/x86_64-redhat-linux6E/lib64
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64:/usr/lib/x86_64-redhat-linux6E/lib64
+export LD_RUN_PATH=$LD_RUN_PATH:/usr/lib64:/usr/lib/x86_64-redhat-linux6E/lib64
+
+export GVBINDIR=/usr/lib64/graphviz/
+
+clear
