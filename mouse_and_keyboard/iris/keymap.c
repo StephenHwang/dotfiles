@@ -1,5 +1,8 @@
 #include QMK_KEYBOARD_H
 
+// Iris keymap
+// xev to check keypresses
+
 #define _QWERTY 0
 #define _LOWER 1
 #define _RAISE 2
