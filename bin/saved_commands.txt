@@ -1,0 +1,36 @@
+# assorted
+sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
+find . -exec touch {} \; && echo done                              # renew all timestamp
+echo cp ; rsync -ah --progress source destination
+sudp dpkg --install
+tar -zxvf 
+
+# search
+ag -g 
+
+# tmux                                                                                 #
+tmux kill-server       : killall sessions
+tmux new-session -t default -s default2
+tmux attach-session -t default2
+tmux new -s default
+
+# monitor
+pcmanfm-qt --desktop-off
+arandr
+wide_monitor.sh
+dual_monitor.sh
+single_monitor.sh
+
+# ssh                                                                                  #
+sshcport # ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu
+ports    # 'netstat -ntlp | grep LISTEN'
+portc    # 'ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
+portk    # 'kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
+ssh sjhwang@hb.ucsc.edu                                                                #
+ssh shwang@bioinformatics.tenaya.local
+ssh sjhwang@courtyard.gi.ucsc.edu
+
+# conda commands                                                                       #
+conda create --name myenv
+conda remove --name myenv --all
+act  # conda activate
