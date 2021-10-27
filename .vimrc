@@ -30,7 +30,7 @@ Plugin 'jpalardy/vim-slime.git'
 
 " Aesthetics
 Plugin 'morhetz/gruvbox'
-Plugin 'lifepillar/vim-gruvbox8'
+Plugin 'lifepillar/vim-gruvbox8'          " lightweight gruvbox
 Plugin 'vim-airline/vim-airline'          " airline status bar
 Plugin 'edkolev/tmuxline.vim'             " tmux status bar
 
@@ -151,6 +151,7 @@ map Q gq
 nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
 nnoremap <silent>gs xph
 nnoremap <BS> X
+" may have to add a line for working in inoremap
 nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
@@ -268,11 +269,12 @@ endfunction
 
 
 "" Python and R  mappings
-autocmd FileType python,r,vimwiki,cpp autocmd BufWritePre <buffer> :call TrimWhitespace()
+autocmd FileType python,r,vimwiki autocmd BufWritePre <buffer> :call TrimWhitespace()
 autocmd FileType python,r inoremap <buffer> { {}<Left>
 autocmd FileType python,r inoremap <buffer> [ []<Left>
 autocmd FileType python,r inoremap <buffer> ' ''<Left>
 autocmd FileType r iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
+
 
 "" Python mappings
 au BufNewFile,BufRead *.py
@@ -456,8 +458,7 @@ let g:airline_section_error = 0
 let g:airline_section_warning = 0
 
 " colorscheme
-" simplified gruvbox
 " set background=dark
-" colorscheme gruvbox8
+" colorscheme gruvbox8 " simplified gruvbox
 let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
