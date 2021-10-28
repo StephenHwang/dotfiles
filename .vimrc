@@ -64,6 +64,7 @@ set nostartofline
 set matchpairs+=<:>
 set autoread                " update file on disk change
 set mouse=n                 " mouse in normal mode
+set backspace=indent,eol,start
 let g:indentLine_char = '▏' "indentation guide
 
 "" Search and highlight settings
@@ -107,8 +108,10 @@ vnoremap G G0
 map Q gq
 nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
 nnoremap <silent>gs xph
-nnoremap <BS> X
+
 inoremap <BS> X
+nnoremap <BS> X
+
 nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
@@ -126,7 +129,6 @@ set directory=~/.vim/swap/
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
 noremap x "_x<silent>
-nnoremap <BS> X
 nnoremap Y y$
 nnoremap yy "+yy
 vnoremap y "+y
@@ -283,10 +285,10 @@ nnoremap <C-f>g :BCommits<cr>
 nnoremap <C-f>G :GFiles?<cr>
 
 "" autocomplete
-au FileType * execute 'setlocal dict+=~/.vim/words/'.&filetype.'.txt'
-" inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Down>" or "j"
 set completeopt=menuone,longest
 set shortmess+=c
+au FileType * execute 'setlocal dict+=~/.vim/words/'.&filetype.'.txt'
+inoremap <expr> <Tab> pumvisible() ? '<C-n>' : '<Down>'
 
 "" Toggle comment
 let s:comment_map = {
