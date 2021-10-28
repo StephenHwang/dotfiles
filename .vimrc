@@ -288,7 +288,7 @@ nnoremap <C-f>G :GFiles?<cr>
 set completeopt=menuone,longest
 set shortmess+=c
 au FileType * execute 'setlocal dict+=~/.vim/words/'.&filetype.'.txt'
-inoremap <expr> <Tab> pumvisible() ? '<C-n>' : '<Down>'
+inoremap <expr> <Tab> pumvisible() ? '<C-n>' : '<Tab>'
 
 "" Toggle comment
 let s:comment_map = {
