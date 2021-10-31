@@ -12,7 +12,6 @@ shopt -s globstar
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Simple
-# export PS1='\[\033[01;32m\]\u@\[\033[00;31m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$ '
 parse_git_branch_and_changes() {
   OUTPUT=$(git status 2> /dev/null | grep 'Changes not staged for commit' >/dev/null && echo \*)
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1'"$OUTPUT"')/'
@@ -20,7 +19,19 @@ parse_git_branch_and_changes() {
 parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
-export PS1='\[\033[01;32m\]\u@\[\033[00;31m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]$(parse_git_branch)\[\033[00m\]$ '
+which_git_parse() {
+  num_tracked_files=$(git ls-files 2> /dev/null | wc -l)
+  max_track_files=25
+
+  if [ "$num_tracked_files" -gt "$max_track_files" ]; then
+    (parse_git_branch)
+  else
+    # echo less_than
+    (parse_git_branch_and_changes)
+  fi
+}
+# export PS1='\[\033[01;32m\]\u@\[\033[00;31m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$ '  # simple (non-git track)
+export PS1='\[\033[01;32m\]\u@\[\033[00;31m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]$(which_git_parse)\[\033[00m\]$ '
 
 # Non-git tracking bash:
 # enable color support of ls and also add handy aliases
@@ -39,7 +50,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 export MANPAGER="vim -M +MANPAGER -"
 
 #####################################################################################
-alias ll='ls -alF --group-directories-first'
+alias ll='ls -alF --time-style=+%Y-%m-%d --group-directories-first'
 alias la='ls -A --group-directories-first'
 alias l='ls -CF --group-directories-first'
 alias lsmb='ls -l --block-size=M'
@@ -194,6 +205,7 @@ export PATH="/public/home/sjhwang/.local/bin:$PATH"
 export PATH="/public/home/sjhwang/cmake-3.17.2-Linux-x86_64/bin/:$PATH"
 export PATH="/public/home/sjhwang/R/server/usr/lib/rstudio-server/bin:$PATH"
 export PATH="/public/home/sjhwang/bin/vim/src/:$PATH"
+export PATH="/public/groups/vg/sjhwang/my_vg/bin:$PATH"
 
 # paths to build VG
 export PATH=/public/home/sjhwang/.local/bin:/public/home/anovak/.local/bin:$PATH
