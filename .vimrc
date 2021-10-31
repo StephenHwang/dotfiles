@@ -217,7 +217,7 @@ endfunction
 
 
 "" Python and R  mappings
-autocmd FileType python,r,cpp autocmd BufWritePre <buffer> :call TrimWhitespace()
+autocmd FileType python,r,sh,cpp autocmd BufWritePre <buffer> :call TrimWhitespace()
 autocmd FileType python,r inoremap <buffer> { {}<Left>
 autocmd FileType python,r inoremap <buffer> [ []<Left>
 autocmd FileType python,r inoremap <buffer> ' ''<Left>
