@@ -1,9 +1,22 @@
 # assorted
 sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
 find . -exec touch {} \; && echo done                              # renew all timestamp
-echo cp ; rsync -ah --progress source destination
+echo cp ; rsync -ah --progress src dest
 sudp dpkg --install
 tar -zxvf 
+cmp --silent $old $new || echo "files are different"
+
+# git
+git config --get remote.origin.url
+
+# make branches
+git checkout -b <branch>
+git push -u origin <branch>
+
+# merge branch (merge 
+git checkout master
+git merge branch_to_merge_into_master
+
 
 # search
 ag -g 
