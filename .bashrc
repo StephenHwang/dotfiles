@@ -12,6 +12,7 @@ HISTCONTROL=ignoreboth
 HISTSIZE=1000
 HISTFILESIZE=2000
 HISTTIMEFORMAT="%l:%M:%S %p ▏ "
+HISTTIMEFORMAT="%m/%d/%y  %l:%M:%S %p ▏ "
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -57,46 +58,61 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     tmux attach -t default || tmux new -s default
 fi
 
-# some more ls aliases
-alias ll='ls -alF --group-directories-first'
+
+################################################################################
+####                              aliases                                   ####
+alias ll='ls -alF --time-style=+%m-%d-%Y --group-directories-first'
 alias la='ls -A --group-directories-first'
 alias l='ls -CF --group-directories-first'
 alias lsmb='ls -l --block-size=M'
 alias lsgb='ls -l --block-size=G'
 
-# alias c='clear'
 alias e='exit'
 alias h='history'
 alias ctime='date'
-
-alias tmux='tmux -2'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
-alias rstudio='nohup rstudio > ~/.nohup_rstudio.out 2>&1 && rm ~/.nohup_rstudio.out &'
 
-alias popen='mimeopen' # 'mimeopen -a'
+# basic software
+alias tmux='tmux -2'
+alias lab='jupyter-lab'
 alias pip='pip3'
+alias ipython='ipython --no-autoindent'
+alias ipy='ipython --no-autoindent'
+alias bc='bc ~/dotfiles/apps/.bcrc -l'
+
+# assorted software
+alias popen='mimeopen' # 'mimeopen -a'
 alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
 alias cursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
 alias pycharm='pycharm-community'
-alias lab='jupyter-lab'
-alias ipython='ipython --no-autoindent'
-alias ipy='ipython --no-autoindent'
+alias rstudio='nohup rstudio > ~/.nohup_rstudio.out 2>&1 && rm ~/.nohup_rstudio.out &'
 alias zotero='zotero &'
-
-# software
 alias ApE='wine /home/stephen/bin/ApE/ApE_win_current.exe'
 alias OpenMarkov='java -jar ~/bin/OpenMarkov-0.3.4.jar'
 
+# Ports
 alias sshcport='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
 alias ports='netstat -ntlp | grep LISTEN'
 alias portc='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
 alias portk='kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
 
-# bash completion
-source /usr/share/bash-completion/bash_completion
+# source
+source /usr/share/bash-completion/bash_completion # bash completion
+source /home/stephen/anaconda3/etc/profile.d/conda.sh # conda initialize
+source /home/stephen/bin/tmux-completion/tmux       # tmux autocompletion
+source /home/stephen/bin/git-completion.bash        # git autocompletion
 
-# conda initialize
-source /home/stephen/anaconda3/etc/profile.d/conda.sh
+# fzf and ripgrep (rg)
+# https://github.com/junegunn/fzf#usage
+#     ignored rg files in .rgignore
+alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
+export FZF_DEFAULT_COMMAND='rg --files --smart-case --follow --no-hidden'
+export FZF_COMPLETION_TRIGGER='--'
+source /usr/share/doc/fzf/examples/key-bindings.bash
+source /usr/share/doc/fzf/examples/completion.bash
+
+# fzf a saved commands file
+bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"'
 
 # fzf conda activate
 act() {
@@ -105,26 +121,10 @@ act() {
   conda activate "$envs"
   }
 
-
-# tmux and git autocompletion
-source /home/stephen/bin/tmux-completion/tmux
-source /home/stephen/bin/git-completion.bash
-
-# paths
-PATH=$PATH:~/bin
-export PATH="home/stephen/.local/bin:$PATH"
-export PATH="home/stephen/.local/bin/IGV_Linux_2.8.6/:$PATH"
-export PATH="/home/stephen/anaconda3/bin/:$PATH"
-export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
-export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
-export PATH="/home/stephen/bin/pymol/:$PATH"
-export PATH="/home/stephen/bin/matlab/bin:$PATH"
-export PATH="/home/stephen/bin/syncthing-linux-amd64-v1.18.2:$PATH"
-
 #  https://medium.com/@_ahmed_ab/crazy-super-fast-fuzzy-search-9d44c29e14f
-fd() { 
-  local dir 
-  dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d  -print 2> /dev/null | fzf +m) && 
+fd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d  -print 2> /dev/null | fzf +m) &&
   cd "$dir"
   }
 
@@ -185,7 +185,7 @@ cd_func()
        dir="$OLDPWD"
     fi
     if [[ "$1" == "---" ]] ; then  # special case: cd --- for fzf directory search
-	    fd 
+	    fd
       return $?
     fi
     if [[ "$1" ==  "--" ]]; then  # special case: cd -- (list dirs)
@@ -218,15 +218,13 @@ cd_func()
 }
 alias cd=cd_func
 
-# fzf and ripgrep (rg)
-# export FZF_DEFAULT_COMMAND='find * -type f' # if no rg or ag
-# https://github.com/junegunn/fzf#usage
-#     ignored rg files in .rgignore
-alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
-export FZF_DEFAULT_COMMAND='rg --files --smart-case --follow --no-hidden'
-export FZF_COMPLETION_TRIGGER='--'
-source /usr/share/doc/fzf/examples/key-bindings.bash
-source /usr/share/doc/fzf/examples/completion.bash
-
-# fzf a saved commands file
-bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"'
+# paths
+PATH=$PATH:~/bin
+export PATH="home/stephen/.local/bin:$PATH"
+export PATH="home/stephen/.local/bin/IGV_Linux_2.8.6/:$PATH"
+export PATH="/home/stephen/anaconda3/bin/:$PATH"
+export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
+export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
+export PATH="/home/stephen/bin/pymol/:$PATH"
+export PATH="/home/stephen/bin/matlab/bin:$PATH"
+export PATH="/home/stephen/bin/syncthing-linux-amd64-v1.18.2:$PATH"
