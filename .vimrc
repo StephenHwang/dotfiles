@@ -267,14 +267,12 @@ function! AddQuickFixPartialMatch(...)
   endif
 endfunction
 
-
-"" Python and R  mappings
-autocmd FileType python,r,vimwiki autocmd BufWritePre <buffer> :call TrimWhitespace()
-autocmd FileType python,r inoremap <buffer> { {}<Left>
-autocmd FileType python,r inoremap <buffer> [ []<Left>
-autocmd FileType python,r inoremap <buffer> ' ''<Left>
-autocmd FileType r iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
-
+" Remember folds
+augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave python,r mkview
+  autocmd BufWinEnter python,r silent! loadview
+augroup END
 
 "" Python mappings
 au BufNewFile,BufRead *.py
@@ -288,6 +286,14 @@ autocmd FileType python iabbr <buffer><silent> pdb import ipdb; ipdb.set_trace()
 autocmd FileType r iabbr <buffer><silent> brow browser()  # TODO:<c-r>=Eatchar('\m\s\<bar>/')<cr>
 autocmd FileType python iabbr <buffer> pri print
 autocmd FileType python command! PY execute '!python %'
+
+"" Python and R  mappings
+autocmd FileType python,r,sh,vimwiki autocmd BufWritePre <buffer> :call TrimWhitespace()
+autocmd FileType python,r inoremap <buffer> { {}<Left>
+autocmd FileType python,r inoremap <buffer> [ []<Left>
+autocmd FileType python,r inoremap <buffer> ' ''<Left>
+autocmd FileType r iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
+
 
 " youCompleteMe settings
 let g:ycm_filetype_blacklist = {
