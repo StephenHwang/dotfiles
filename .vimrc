@@ -1,4 +1,4 @@
-set nocompatible 
+set nocompatible
 filetype off
 
 " vundle package manager: https://github.com/VundleVim/Vundle.vim
@@ -26,7 +26,7 @@ Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'vimwiki/vimwiki', {'branch': 'dev'}
-Plugin 'jpalardy/vim-slime.git' 
+Plugin 'jpalardy/vim-slime.git'
 
 " Aesthetics
 Plugin 'morhetz/gruvbox'
@@ -35,7 +35,7 @@ Plugin 'vim-airline/vim-airline'          " airline status bar
 Plugin 'edkolev/tmuxline.vim'             " tmux status bar
 
 call vundle#end()
-filetype plugin indent on 
+filetype plugin indent on
 syntax on
 
 
@@ -58,7 +58,7 @@ set hidden                  " switch buffers without having to save
 set laststatus=2            " powerline status line positioning
 set scrolloff=10            " visual scroll gap below the cursor
 set cursorline
-set number 
+set number
 set colorcolumn=80          " set line at 80 char
 set tabstop=2               " width of tab is set to 2
 set softtabstop=2           " number of columns for a tab
@@ -79,7 +79,7 @@ set smartcase            " if uppercase in search, consider only uppercase
 set incsearch            " move cursor to the matched string while searching
 set hlsearch             " highlight search
 
-" must mkdir the directories 
+" must mkdir the directories
 set undofile                " persistent undo
 set undodir=~/.vim/undodir/
 set backupdir=~/.vim/backup/
@@ -90,7 +90,7 @@ let mapleader="\<space>"
 inoremap jk <Esc>
 nnoremap <leader>q :q<cr>
 nnoremap <leader>w :w<cr>
-nnoremap <leader>r :source ~/.vimrc<cr> 
+nnoremap <leader>r :source ~/.vimrc<cr>
 nnoremap <space> <nop>
 
 " navigate buffers
@@ -155,6 +155,7 @@ nnoremap <BS> X
 nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
+command! TW call TrimWhitespace()
 
 " Vim surround: s instead of ys or S
 nmap s <Plug>Ysurround
@@ -251,7 +252,7 @@ function! AddQuickFixExact(...)
   endif
 endfunction
 
-" Add partial matches 
+" Add partial matches
 command! -nargs=? CFF call AddQuickFixPartialMatch(<f-args>)
 function! AddQuickFixPartialMatch(...)
   let arg1 = get(a:, 0, 0)
@@ -288,7 +289,7 @@ autocmd FileType python iabbr <buffer> pri print
 autocmd FileType python command! PY execute '!python %'
 
 "" Python and R  mappings
-autocmd FileType python,r,sh,vimwiki autocmd BufWritePre <buffer> :call TrimWhitespace()
+autocmd FileType python,r,sh,vimwiki,text autocmd BufWritePre <buffer> :call TrimWhitespace()
 autocmd FileType python,r inoremap <buffer> { {}<Left>
 autocmd FileType python,r inoremap <buffer> [ []<Left>
 autocmd FileType python,r inoremap <buffer> ' ''<Left>
@@ -401,14 +402,14 @@ autocmd FileType python,r xmap <c-c> <Plug>SlimeRegionSend
 nnoremap <C-f>f :Files<cr>
 nnoremap <C-f>b :Buffer<cr>
 nnoremap <leader>b :Buffer<cr>
-nnoremap <C-f>a :Rg 
+nnoremap <C-f>a :Rg
 nnoremap <C-f>i :BLines<cr>
 nnoremap <C-f>h :History<cr>
 nnoremap <C-f>g :BCommits<cr>
 nnoremap <C-f>G :GFiles?<cr>
 
 "" Toggle comment
-let s:comment_map = { 
+let s:comment_map = {
     \   "c": '\/\/',
     \   "cpp": '\/\/',
     \   "python": '#',
@@ -423,10 +424,10 @@ let s:comment_map = {
 function! ToggleComment()
   if has_key(s:comment_map, &filetype)
     let comment_leader = s:comment_map[&filetype]
-    if getline('.') =~ "^\\s*" . comment_leader . " " 
+    if getline('.') =~ "^\\s*" . comment_leader . " "
       " Uncomment the line
       execute "silent s/^\\(\\s*\\)" . comment_leader . " /\\1/"
-    else 
+    else
       if getline('.') =~ "^\\s*" . comment_leader
         " Uncomment the line
         execute "silent s/^\\(\\s*\\)" . comment_leader . "/\\1/"
