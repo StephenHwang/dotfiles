@@ -3,8 +3,21 @@ sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
 find . -exec touch {} \; && echo done                              # renew all timestamp
 echo cp ; rsync -ah --progress src dest
 sudp dpkg --install
-tar -zxvf 
+tar -zxvf
 cmp --silent $old $new || echo "files are different"
+
+# keyboard
+xev
+xset mouse 3/2 0                      # mouse speed
+killall xbindkeys && xbindkeys        # mouse side scroll
+setxkbmap && xmodmap ~/.my_keyboard   # set keyboard modmaps
+
+# split pdf
+pdftk myoldfile.pdf cat 1-2 4-5 output mynewfile.pdf
+pdftk myoldfile.pdf burst
+# combine pdf
+pdfunite in1.pdf in2.pdf out.pdf
+
 
 # git
 git config --get remote.origin.url
@@ -13,23 +26,30 @@ git config --get remote.origin.url
 git checkout -b <branch>
 git push -u origin <branch>
 
-# merge branch (merge 
+# merge branch (merge
 git checkout master
 git merge branch_to_merge_into_master
 
 
-# search
-ag -g 
+# bluetooth
+systemctl restart bluetooth
+
+# search filenames
+rg --files --hidden -g filename       # search filenames from a pipe
+ag -g
+
 
 # tmux                                                                                 #
-tmux kill-server       : killall sessions
+tmux kill-server       # killall sessions
 tmux new-session -t default -s default2
 tmux attach-session -t default2
 tmux new -s default
+tmux attach -t default2
 
 # monitor
 pcmanfm-qt --desktop-off
 arandr
+autorandr                 # save (-s) and load (-l) profiles
 wide_monitor.sh
 dual_monitor.sh
 single_monitor.sh
