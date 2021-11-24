@@ -39,6 +39,15 @@ rg --files --hidden -g filename       # search filenames from a pipe
 ag -g
 
 
+# aws                                                                                 #
+aws s3 cp s3://vg-k8s/users/sjhwang/ .
+
+# kubernetes                                                                                        #
+kubectl get jobs -o custom-columns=:.metadata.name | grep '^sjhwang*'
+kubectl get jobs -o custom-columns=:.metadata.name | grep '^sjhwang*' | xargs kubectl delete jobs
+
+
+
 # tmux                                                                                 #
 tmux kill-server       # killall sessions
 tmux new-session -t default -s default2
@@ -54,16 +63,17 @@ wide_monitor.sh
 dual_monitor.sh
 single_monitor.sh
 
-# ssh                                                                                  #
+# ssh                                                                                    #
 sshcport # ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu
 ports    # 'netstat -ntlp | grep LISTEN'
 portc    # 'ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
 portk    # 'kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
-ssh sjhwang@hb.ucsc.edu                                                                #
+ssh sjhwang@hb.ucsc.edu                                                                  #
 ssh shwang@bioinformatics.tenaya.local
 ssh sjhwang@courtyard.gi.ucsc.edu
+mosh sjhwang@courtyard.gi.ucsc.edu
 
-# conda commands                                                                       #
+# conda commands                                                                         #
 conda create --name myenv
 conda remove --name myenv --all
 act  # conda activate
