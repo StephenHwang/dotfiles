@@ -41,11 +41,14 @@ ag -g
 
 # aws                                                                                 #
 aws s3 cp s3://vg-k8s/users/sjhwang/ .
+aws s3 ls s3://vg-k8s/users/sjhwang/
 
-# kubernetes                                                                                        #
-kubectl get jobs -o custom-columns=:.metadata.name | grep '^sjhwang*'
-kubectl get jobs -o custom-columns=:.metadata.name | grep '^sjhwang*' | xargs kubectl delete jobs
-
+# kubernetes                                                                                                  #
+kubectl get jobs -o custom-columns=:.metadata.name | grep '^sjhwang*' | xargs kubectl delete jobs   # kdel
+kubectl logs $(kubectl get pods | grep sjhwang | cut -d " " -f 1) 2>/dev/null | head # logs
+kubectl get jobs -o custom-columns=:.metadata.name | grep '^sjhwang*'   # jobs
+kubectl get pods | grep sjhwang | cut -d " " -f 1                       # pods_id
+kubectl get pods | grep sjhwang                                         # pods
 
 
 # tmux                                                                                 #
