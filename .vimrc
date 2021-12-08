@@ -119,6 +119,7 @@ nnoremap gc *``cgn<C-r>.<ESC>
 
 " prevent paste from overwriting original copy
 xnoremap p pgvy
+xnoremap P Pgvy
 
 " start of line on gg and G
 nnoremap gg gg0
@@ -145,6 +146,7 @@ function! JumpStart()
   end
 endfunction
 nnoremap _ :call JumpStart()<cr>
+vnoremap _ mq :call JumpStart()<cr>v`qo
 
 " assorted other shorcuts
 map Q gq
@@ -155,7 +157,6 @@ nnoremap <BS> X
 nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
-command! TW call TrimWhitespace()
 
 " Vim surround: s instead of ys or S
 nmap s <Plug>Ysurround
@@ -175,10 +176,6 @@ nnoremap yy "+yy
 vnoremap y "+y
 
 " remaps
-" move visual selection up and down a line
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
 " marks: gb to go between m and n marks
 noremap <silent>`` `m
 noremap <silent>gb `nv`m
@@ -224,9 +221,9 @@ vnoremap <silent> <leader>z zf
 
 "" Quickfix
 "    - toggle quickfix with leader c
-"    - <C-m/n> cycle quick fix
+"    - <C-n/m> cycle quick fix
 "    - move between qf using :colder :cnewer
-"    - search (:CF <word>) or word under cursor (<leader>n)
+"    - search (:CF[F] <word>) or word under cursor (<leader>n)
 "    - Reject/Keep to filter elements
 nnoremap <silent> <leader>c :copen<cr>
 autocmd FileType qf nnoremap <silent> <buffer> <leader>c :ccl<cr>
@@ -399,9 +396,10 @@ autocmd FileType python,r nnoremap <c-c> vip
 autocmd FileType python,r xmap <c-c> <Plug>SlimeRegionSend
 
 "" fuzzy find
+nnoremap <C-f> :Files<cr>
 nnoremap <C-f>f :Files<cr>
 nnoremap <C-f>b :Buffer<cr>
-nnoremap <leader>b :Buffer<cr>
+" nnoremap <leader>b :Buffer<cr>
 nnoremap <C-f>a :Rg
 nnoremap <C-f>i :BLines<cr>
 nnoremap <C-f>h :History<cr>

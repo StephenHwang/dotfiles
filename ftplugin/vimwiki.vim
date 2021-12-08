@@ -111,7 +111,7 @@ iabbr <buffer> rxn reaction
 iabbr <buffer> def definitely
 iabbr <buffer> prb probability
 iabbr <buffer> prob probably
-iabbr <buffer> dist distribution
+iabbr <buffer> distr distribution
 
 iabbr <buffer> pi π
 iabbr <buffer> theta θ
