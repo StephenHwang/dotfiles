@@ -174,22 +174,9 @@ nnoremap Y "+y$
 nnoremap yy "+yy
 vnoremap y "+y
 
-" remaps
 " marks: gb to go between m and n marks
 noremap <silent>`` `m
 noremap <silent>gb `nv`m
-
-" marks for last visited server and ui R files
-augroup setmarks
-    autocmd!
-    autocmd BufLeave *.py         normal! mP
-    autocmd BufLeave *.R          normal! mR
-    autocmd BufLeave *.wiki       normal! mW
-
-    autocmd BufLeave server*.R    normal! mS
-    autocmd BufLeave ui*.R        normal! mU
-augroup END
-
 
 " navigate buffers
 nnoremap <leader>k :bn<cr>
