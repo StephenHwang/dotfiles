@@ -153,7 +153,6 @@ map Q gq
 nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
 nnoremap <silent>gs xph
 nnoremap <BS> X
-" may have to add a line for working in inoremap
 nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
@@ -222,19 +221,21 @@ vnoremap <silent> <leader>z zf
 "" Quickfix
 "    - toggle quickfix with leader c
 "    - <C-n/m> cycle quick fix
-"    - move between qf using :colder :cnewer
+"    - <right/left> to move between qf
 "    - search (:CF[F] <word>) or word under cursor (<leader>n)
-"    - Reject/Keep to filter elements
-nnoremap <silent> <leader>c :copen<cr>
-autocmd FileType qf nnoremap <silent> <buffer> <leader>c :ccl<cr>
+"    - :Reject/:Keep to filter elements
+nmap <leader>c <Plug>(qf_qf_toggle)
 nmap <C-m> <Plug>(qf_qf_previous)
 nmap <C-n> <Plug>(qf_qf_next)
+autocmd FileType qf nmap <buffer> <Left>  <Plug>(qf_older)
+autocmd FileType qf nmap <buffer> <Right>  <Plug>(qf_newer)
 autocmd FileType qf nnoremap <silent> <buffer> dd :.Reject<cr>
 autocmd FileType qf vnoremap <silent> <buffer> d :'<,'>Reject<cr>
-
-" Search/add to quickfix
 nnoremap <silent> <leader>n :execute 'vimgrep ' . '/\<' . expand("<cword>") . '\>/ ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')<cr><bar>``
 command! -nargs=? CF call AddQuickFixExact(<f-args>)
+command! -nargs=? CFF call AddQuickFixPartialMatch(<f-args>)
+
+" Search/add to quickfix
 function! AddQuickFixExact(...)
   let arg1 = get(a:, 0, 0)
   if arg1
@@ -250,7 +251,6 @@ function! AddQuickFixExact(...)
 endfunction
 
 " Add partial matches
-command! -nargs=? CFF call AddQuickFixPartialMatch(<f-args>)
 function! AddQuickFixPartialMatch(...)
   let arg1 = get(a:, 0, 0)
   if arg1
@@ -264,6 +264,7 @@ function! AddQuickFixPartialMatch(...)
     wincmd k
   endif
 endfunction
+
 
 " Remember folds
 augroup remember_folds
