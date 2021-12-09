@@ -350,11 +350,21 @@ iabbr dtime <C-R>=DateStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
 iabbr ctime <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
 
 " split line
-nnoremap <leader>sl :<C-u>call BreakHere()<CR>
 function! BreakHere()
     s/^\(\s*\)\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\2\r\1\4\6
     call histdel("/", -1)
 endfunction
+nnoremap <leader>sl :<C-u>call BreakHere()<CR>
+nnoremap K :<C-u>call BreakHere()<CR>
+
+" split space
+function! SplitSpace()
+    s/,/\ /ge
+    s/\s\+/\r/g
+endfunction
+command! SS :call SplitSpace()
+command! ReplaceCommas s/,/\ /ge
+
 
 "" vimwiki settings
 "     see vimwiki ftplugin for more

@@ -68,11 +68,6 @@ nmap <leader>y <Plug>VWLinkMap
 nnoremap <buffer> <silent> <leader>Y :VimwikiPrevLink<cr>
 nnoremap gf :VimwikiFollowLink<cr>
 
-nnoremap K :<C-u>call BreakHere()<CR>
-function! BreakHere()
-    s/^\(\s*\)\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\2\r\1\4\6
-    call histdel("/", -1)
-endfunction
 
 " complete quotations
 inoremap <buffer> " ""<Left>
