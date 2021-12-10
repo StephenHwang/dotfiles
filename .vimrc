@@ -189,7 +189,7 @@ nnoremap <M-u> :bn<cr>
 nnoremap <M-y> :bp<cr>
 
 
-" code folding
+" Code folding
 set foldlevel=99
 set foldopen-=block
 augroup folding
@@ -197,13 +197,21 @@ augroup folding
   au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
 augroup END
 
-" function for repeat fold with dot command
+" Repeat fold with dot command
 function! ToggleFold()
   norm za
 endfunction
 map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>ToggleFoldMap", v:count)<cr><Down>
 nmap <leader>z <Plug>ToggleFoldMap
 vnoremap <silent> <leader>z zf
+
+" Save folds
+augroup AutoSaveGroup
+  autocmd!
+  autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre ?* nested silent! mkview!
+  autocmd BufWinEnter ?* silent! loadview
+augroup end
+
 
 "" Quickfix
 "    - toggle quickfix with leader c
@@ -252,13 +260,6 @@ function! AddQuickFixPartialMatch(...)
   endif
 endfunction
 
-
-" Remember folds
-augroup remember_folds
-  autocmd!
-  autocmd BufWinLeave python,r mkview
-  autocmd BufWinEnter python,r silent! loadview
-augroup END
 
 "" Python mappings
 au BufNewFile,BufRead *.py

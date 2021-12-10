@@ -5,11 +5,6 @@ setlocal foldenable
 setlocal foldmethod=expr
 setlocal foldexpr=Fold(v:lnum)
 
-
-" mkview
-" silent loadview
-
-
 " Fold function
 function! Fold(lnum)
   let fold_level = strlen(matchstr(getline(a:lnum), '^' . '=' . '\+'))
