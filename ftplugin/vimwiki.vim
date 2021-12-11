@@ -4,6 +4,7 @@ setlocal foldlevel=99
 setlocal foldenable
 setlocal foldmethod=expr
 setlocal foldexpr=Fold(v:lnum)
+autocmd BufWinEnter *.wiki if &fdm == 'expr' | setlocal foldmethod=manual | endif
 
 " Fold function
 function! Fold(lnum)

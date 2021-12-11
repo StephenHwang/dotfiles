@@ -201,15 +201,15 @@ augroup END
 function! ToggleFold()
   norm za
 endfunction
-map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>ToggleFoldMap", v:count)<cr><Down>
+map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>ToggleFoldMap", v:count)<cr>
 nmap <leader>z <Plug>ToggleFoldMap
 vnoremap <silent> <leader>z zf
 
 " Save folds
 augroup AutoSaveGroup
   autocmd!
-  autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre ?* nested silent! mkview!
-  autocmd BufWinEnter ?* silent! loadview
+  autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre *.wiki nested silent! mkview!
+  autocmd BufWinEnter *.wiki silent! loadview
 augroup end
 
 
@@ -394,11 +394,12 @@ let g:slime_no_mappings = 1
 autocmd FileType python,r nnoremap <c-c> vip
 autocmd FileType python,r xmap <c-c> <Plug>SlimeRegionSend
 
-"" fuzzy find
+"" fzf, fuzzy find
+let g:fzf_layout = { 'down': '40%' }
 nnoremap <C-f> :Files<cr>
 nnoremap <C-f>f :Files<cr>
 nnoremap <C-f>b :Buffer<cr>
-" nnoremap <leader>b :Buffer<cr>
+nnoremap <leader>b :Buffer<cr>
 nnoremap <C-f>a :Rg
 nnoremap <C-f>i :BLines<cr>
 nnoremap <C-f>h :History<cr>
