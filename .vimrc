@@ -1,4 +1,4 @@
-set nocompatible 
+set nocompatible
 filetype off
 
 " vundle package manager: https://github.com/VundleVim/Vundle.vim
@@ -17,7 +17,7 @@ Plugin 'romainl/vim-qf'             " quickfix assist
 
 " Programming
 Plugin  'vim-scripts/AutoComplPop'  " autocomplete always open
-Plugin 'sheerun/vim-polyglot' " syntax 
+Plugin 'sheerun/vim-polyglot' " syntax
 
 " Optional
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -30,7 +30,7 @@ Plugin 'vim-airline/vim-airline'          " airline status bar
 Plugin 'edkolev/tmuxline.vim'             " tmux status bar
 
 call vundle#end()
-filetype plugin indent on 
+filetype plugin indent on
 syntax on
 
 " Save cursor position
@@ -51,7 +51,7 @@ set hidden                  " switch buffers without having to save
 set laststatus=2            " powerline status line positioning
 set scrolloff=10            " visual scroll gap below the cursor
 set cursorline
-set number 
+set number
 set colorcolumn=80          " set line at 80 char
 set tabstop=2               " width of tab is set to 2
 set softtabstop=2           " number of columns for a tab
@@ -72,6 +72,12 @@ set ignorecase           " ignore uppercase
 set smartcase            " if uppercase in search, consider only uppercase
 set incsearch            " move cursor to the matched string while searching
 set hlsearch             " highlight search
+
+" must mkdir the directories
+set undofile " persistent undo
+set undodir=~/.vim/undodir/
+set backupdir=~/.vim/backup/
+set directory=~/.vim/swap/
 
 " key maps with leader key
 let mapleader="\<space>"
@@ -97,6 +103,7 @@ nnoremap gc *``cgn<C-r>.<ESC>
 
 " prevent paste from overwriting original copy
 xnoremap p pgvy
+xnoremap P Pgvy
 
 " start of line on gg and G
 nnoremap gg gg0
@@ -115,16 +122,11 @@ nnoremap <BS> X
 nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
+command! TW call TrimWhitespace()
 
 " Vim surround: s instead of ys or S
 nmap s <Plug>Ysurround
 xmap s <Plug>VSurround
-
-" must mkdir the directories 
-set undofile " persistent undo
-set undodir=~/.vim/undodir/
-set backupdir=~/.vim/backup/
-set directory=~/.vim/swap/
 
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
@@ -169,22 +171,44 @@ map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>T
 nmap <leader>z <Plug>ToggleFoldMap
 vnoremap <silent> <leader>z zf
 
+" FZF delete buffers
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! BD call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_buffers(lines) },
+  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
+\ }))
+
+
 "" Quickfix
 "    - toggle quickfix with leader c
 "    - <C-m/n> cycle quick fix
 "    - move between qf using :colder :cnewer
 "    - search (:CF <word>) or word under cursor (<leader>n)
 "    - Reject/Keep to filter elements
-nnoremap <silent> <leader>c :copen<cr>
-autocmd FileType qf nnoremap <silent> <buffer> <leader>c :ccl<cr>
+"
+nmap <leader>c <Plug>(qf_qf_toggle)
 nmap <C-m> <Plug>(qf_qf_previous)
 nmap <C-n> <Plug>(qf_qf_next)
+autocmd FileType qf nmap <buffer> <Left>  <Plug>(qf_older)
+autocmd FileType qf nmap <buffer> <Right>  <Plug>(qf_newer)
 autocmd FileType qf nnoremap <silent> <buffer> dd :.Reject<cr>
 autocmd FileType qf vnoremap <silent> <buffer> d :'<,'>Reject<cr>
-
-" Search/add to quickfix
 nnoremap <silent> <leader>n :execute 'vimgrep ' . '/\<' . expand("<cword>") . '\>/ ' . join(map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), '"#".v:val'), ' ')<cr><bar>``
 command! -nargs=? CF call AddQuickFixExact(<f-args>)
+command! -nargs=? CFF call AddQuickFixPartialMatch(<f-args>)
+
+" Search/add to quickfix
 function! AddQuickFixExact(...)
   let arg1 = get(a:, 0, 0)
   if arg1
@@ -200,7 +224,6 @@ function! AddQuickFixExact(...)
 endfunction
 
 " Add partial matches
-command! -nargs=? CFF call AddQuickFixPartialMatch(<f-args>)
 function! AddQuickFixPartialMatch(...)
   let arg1 = get(a:, 0, 0)
   if arg1
@@ -217,7 +240,7 @@ endfunction
 
 
 "" Python and R  mappings
-autocmd FileType python,r,sh,cpp autocmd BufWritePre <buffer> :call TrimWhitespace()
+autocmd FileType python,r,sh autocmd BufWritePre <buffer> :call TrimWhitespace()
 autocmd FileType python,r inoremap <buffer> { {}<Left>
 autocmd FileType python,r inoremap <buffer> [ []<Left>
 autocmd FileType python,r inoremap <buffer> ' ''<Left>
@@ -268,13 +291,23 @@ iabbr dtime <C-R>=DateStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
 iabbr ctime <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
 
 " split line
-nnoremap <leader>sl :<C-u>call BreakHere()<CR>
 function! BreakHere()
     s/^\(\s*\)\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\2\r\1\4\6
     call histdel("/", -1)
 endfunction
+nnoremap <leader>sl :<C-u>call BreakHere()<CR>
+nnoremap K :<C-u>call BreakHere()<CR>
 
-"" fuzzy find
+" split space
+function! SplitSpace()
+    s/,/\ /ge
+    s/\s\+/\r/g
+endfunction
+command! SS :call SplitSpace()
+command! ReplaceCommas s/,/\ /ge
+
+"" fzf, fuzzy find
+let g:fzf_layout = { 'down': '40%' }
 nnoremap <C-f>f :Files<cr>
 nnoremap <C-f>b :Buffer<cr>
 nnoremap <leader>b :Buffer<cr>
