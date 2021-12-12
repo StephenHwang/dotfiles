@@ -31,7 +31,8 @@ which_git_parse() {
   fi
 }
 # export PS1='\[\033[01;32m\]\u@\[\033[00;31m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]$ '  # simple (non-git track)
-export PS1='\[\033[01;32m\]\u@\[\033[00;31m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]$(which_git_parse)\[\033[00m\]$ '
+# export PS1='\[\033[01;32m\]\u@\[\033[00;31m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]$(which_git_parse)\[\033[00m\]$ '
+export PS1='\[\033[01;32m\]\u@\[\033[00;31m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]$(parse_git_branch)\[\033[00m\]$ '
 
 # Non-git tracking bash:
 # enable color support of ls and also add handy aliases
@@ -83,6 +84,22 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+
+# human readable time
+function displaytime {
+  local T=$1
+  local D=$((T/60/60/24))
+  local H=$((T/60/60%24))
+  local M=$((T/60%60))
+  local S=$((T%60))
+  (( $D > 0 )) && printf '%d days ' $D
+  (( $H > 0 )) && printf '%d hours ' $H
+  (( $M > 0 )) && printf '%d minutes ' $M
+  (( $D > 0 || $H > 0 || $M > 0 )) && printf 'and '
+  printf '%d seconds\n' $S
+}
+
 
 # fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
@@ -199,15 +216,21 @@ alias cd=cd_func
 
 conda deactivate
 
+# source
+source /public/groups/vg/sjhwang/vg/autocomp.bash
+
 # paths
 export VIMRUNTIME=/public/home/sjhwang/.local/usr/share/vim/vim82
 export PATH="/public/home/sjhwang/.local/bin:$PATH"
+export PATH="/public/home/sjhwang/bin:$PATH"
 export PATH="/public/home/sjhwang/cmake-3.17.2-Linux-x86_64/bin/:$PATH"
 export PATH="/public/home/sjhwang/R/server/usr/lib/rstudio-server/bin:$PATH"
 export PATH="/public/home/sjhwang/bin/vim/src/:$PATH"
-export PATH="/public/groups/vg/sjhwang/my_vg/bin:$PATH"
+export PATH="/public/groups/vg/sjhwang/vg/bin:$PATH"
+export PATH="/public/home/sjhwang/bin/zstd/programs:$PATH"
 
-# paths to build VG
+
+# paths to build VG (from adam)
 export PATH=/public/home/sjhwang/.local/bin:/public/home/anovak/.local/bin:$PATH
 export LD_LIBRARY_PATH=/public/home/sjhwang/.local/lib:/public/home/anovak/.local/lib64/:/public/home/anovak/.local/lib/:$LD_LIBRARY_PATH
 export LD_RUN_PATH=/public/home/sjhwang/.local/lib:/public/home/anovak/.local/lib64/:/public/home/anovak/.local/lib/:$LD_RUN_PATH
@@ -215,12 +238,12 @@ export LIBRARY_PATH=/public/home/sjhwang/.local/lib:/public/home/anovak/.local/l
 export PKG_CONFIG_PATH=/public/home/anovak/.local/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib64/pkgconfig:$PKG_CONFIG_PATH
 export C_INCLUDE_PATH=/public/home/sjhwang/.local/include:/public/home/anovak/.local/include
 export CPLUS_INCLUDE_PATH=/public/home/sjhwang/.local/include:/public/home/anovak/.local/include
-export CPATH=$CPATH:/public/home/sjhwang/.local/install/miniconda/include/python2.7
 
+export CPATH=$CPATH:/public/home/sjhwang/.local/install/miniconda/include/python2.7
 export LIBRARY_PATH=$LIBRARY_PATH:/usr/lib64:/usr/lib/x86_64-redhat-linux6E/lib64
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64:/usr/lib/x86_64-redhat-linux6E/lib64
 export LD_RUN_PATH=$LD_RUN_PATH:/usr/lib64:/usr/lib/x86_64-redhat-linux6E/lib64
-
 export GVBINDIR=/usr/lib64/graphviz/
 
-clear
+# ccache compiles
+export PATH="/public/home/sjhwang/bin/ccache_compilers/:$PATH"
