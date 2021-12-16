@@ -194,6 +194,7 @@ set foldlevel=99
 set foldopen-=block
 augroup folding
   au BufReadPre * setlocal foldmethod=indent
+  au BufReadPre *.wiki setlocal foldmethod=expr
   au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
 augroup END
 
@@ -212,7 +213,7 @@ augroup AutoSaveGroup
   autocmd BufWinEnter *.wiki silent! loadview
 augroup end
 
-" FZF delete buffers
+"" FZF delete buffers
 function! s:list_buffers()
   redir => list
   silent ls
@@ -297,7 +298,6 @@ autocmd FileType python,r,sh,vimwiki,text autocmd BufWritePre <buffer> :call Tri
 autocmd FileType python,r inoremap <buffer> { {}<Left>
 autocmd FileType python,r inoremap <buffer> [ []<Left>
 autocmd FileType python,r inoremap <buffer> ' ''<Left>
-autocmd FileType r iabbr <silent> if if ()<Left><C-R>=Eatchar('\s')<CR>
 
 
 " youCompleteMe settings
@@ -311,7 +311,7 @@ let g:ycm_filetype_blacklist = {
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_auto_hover = ''
 autocmd FileType python nnoremap gd :YcmCompleter GoToDefinitionElseDeclaration<cr>
-autocmd FileType python nnoremap <leader>t :YcmCompleter GetType<cr>
+" autocmd FileType python nnoremap <leader>t :YcmCompleter GetType<cr>
 autocmd FileType python nmap <leader>d <plug>(YCMHover)
 
 " ale linter: (:ALEToggle)
@@ -417,7 +417,7 @@ let g:fzf_layout = { 'down': '40%' }
 nnoremap <C-f> :Files<cr>
 nnoremap <C-f>f :Files<cr>
 nnoremap <C-f>b :Buffer<cr>
-nnoremap <leader>b :Buffer<cr>
+nnoremap <leader>t :Buffer<cr>
 nnoremap <C-f>a :Rg
 nnoremap <C-f>i :BLines<cr>
 nnoremap <C-f>h :History<cr>

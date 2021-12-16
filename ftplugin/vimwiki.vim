@@ -2,9 +2,8 @@
 " https://vimwiki.github.io/vimwikiwiki/Tips%20and%20Snips.html
 setlocal foldlevel=99
 setlocal foldenable
-setlocal foldmethod=expr
 setlocal foldexpr=Fold(v:lnum)
-autocmd BufWinEnter *.wiki if &fdm == 'expr' | setlocal foldmethod=manual | endif
+setlocal foldmethod=expr
 
 " Fold function
 function! Fold(lnum)
