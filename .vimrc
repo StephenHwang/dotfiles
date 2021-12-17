@@ -39,6 +39,9 @@ filetype plugin indent on
 syntax on
 
 
+
+
+
 if has("autocmd")
   " Save cursor position on enter file and switch buffer
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
@@ -174,7 +177,10 @@ nnoremap Y "+y$
 nnoremap yy "+yy
 vnoremap y "+y
 
-" marks: gb to go between m and n marks
+" marks
+"  gb    : select between m and n marks
+"  mw    : cursorhold mark
+autocmd CursorHold * echo 'mark l' line(".") | :norm mw
 noremap <silent>`` `m
 noremap <silent>gb `nv`m
 
