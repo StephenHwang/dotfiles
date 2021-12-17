@@ -39,9 +39,6 @@ filetype plugin indent on
 syntax on
 
 
-
-
-
 if has("autocmd")
   " Save cursor position on enter file and switch buffer
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
@@ -74,6 +71,7 @@ set nostartofline
 set matchpairs+=<:>
 set autoread                " update file on disk change
 set mouse=n                 " mouse in normal mode
+set updatetime=2000
 let g:indentLine_char = '▏' "indentation guide
 
 "" Search and highlight settings
@@ -180,7 +178,8 @@ vnoremap y "+y
 " marks
 "  gb    : select between m and n marks
 "  mw    : cursorhold mark
-autocmd CursorHold * echo 'mark l' line(".") | :norm mw
+" autocmd CursorHold * echo 'mark l' line(".") | :norm mw
+autocmd CursorHold * :norm mw
 noremap <silent>`` `m
 noremap <silent>gb `nv`m
 
