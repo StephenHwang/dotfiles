@@ -71,6 +71,8 @@ alias e='exit'
 alias h='history'
 alias ctime='date'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
+alias gs='git status 2> /dev/null'
+alias sb='source ~/.bashrc'
 
 # basic software
 alias tmux='tmux -2'
