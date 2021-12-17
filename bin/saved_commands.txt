@@ -37,7 +37,7 @@ systemctl restart bluetooth
 # search filenames
 rg --files --hidden -g filename       # search filenames from a pipe
 ag -g
-
+awk '{print $2}' filename             # cut column
 
 # aws                                                                                 #
 aws s3 cp s3://vg-k8s/users/sjhwang/ .
