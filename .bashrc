@@ -61,9 +61,8 @@ fi
 
 ################################################################################
 ####                              aliases                                   ####
-alias ll='ls -alF --time-style=+%m-%d-%Y --group-directories-first'
+alias ll='ls -alhF --time-style="+ | %b %e %Y %H:%M |" --group-directories-first'
 alias la='ls -A --group-directories-first'
-alias l='ls -CF --group-directories-first'
 alias lsmb='ls -l --block-size=M'
 alias lsgb='ls -l --block-size=G'
 
