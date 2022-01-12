@@ -65,7 +65,7 @@ nnoremap gf :VimwikiFollowLink<cr>
 
 
 " complete quotations
-inoremap <buffer> " ""<Left>
+" inoremap <buffer> " ""<Left>
 
 " url and img embedding
 iabbr <buffer> url [[link\|desc] ]<esc>10h
