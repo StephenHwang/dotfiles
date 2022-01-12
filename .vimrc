@@ -68,10 +68,8 @@ set helpheight=35
 set autoindent
 set smartindent
 set nostartofline
-set matchpairs+=<:>
 set autoread                " update file on disk change
 set mouse=n                 " mouse in normal mode
-set updatetime=2000
 let g:indentLine_char = '▏' "indentation guide
 
 "" Search and highlight settings
@@ -155,8 +153,10 @@ nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
 nnoremap <silent>gs xph
 nnoremap <BS> X
 nnoremap X cc<Esc>
+nnoremap dD cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
+command! TW call TrimWhitespace()
 
 " Vim surround: s instead of ys or S
 nmap s <Plug>Ysurround
@@ -212,6 +212,7 @@ nmap <leader>z <Plug>ToggleFoldMap
 vnoremap <silent> <leader>z zf
 
 " Save folds
+"    bug with flickering airline buffers when loadview
 augroup AutoSaveGroup
   autocmd!
   autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre *.wiki nested silent! mkview!
