@@ -16,7 +16,7 @@ Plugin 'Yggdroot/indentLine'        " display vertical indentation level
 Plugin 'romainl/vim-qf'             " quickfix assist
 
 " Programming
-" Plugin  'vim-scripts/AutoComplPop'  " autocomplete always open
+" Plugin  'vim-scripts/AutoComplPop'  " basic autocomplete 
 Plugin 'sheerun/vim-polyglot'       " syntax recognition
 Plugin 'dense-analysis/ale'         " linter
 Plugin 'Valloric/YouCompleteMe'     " autocomplete
@@ -146,6 +146,7 @@ function! JumpStart()
 endfunction
 nnoremap _ :call JumpStart()<cr>
 vnoremap _ mq :call JumpStart()<cr>v`qo
+onoremap _ :call JumpStart()<cr>
 
 " assorted other shorcuts
 map Q gq
@@ -156,7 +157,7 @@ nnoremap X cc<Esc>
 nnoremap dD cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
-command! TW call TrimWhitespace()
+command! TW :call TrimWhitespace()
 
 " Vim surround: s instead of ys or S
 nmap s <Plug>Ysurround
@@ -194,7 +195,7 @@ nnoremap <M-u> :bn<cr>
 nnoremap <M-y> :bp<cr>
 
 
-" Code folding
+"" Code folding
 set foldlevel=99
 set foldopen-=block
 augroup folding
@@ -213,11 +214,17 @@ vnoremap <silent> <leader>z zf
 
 " Save folds
 "    bug with flickering airline buffers when loadview
+"    Reset vimwik folds setting to expr mode
+"        zE  " forget all folds
+"        zR  " unfold everything
+"        setlocal foldmethod=expr
+"        zR
 augroup AutoSaveGroup
   autocmd!
   autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre *.wiki nested silent! mkview!
   autocmd BufWinEnter *.wiki silent! loadview
 augroup end
+
 
 "" FZF delete buffers
 function! s:list_buffers()
@@ -488,6 +495,6 @@ let g:airline_section_warning = 0
 
 " colorscheme
 " set background=dark
-" colorscheme gruvbox8 " simplified gruvbox
+" colorscheme gruvbox8   " simplified gruvbox
 let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
