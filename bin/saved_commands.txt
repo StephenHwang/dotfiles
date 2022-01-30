@@ -2,9 +2,10 @@
 sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
 find . -exec touch {} \; && echo done                              # renew all timestamp
 echo cp ; rsync -ah --progress src dest
-sudp dpkg --install
+sudo dpkg --install
 tar -zxvf
 cmp --silent $old $new || echo "files are different"
+du -ah . | grep -v "/$" | sort -rh > sorted_file_sizes.txt
 
 # keyboard
 xev
@@ -21,6 +22,7 @@ pdfunite in1.pdf in2.pdf out.pdf
 
 # git
 git config --get remote.origin.url
+git commit --amend -m "Modify commit message."
 
 # make branches
 git checkout -b <branch>
@@ -59,7 +61,7 @@ tmux new -s default
 tmux attach -t default2
 
 # monitor
-pcmanfm-qt --desktop-off
+pcmanfm-qt --desktop-off  # background wallpaper
 arandr
 autorandr                 # save (-s) and load (-l) profiles
 wide_monitor.sh
