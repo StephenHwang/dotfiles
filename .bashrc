@@ -112,8 +112,14 @@ export FZF_COMPLETION_TRIGGER='--'
 source /usr/share/doc/fzf/examples/key-bindings.bash
 source /usr/share/doc/fzf/examples/completion.bash
 
-# fzf a saved commands file
-bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"'
+# fzf saved commands and filter comments
+saved_commands() {
+  sed_command="sed 's/#.*$//;/^$/d'"
+  com_base="tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m"
+  eval $com_base | eval $sed_command
+}
+bind '"\C-f": "$(saved_commands)\e\C-e\er\e^"'
+
 
 # fzf conda activate
 act() {
