@@ -1,14 +1,19 @@
+# Assorted saved commands
+# setup in .bashrc
+bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"'
+
 # assorted
 sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
 find . -exec touch {} \; && echo done                              # renew all timestamp
-echo cp ; rsync -ah --progress src dest
+rsync -ah --progress src dest                                      # cp
 sudo dpkg --install
 tar -zxvf
 cmp --silent $old $new || echo "files are different"
-du -ah . | grep -v "/$" | sort -rh > sorted_file_sizes.txt
+du -ah . | grep -v "/$" | sort -rh > sorted_file_sizes.txt         # sort by filesize
+systemctl restart bluetooth           # bluetooth
 
 # keyboard
-xev
+xev                                   # key recorder
 xset mouse 3/2 0                      # mouse speed
 killall xbindkeys && xbindkeys        # mouse side scroll
 setxkbmap && xmodmap ~/.my_keyboard   # set keyboard modmaps
@@ -33,13 +38,13 @@ git checkout master
 git merge branch_to_merge_into_master
 
 
-# bluetooth
-systemctl restart bluetooth
-
-# search filenames
-rg --files --hidden -g filename       # search filenames from a pipe
+# assorted bash
+rg --files --hidden -g filename       # search filenames
 ag -g
-awk '{print $2}' filename             # cut column
+awk '{print $2}' filename             # cut column 2
+cut -f2 filename                      # cut column 2
+sort -V                               # version sort
+uniq                                  # unique
 
 # aws                                                                                 #
 aws s3 cp s3://vg-k8s/users/sjhwang/ .
@@ -55,8 +60,8 @@ kubectl get pods | grep sjhwang                                         # pods
 
 # tmux                                                                                 #
 tmux kill-server       # killall sessions
-tmux new-session -t default -s default2
-tmux attach-session -t default2
+tmux new-session -t default -s default2   # 2nd view
+tmux attach-session -t default2           # attach 2nd view
 tmux new -s default
 tmux attach -t default2
 
