@@ -2,6 +2,21 @@
 # setup in .bashrc
 bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"'
 
+# split pdf
+pdftk myoldfile.pdf cat 1-2 4-5 output mynewfile.pdf
+pdftk myoldfile.pdf burst
+# combine pdf
+pdfunite in1.pdf in2.pdf out.pdf
+
+# monitor
+pcmanfm-qt --desktop-off  # background wallpaper
+arandr
+autorandr                 # save (-s) and load (-l) profiles
+wide_monitor.sh
+dual_monitor.sh
+single_monitor.sh
+upright_monitor.sh
+
 # assorted
 sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
 find . -exec touch {} \; && echo done                              # renew all timestamp
@@ -10,20 +25,29 @@ sudo dpkg --install
 tar -zxvf
 cmp --silent $old $new || echo "files are different"
 du -ah . | grep -v "/$" | sort -rh > sorted_file_sizes.txt         # sort by filesize
-systemctl restart bluetooth           # bluetooth
+systemctl restart bluetooth           # bluetooth restart
+hcitool dev | grep hci > /dev/null && rfkill block bluetooth || rfkill unblock bluetooth  # toggle bluetooth
+pavucontrol                           # audio ui
+sudoedit                              # sudo vim
+systemctl suspend                     # suspend
+
+# aws                                                                                 #
+aws s3 cp s3://vg-k8s/users/sjhwang/ .
+aws s3 ls s3://vg-k8s/users/sjhwang/
+
+# kubernetes                                                                                                  #
+kubectl get jobs -o custom-columns=:.metadata.name | grep '^sjhwang*' | xargs kubectl delete jobs   # kdel
+kubectl logs $(kubectl get pods | grep sjhwang | cut -d " " -f 1) 2>/dev/null | head # logs
+kubectl get jobs -o custom-columns=:.metadata.name | grep '^sjhwang*'   # jobs
+kubectl get pods | grep sjhwang | cut -d " " -f 1                       # pods_id
+kubectl get pods | grep sjhwang                                         # pods
 
 # keyboard
+pgrep xbindkeys > /dev/null && killall xbindkeys || xbindkeys    # xbindkeys reset
 xev                                   # key recorder
 xset mouse 3/2 0                      # mouse speed
 killall xbindkeys && xbindkeys        # mouse side scroll
 setxkbmap && xmodmap ~/.my_keyboard   # set keyboard modmaps
-
-# split pdf
-pdftk myoldfile.pdf cat 1-2 4-5 output mynewfile.pdf
-pdftk myoldfile.pdf burst
-# combine pdf
-pdfunite in1.pdf in2.pdf out.pdf
-
 
 # git
 git config --get remote.origin.url
@@ -37,7 +61,6 @@ git push -u origin <branch>
 git checkout master
 git merge branch_to_merge_into_master
 
-
 # assorted bash
 rg --files --hidden -g filename       # search filenames
 ag -g
@@ -46,18 +69,6 @@ cut -f2 filename                      # cut column 2
 sort -V                               # version sort
 uniq                                  # unique
 
-# aws                                                                                 #
-aws s3 cp s3://vg-k8s/users/sjhwang/ .
-aws s3 ls s3://vg-k8s/users/sjhwang/
-
-# kubernetes                                                                                                  #
-kubectl get jobs -o custom-columns=:.metadata.name | grep '^sjhwang*' | xargs kubectl delete jobs   # kdel
-kubectl logs $(kubectl get pods | grep sjhwang | cut -d " " -f 1) 2>/dev/null | head # logs
-kubectl get jobs -o custom-columns=:.metadata.name | grep '^sjhwang*'   # jobs
-kubectl get pods | grep sjhwang | cut -d " " -f 1                       # pods_id
-kubectl get pods | grep sjhwang                                         # pods
-
-
 # tmux                                                                                 #
 tmux kill-server       # killall sessions
 tmux new-session -t default -s default2   # 2nd view
@@ -65,20 +76,12 @@ tmux attach-session -t default2           # attach 2nd view
 tmux new -s default
 tmux attach -t default2
 
-# monitor
-pcmanfm-qt --desktop-off  # background wallpaper
-arandr
-autorandr                 # save (-s) and load (-l) profiles
-wide_monitor.sh
-dual_monitor.sh
-single_monitor.sh
-
-# ssh                                                                                    #
-sshcport # ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu
-ports    # 'netstat -ntlp | grep LISTEN'
-portc    # 'ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
-portk    # 'kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
-ssh sjhwang@hb.ucsc.edu                                                                  #
+# ssh                                                                                           #
+ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu          # sshcport
+netstat -ntlp | grep LISTEN'                                                         # ports
+ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu          # portc
+kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'                         # portk
+ssh sjhwang@hb.ucsc.edu
 ssh shwang@bioinformatics.tenaya.local
 ssh sjhwang@courtyard.gi.ucsc.edu
 mosh sjhwang@courtyard.gi.ucsc.edu
