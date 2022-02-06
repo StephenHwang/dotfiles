@@ -141,7 +141,11 @@ vnoremap <C-c> "+y
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
 
-" marks: gb to go between m and n marks
+" marks
+"  gb    : select between m and n marks
+"  mw    : cursorhold mark
+" autocmd CursorHold * echo 'mark l' line(".") | :norm mw
+autocmd CursorHold * :norm mw
 noremap <silent>`` `m
 noremap <silent>gb `nv`m
 
