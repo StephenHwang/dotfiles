@@ -51,7 +51,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 export MANPAGER="vim -M +MANPAGER -"
 
 #####################################################################################
-alias ll='ls -alF --time-style=+%Y-%m-%d --group-directories-first'
+alias ll='ls -alhF --time-style="+ | %b %e %Y %H:%M |" --group-directories-first'
 alias la='ls -A --group-directories-first'
 alias l='ls -CF --group-directories-first'
 alias lsmb='ls -l --block-size=M'
@@ -67,6 +67,10 @@ alias vg_='cd /public/groups/vg/sjhwang'
 alias lab='jupyter-lab'
 alias ipython='ipython --no-autoindent'
 alias ipy='ipython --no-autoindent'
+alias bc='bc ~/.bcrc -l'
+
+alias gs='git status 2> /dev/null'
+alias sb='source ~/.bashrc'
 
 #####################################################################################
 
@@ -108,7 +112,7 @@ export FZF_DEFAULT_COMMAND='find "$PWD" -name ".*" -prune -o -print'
 export FZF_COMPLETION_TRIGGER='--'
 
 # fzf a saved commands file
-bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"'
+bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"' 2>/dev/null
 
 # fzf conda activate
 act() {
