@@ -435,11 +435,22 @@ let g:vimtex_syntax_conceal_disable=1
 let g:vimtex_quickfix_open_on_warning=0
 let g:vimtex_mappings_enabled=0
 let g:vimtex_motion_enabled=0   " see vimtex-motions
+
+" Close viewers when VimTeX buffers are closed
+function! CloseViewers()
+  if executable('xdotool')
+        \ && exists('b:vimtex.viewer.xwin_id')
+        \ && b:vimtex.viewer.xwin_id > 0
+    call system('xdotool windowclose '. b:vimtex.viewer.xwin_id)
+  endif
+endfunction
+
 augroup vimtex_event
   au!
   au User VimtexEventInitPost          VimtexCompile
   au User VimtexEventQuit              VimtexClean
-  au User VimtexEventView call b:vimtex.viewer.xdo_focus_vim()
+  au User VimtexEventQuit              call CloseViewers()
+  au User VimtexEventView              call b:vimtex.viewer.xdo_focus_vim()
 augroup END
 au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
 autocmd FileType tex nnoremap go :VimtexView<cr>
