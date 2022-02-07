@@ -27,6 +27,7 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'vimwiki/vimwiki', {'branch': 'dev'}
 Plugin 'jpalardy/vim-slime.git'
+Plugin 'lervag/vimtex'
 
 " Aesthetics
 Plugin 'morhetz/gruvbox'
@@ -128,16 +129,17 @@ vnoremap G G0
 
 " Jump to first non-blank, non-bullet character
 function! JumpStart()
-  if getline('.') =~ '^\s*$'        " Skip empty line
-    :call search('[A-Za-z]', '')
+  if getline('.') =~ '^\s*$'          " if empty line, next line
+    " :call search('[A-Za-z]', '')
+    :norm j
     return
   endif
-  if getline('.') =~ '^\s*\d\+. '     " toggle numerical list checkbox
+  if getline('.') =~ '^\s*\d\+. '     " jump to number bullet start
     :norm 0
     :call search('[A-Za-z]', '', line('.'))
     return
   endif
-  if getline('.') =~ '^\s*- '       " toggle normal list item checkbox
+  if getline('.') =~ '^\s*- '         "  jump to bullet start
     :norm 0
     :call search('[A-Za-z]', '', line('.'))
   else
@@ -424,6 +426,23 @@ let g:slime_dont_ask_default = 1
 let g:slime_no_mappings = 1
 autocmd FileType python,r nnoremap <c-c> vip
 autocmd FileType python,r xmap <c-c> <Plug>SlimeRegionSend
+
+"" vimtex
+" let g:vimtex_view_general_viewer = 'okular'
+let g:vimtex_view_method = 'zathura'  " note d to toggle double page
+let g:vimtex_quickfix_mode=2
+let g:vimtex_syntax_conceal_disable=1
+let g:vimtex_quickfix_open_on_warning=0
+let g:vimtex_mappings_enabled=0
+let g:vimtex_motion_enabled=0   " see vimtex-motions
+augroup vimtex_event
+  au!
+  au User VimtexEventInitPost          VimtexCompile
+  au User VimtexEventQuit              VimtexClean
+  au User VimtexEventView call b:vimtex.viewer.xdo_focus_vim()
+augroup END
+au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
+autocmd FileType tex nnoremap go :VimtexView<cr>
 
 "" fzf, fuzzy find
 let g:fzf_layout = { 'down': '40%' }
