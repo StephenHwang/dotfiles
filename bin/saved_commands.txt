@@ -30,6 +30,8 @@ hcitool dev | grep hci > /dev/null && rfkill block bluetooth || rfkill unblock b
 pavucontrol                           # audio ui
 sudoedit                              # sudo vim
 systemctl suspend                     # suspend
+sudo apt update                       # downloads package info from all configured sources
+sudo apt upgrade                      # upgrades packages
 
 # aws                                                                                 #
 aws s3 cp s3://vg-k8s/users/sjhwang/ .
@@ -63,7 +65,8 @@ git merge branch_to_merge_into_master
 
 # assorted bash
 rg --files --hidden -g filename       # search filenames
-ag -g
+ag -g <pattern>                       # search filename with pattern
+ag <text>                             # search text in files
 awk '{print $2}' filename             # cut column 2
 cut -f2 filename                      # cut column 2
 sort -V                               # version sort
