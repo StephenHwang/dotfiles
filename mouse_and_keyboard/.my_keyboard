@@ -29,7 +29,7 @@ keysym u = u U End
 keysym i = i I braceleft
 keysym o = o O braceright
 
-keysym p = p P BackSpace Delete
+keysym p = p P backslash bar
 
 keysym bracketleft = bracketleft braceleft Next
 keysym bracketright = bracketright braceright Prior
@@ -66,13 +66,13 @@ keysym d = d D minus minus
 keysym f = f F underscore underscore
 keysym g = g G equal equal
 
-! z
-! x→
+! z→
+! x$
 ! c#
 ! v+
 ! b*
-keysym z = z Z
-keysym x = x X U2192 U2192
+keysym z = z Z U2192 U2192
+keysym x = x X dollar dollar
 keysym c = c C numbersign numbersign
 keysym v = v V plus plus
 keysym b = b B asterisk asterisk
