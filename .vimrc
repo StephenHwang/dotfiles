@@ -127,6 +127,25 @@ nnoremap G G0
 vnoremap gg gg0
 vnoremap G G0
 
+" increment numbers
+nnoremap <C-q> <C-a>
+vnoremap <C-q> g<C-a>
+
+" assorted other shorcuts
+map Q gq
+nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
+nnoremap <silent>gs xph
+nnoremap <BS> X
+nnoremap X cc<Esc>
+nnoremap dD cc<Esc>
+nnoremap U <C-R>
+command! CD cd %:p:h
+command! TW :call TrimWhitespace()
+
+" Vim surround: s instead of ys or S
+nmap s <Plug>Ysurround
+xmap s <Plug>VSurround
+
 " Jump to first non-blank, non-bullet character
 function! JumpStart()
   if getline('.') =~ '^\s*$'          " if empty line, next line
@@ -150,34 +169,6 @@ nnoremap _ :call JumpStart()<cr>
 vnoremap _ mq :call JumpStart()<cr>v`qo
 onoremap _ :call JumpStart()<cr>
 
-" assorted other shorcuts
-map Q gq
-nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
-nnoremap <silent>gs xph
-nnoremap <BS> X
-nnoremap X cc<Esc>
-nnoremap dD cc<Esc>
-nnoremap U <C-R>
-command! CD cd %:p:h
-command! TW :call TrimWhitespace()
-
-" Vim surround: s instead of ys or S
-nmap s <Plug>Ysurround
-xmap s <Plug>VSurround
-
-" google search
-nnoremap go viw"zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
-xnoremap go "zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
-
-" copy pasting with system
-"   selection and normal clipboard
-"   must have clipboard+ setting
-set clipboard=unnamed
-noremap x "_x<silent>
-nnoremap Y "+y$
-nnoremap yy "+yy
-vnoremap y "+y
-
 " marks
 "  gb    : select between m and n marks
 "  mw    : cursorhold mark
@@ -196,6 +187,18 @@ execute "set <M-u>=\eu"
 nnoremap <M-u> :bn<cr>
 nnoremap <M-y> :bp<cr>
 
+" google search
+nnoremap go viw"zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
+xnoremap go "zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
+
+" copy pasting with system
+"   selection and normal clipboard
+"   must have clipboard+ setting
+set clipboard=unnamed
+noremap x "_x<silent>
+nnoremap Y "+y$
+nnoremap yy "+yy
+vnoremap y "+y
 
 "" Code folding
 set foldlevel=99
@@ -240,7 +243,7 @@ function! s:delete_buffers(lines)
   execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
 endfunction
 
-command! BD call fzf#run(fzf#wrap({
+command! BufferDelete call fzf#run(fzf#wrap({
   \ 'source': s:list_buffers(),
   \ 'sink*': { lines -> s:delete_buffers(lines) },
   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
@@ -453,7 +456,7 @@ augroup vimtex_event
   au User VimtexEventView              call b:vimtex.viewer.xdo_focus_vim()
 augroup END
 au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
-autocmd FileType tex nnoremap go :VimtexView<cr>
+autocmd FileType tex nnoremap gd :VimtexView<cr>
 
 "" fzf, fuzzy find
 let g:fzf_layout = { 'down': '40%' }
