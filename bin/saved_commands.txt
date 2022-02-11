@@ -33,6 +33,8 @@ sudoedit                              # sudo vim
 systemctl suspend                     # suspend
 sudo apt update                       # downloads package info from all configured sources
 sudo apt upgrade                      # upgrades packages
+&& espeak "Done" && notify-send "Command succeeded" || notify-send "Command failed" # notify
+&& notify-send "Succeeded" || notify-send "Failed" && espeak "Done"   # notify
 
 # aws                                                                                 #
 aws s3 cp s3://vg-k8s/users/sjhwang/ .
