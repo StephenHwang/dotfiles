@@ -16,6 +16,7 @@ wide_monitor.sh
 dual_monitor.sh
 single_monitor.sh
 upright_monitor.sh
+openbox --restart
 
 # assorted
 sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup

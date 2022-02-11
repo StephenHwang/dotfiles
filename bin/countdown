@@ -8,6 +8,6 @@ while [ "$date1" -ge `date +%s` ]; do
   sleep 0.1
 done
 
-espeak "$1"
-espeak "minutes counted"
+zenity --notification --text "$1 min"
+espeak "$1 min"
 exec $stopwatch
