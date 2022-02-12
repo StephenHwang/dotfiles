@@ -74,6 +74,7 @@ set mouse=n                 " mouse in normal mode
 let g:indentLine_char = '▏' "indentation guide
 
 "" Search and highlight settings
+set shortmess-=S
 set ignorecase           " ignore uppercase
 set smartcase            " if uppercase in search, consider only uppercase
 set incsearch            " move cursor to the matched string while searching
