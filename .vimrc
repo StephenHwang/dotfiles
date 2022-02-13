@@ -440,6 +440,13 @@ let g:vimtex_quickfix_open_on_warning=0
 let g:vimtex_mappings_enabled=0
 let g:vimtex_motion_enabled=0   " see vimtex-motions
 
+" Disable custom warnings based on regexp
+let g:vimtex_quickfix_open_on_warning=0
+let g:vimtex_quickfix_ignore_filters = [
+      \ 'Package hyperref Warning',
+      \ 'LaTeX Warning',
+      \]
+
 " Close viewers when VimTeX buffers are closed
 function! CloseViewers()
   if executable('xdotool')
@@ -458,6 +465,17 @@ augroup vimtex_event
 augroup END
 au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
 autocmd FileType tex nnoremap gd :VimtexView<cr>
+
+
+
+
+
+
+
+
+
+
+
 
 "" fzf, fuzzy find
 let g:fzf_layout = { 'down': '40%' }
