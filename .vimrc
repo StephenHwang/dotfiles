@@ -204,6 +204,7 @@ vnoremap y "+y
 "" Code folding
 set foldlevel=99
 set foldopen-=block
+set foldopen-=search
 augroup folding
   au BufReadPre * setlocal foldmethod=indent
   au BufReadPre *.wiki setlocal foldmethod=expr
@@ -465,16 +466,6 @@ augroup vimtex_event
 augroup END
 au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
 autocmd FileType tex nnoremap gd :VimtexView<cr>
-
-
-
-
-
-
-
-
-
-
 
 
 "" fzf, fuzzy find
