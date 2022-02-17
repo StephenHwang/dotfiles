@@ -10,7 +10,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " Basics
 Plugin 'tpope/vim-fugitive'         " git integration
-Plugin 'tpope/vim-surround'         " text surround
+Plugin 'StephenHwang/vim-surround'  " fork of tpope's vim-surround
 Plugin 'tpope/vim-repeat'           " dot command for vim surround
 Plugin 'Yggdroot/indentLine'        " display vertical indentation level
 Plugin 'romainl/vim-qf'             " quickfix assist
@@ -142,10 +142,6 @@ nnoremap dD cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
 command! TW :call TrimWhitespace()
-
-" Vim surround: s instead of ys or S
-nmap s <Plug>Ysurround
-xmap s <Plug>VSurround
 
 " Jump to first non-blank, non-bullet character
 function! JumpStart()
