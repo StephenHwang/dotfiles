@@ -4,6 +4,7 @@ setlocal foldlevel=99
 setlocal foldenable
 setlocal foldexpr=Fold(v:lnum)
 setlocal foldmethod=expr
+setlocal matchpairs-=[:]
 
 " Fold function
 function! Fold(lnum)
