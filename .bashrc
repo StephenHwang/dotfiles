@@ -186,7 +186,7 @@ cd_func()
     dir="$1"
     # see if we are really changing
     if [ -z "$1" ] ; then   # special case: no argument
-	dir=~
+    	dir=~
     fi
     if [[ "$1" == "-" ]] ; then  # special case: cd -
        dir="$OLDPWD"
@@ -202,7 +202,7 @@ cd_func()
     if [ $badcd == 0 ]  # if we have a real place to go, find its inode
     then
 	   pwdid=`ls -id .| cut -d ' ' -f 1`
-	   newid=`ls -id "$dir" 2>/dev/null |cut -d ' ' -f 1`
+	   newid=`ls -id "$dir" 2>/dev/null | cut -d ' ' -f 1`
     fi
 # if no place to go or we are going to the same place, just execute it and be done
    if [[ $badcd == 1 || $pwdid == $newid ]]; then xcd_func "$@" ; return $? ; fi
@@ -224,6 +224,8 @@ cd_func()
    return $rv
 }
 alias cd=cd_func
+alias ..="cd .."
+alias ...="cd ../.."
 
 # paths
 PATH=$PATH:~/bin
