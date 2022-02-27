@@ -315,6 +315,8 @@ autocmd FileType python,r inoremap <buffer> { {}<Left>
 autocmd FileType python,r inoremap <buffer> [ []<Left>
 autocmd FileType python,r inoremap <buffer> ' ''<Left>
 
+" vim-fugitive settings
+nnoremap gl :0Gclog<cr>
 
 " youCompleteMe settings
 let g:ycm_filetype_blacklist = {
