@@ -143,10 +143,9 @@ nnoremap U <C-R>
 command! CD cd %:p:h
 command! TW :call TrimWhitespace()
 
-" Jump to first non-blank, non-bullet character
+"" Jump to first non-blank, non-bullet character
 function! JumpStart()
   if getline('.') =~ '^\s*$'          " if empty line, next line
-    " :call search('[A-Za-z]', '')
     :norm j
     return
   endif
@@ -162,9 +161,48 @@ function! JumpStart()
     :norm ^
   end
 endfunction
-nnoremap _ :call JumpStart()<cr>
-vnoremap _ mq :call JumpStart()<cr>v`qo
-onoremap _ :call JumpStart()<cr>
+nnoremap <silent>_ :call JumpStart()<cr>
+vnoremap <silent>_ :call JumpStart()<cr>v`<
+onoremap <silent>_ :call JumpStart()<cr>
+
+
+"" Match jump: toggle between matchparis or front/end of line
+function! GetMatchPairs()
+  let match_cases = '[' . substitute(substitute(escape(&mps, '[$^.*~\\/?]'), ",", "", "g"), ":", "", "g") . ']'
+  return match_cases
+endfunction
+
+" Match jump
+function! MatchJump()
+  if getline('.') =~ '^\s*$'
+    :norm j
+    return
+  endif
+  if match(getline('.'), GetMatchPairs()) >= 0
+    :norm! %
+    return
+  else
+    if col(".") == col("$")-1
+      :call JumpStart()
+    else
+      :norm $
+    endif
+ end
+endfunction
+
+" Visual match jump
+function! VisualMatchJump(cursor_pos)
+  :norm `<v
+  if a:cursor_pos == col("$")-1
+    :call JumpStart()
+  else
+    :norm $
+  endif
+endfunction
+
+nnoremap <silent>% :call MatchJump()<cr>
+vnoremap <silent><expr> % (match(getline('.'), GetMatchPairs()) >= 0) ? "%" : "v:call VisualMatchJump(col('.'))<cr>"
+
 
 " marks
 "  gb    : select between m and n marks
