@@ -212,16 +212,6 @@ autocmd CursorHold * :norm mw
 noremap <silent>`` `m
 noremap <silent>gb `nv`m
 
-" navigate buffers
-nnoremap <leader>k :bn<cr>
-nnoremap <leader>j :bp<cr>
-nnoremap <leader>l <C-^>
-nnoremap <leader>e :bdel<cr>
-execute "set <M-y>=\ey"
-execute "set <M-u>=\eu"
-nnoremap <M-u> :bn<cr>
-nnoremap <M-y> :bp<cr>
-
 " google search
 nnoremap go viw"zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
 xnoremap go "zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
@@ -557,10 +547,20 @@ vmap <leader>f <Plug>ToggleCommentMap
 nnoremap <leader>h :set hlsearch! hlsearch?<cr>
 
 " Disable netrw.
-let g:loaded_netrw  = 1
-let g:loaded_netrwPlugin = 1
-let g:loaded_netrwSettings = 1
-let g:loaded_netrwFileHandlers = 1
+"let g:loaded_netrw  = 1
+"let g:loaded_netrwPlugin = 1
+"let g:loaded_netrwSettings = 1
+"let g:loaded_netrwFileHandlers = 1
+"
+" let g:netrw_banner = 0
+let g:netrw_keepdir = 0
+let g:netrw_winsize = 25
+let g:netrw_liststyle = 3
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_localcopydircmd = 'cp -r'
+hi! link netrwMarkFile Search
+nmap <leader>` :Lexplore<CR>
+
 
 "" aethetics
 let g:airline#extensions#tabline#enabled = 1
