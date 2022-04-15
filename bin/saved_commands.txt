@@ -8,6 +8,10 @@ pdftk myoldfile.pdf burst
 # combine pdf
 pdfunite in1.pdf in2.pdf out.pdf
 
+# qmk
+qmk compile
+qmk flash  # after pressing reset button on keyboard
+
 # monitor
 pcmanfm-qt --desktop-off  # background wallpaper
 arandr
@@ -19,6 +23,7 @@ upright_monitor.sh
 openbox --restart
 
 # assorted
+cat /etc/*-release                                                 # check system distro
 sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
 find . -exec touch {} \; && echo done                              # renew all timestamp
 rsync -ah --progress src dest                                      # cp
