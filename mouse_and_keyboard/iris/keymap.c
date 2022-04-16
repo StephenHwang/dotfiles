@@ -148,9 +148,9 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
           return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_A), UP(KC_LCTL), TYPE(KC_LBRC), END );
           break;
 
-        // tmux 
+        // tmux previous window
         case 19:
-          return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_A), UP(KC_LCTL), DOWN(KC_RSFT), TYPE(KC_J), UP(KC_RSFT), END );
+          return MACRODOWN( DOWN(KC_LCTL), TYPE(KC_A), UP(KC_LCTL), TYPE(KC_M), END );
 
       }
     return MACRO_NONE;
