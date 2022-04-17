@@ -22,11 +22,16 @@ single_monitor.sh
 upright_monitor.sh
 openbox --restart
 
+# wget replacement with continue
+curl -L -O your_url
+curl -L -O -C - your_url
+
 # assorted
 cat /etc/*-release                                                 # check system distro
 sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
 find . -exec touch {} \; && echo done                              # renew all timestamp
 rsync -ah --progress src dest                                      # cp
+
 sudo dpkg --install
 tar -zxvf
 cmp --silent $old $new || echo "files are different"
