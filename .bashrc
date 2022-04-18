@@ -4,6 +4,7 @@ HISTCONTROL=ignoreboth
 HISTSIZE=1000
 HISTFILESIZE=2000
 HISTTIMEFORMAT="%l:%M:%S %p ▏ "
+HISTTIMEFORMAT="%m/%d/%y  %l:%M:%S %p ▏ "
 
 shopt -s checkwinsize
 shopt -s globstar
@@ -50,10 +51,10 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # vim as Manual page
 export MANPAGER="vim -M +MANPAGER -"
 
-#####################################################################################
+################################################################################
+####                              aliases                                   ####
 alias ll='ls -alhF --time-style="+ | %b %e %Y %H:%M |" --group-directories-first'
 alias la='ls -A --group-directories-first'
-alias l='ls -CF --group-directories-first'
 alias lsmb='ls -l --block-size=M'
 alias lsgb='ls -l --block-size=G'
 
@@ -111,8 +112,13 @@ alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
 export FZF_DEFAULT_COMMAND='find "$PWD" -name ".*" -prune -o -print'
 export FZF_COMPLETION_TRIGGER='--'
 
-# fzf a saved commands file
-bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"' 2>/dev/null
+# fzf saved commands and filter comments
+saved_commands() {
+  sed_command="sed 's/#.*$//;/^$/d'"
+  com_base="tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m"
+  eval $com_base | eval $sed_command
+}
+bind '"\C-f": "$(saved_commands)\e\C-e\er\e^"'
 
 # fzf conda activate
 act() {
@@ -179,7 +185,7 @@ cd_func()
     dir="$1"
     # see if we are really changing
     if [ -z "$1" ] ; then   # special case: no argument
-	dir=~
+    	dir=~
     fi
     if [[ "$1" == "-" ]] ; then  # special case: cd -
        dir="$OLDPWD"
@@ -195,7 +201,7 @@ cd_func()
     if [ $badcd == 0 ]  # if we have a real place to go, find its inode
     then
 	   pwdid=`ls -id .| cut -d ' ' -f 1`
-	   newid=`ls -id "$dir" 2>/dev/null |cut -d ' ' -f 1`
+	   newid=`ls -id "$dir" 2>/dev/null | cut -d ' ' -f 1`
     fi
 # if no place to go or we are going to the same place, just execute it and be done
    if [[ $badcd == 1 || $pwdid == $newid ]]; then xcd_func "$@" ; return $? ; fi
@@ -217,6 +223,8 @@ cd_func()
    return $rv
 }
 alias cd=cd_func
+alias ..="cd .."
+alias ...="cd ../.."
 
 conda deactivate
 
@@ -232,7 +240,6 @@ export PATH="/public/home/sjhwang/R/server/usr/lib/rstudio-server/bin:$PATH"
 export PATH="/public/home/sjhwang/bin/vim/src/:$PATH"
 export PATH="/public/groups/vg/sjhwang/vg/bin:$PATH"
 export PATH="/public/home/sjhwang/bin/zstd/programs:$PATH"
-
 
 # paths to build VG (from adam)
 export PATH=/public/home/sjhwang/.local/bin:/public/home/anovak/.local/bin:$PATH

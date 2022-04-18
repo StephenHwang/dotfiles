@@ -10,7 +10,7 @@ Plugin 'gmarik/Vundle.vim'
 
 " Basics
 Plugin 'tpope/vim-fugitive'         " git integration
-Plugin 'tpope/vim-surround'         " text surround
+Plugin 'StephenHwang/vim-surround'  " fork of tpope's vim-surround
 Plugin 'tpope/vim-repeat'           " dot command for vim surround
 Plugin 'Yggdroot/indentLine'        " display vertical indentation level
 Plugin 'romainl/vim-qf'             " quickfix assist
@@ -61,20 +61,20 @@ set helpheight=35
 set autoindent
 set smartindent
 set nostartofline
-set matchpairs+=<:>
 set autoread                " update file on disk change
 set mouse=n                 " mouse in normal mode
 set backspace=indent,eol,start
 let g:indentLine_char = '▏' "indentation guide
 
 "" Search and highlight settings
+set shortmess-=S
 set ignorecase           " ignore uppercase
 set smartcase            " if uppercase in search, consider only uppercase
 set incsearch            " move cursor to the matched string while searching
 set hlsearch             " highlight search
 
 " must mkdir the directories
-set undofile " persistent undo
+set undofile                " persistent undo
 set undodir=~/.vim/undodir/
 set backupdir=~/.vim/backup/
 set directory=~/.vim/swap/
@@ -111,6 +111,10 @@ nnoremap G G0
 vnoremap gg gg0
 vnoremap G G0
 
+" increment numbers
+nnoremap <C-q> <C-a>
+vnoremap <C-q> g<C-a>
+
 " assorted other shorcuts
 map Q gq
 nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
@@ -122,11 +126,75 @@ nnoremap <BS> X
 nnoremap X cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
-command! TW call TrimWhitespace()
+command! TW :call TrimWhitespace()
 
-" Vim surround: s instead of ys or S
-nmap s <Plug>Ysurround
-xmap s <Plug>VSurround
+"" Jump to first non-blank, non-bullet character
+function! JumpStart()
+  if getline('.') =~ '^\s*$'          " if empty line, next line
+    :norm j
+    return
+  endif
+  if getline('.') =~ '^\s*\d\+. '     " jump to number bullet start
+    :norm 0
+    :call search('[A-Za-z]', '', line('.'))
+    return
+  endif
+  if getline('.') =~ '^\s*- '         "  jump to bullet start
+    :norm 0
+    :call search('[A-Za-z]', '', line('.'))
+  else
+    :norm ^
+  end
+endfunction
+nnoremap <silent>_ :call JumpStart()<cr>
+vnoremap <silent>_ :call JumpStart()<cr>v`<
+onoremap <silent>_ :call JumpStart()<cr>
+
+"" Match jump: toggle between matchparis or front/end of line
+function! GetMatchPairs()
+  let match_cases = '[' . substitute(substitute(escape(&mps, '[$^.*~\\/?]'), ",", "", "g"), ":", "", "g") . ']'
+  return match_cases
+endfunction
+
+" Match jump
+function! MatchJump()
+  if getline('.') =~ '^\s*$'
+    :norm j
+    return
+  endif
+  if match(getline('.'), GetMatchPairs()) >= 0
+    :norm! %
+    return
+  else
+    if col(".") == col("$")-1
+      :call JumpStart()
+    else
+      :norm $
+    endif
+ end
+endfunction
+
+" Visual match jump
+function! VisualMatchJump(cursor_pos)
+  :norm `<v
+  if a:cursor_pos == col("$")-1
+    :call JumpStart()
+  else
+    :norm $
+  endif
+endfunction
+
+nnoremap <silent>% :call MatchJump()<cr>
+vnoremap <silent><expr> % (match(getline('.'), GetMatchPairs()) >= 0) ? "%" : "v:call VisualMatchJump(col('.'))<cr>"
+
+
+" marks
+"  gb    : select between m and n marks
+"  mw    : cursorhold mark
+" autocmd CursorHold * echo 'mark l' line(".") | :norm mw
+autocmd CursorHold * :norm mw
+noremap <silent>`` `m
+noremap <silent>gb `nv`m
 
 " copy pasting with system
 set clipboard=unnamed "selection and normal clipboard, must have clipboard+ setting
@@ -159,23 +227,25 @@ execute "set <M-u>=\eu"
 nnoremap <M-u> :bn<cr>
 nnoremap <M-y> :bp<cr>
 
-" code folding
+"" Code folding
 set foldlevel=99
 set foldopen-=block
+set foldopen-=search
 augroup folding
   au BufReadPre * setlocal foldmethod=indent
+  au BufReadPre *.wiki setlocal foldmethod=expr
   au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
 augroup END
 
-" function for repeat fold with dot command
+" Repeat fold with dot command
 function! ToggleFold()
   norm za
 endfunction
-map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>ToggleFoldMap", v:count)<cr><Down>
+map <silent><Plug>ToggleFoldMap :call ToggleFold()<cr>:call repeat#set("\<Plug>ToggleFoldMap", v:count)<cr>
 nmap <leader>z <Plug>ToggleFoldMap
 vnoremap <silent> <leader>z zf
 
-" FZF delete buffers
+"" FZF delete buffers
 function! s:list_buffers()
   redir => list
   silent ls
@@ -188,6 +258,7 @@ function! s:delete_buffers(lines)
 endfunction
 
 command! BD call fzf#run(fzf#wrap({
+command! BufferDelete call fzf#run(fzf#wrap({
   \ 'source': s:list_buffers(),
   \ 'sink*': { lines -> s:delete_buffers(lines) },
   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
@@ -196,11 +267,10 @@ command! BD call fzf#run(fzf#wrap({
 
 "" Quickfix
 "    - toggle quickfix with leader c
-"    - <C-m/n> cycle quick fix
-"    - move between qf using :colder :cnewer
-"    - search (:CF <word>) or word under cursor (<leader>n)
-"    - Reject/Keep to filter elements
-"
+"    - <C-n/m> cycle quick fix
+"    - <right/left> to move between qf
+"    - search (:CF[F] <word>) or word under cursor (<leader>n)
+"    - :Reject/:Keep to filter elements
 nmap <leader>c <Plug>(qf_qf_toggle)
 nmap <C-m> <Plug>(qf_qf_previous)
 nmap <C-n> <Plug>(qf_qf_next)
@@ -267,6 +337,9 @@ autocmd FileType r iabbr <buffer><silent> brow browser()  # TODO:<c-r>=Eatchar('
 autocmd FileType python iabbr <buffer> pri print
 autocmd FileType python command! PY execute '!python %'
 
+" vim-fugitive settings
+nnoremap gl :0Gclog<cr>
+
 " Trim whitespace
 fun! TrimWhitespace()
   let l:save = winsaveview()
@@ -315,6 +388,7 @@ let g:fzf_layout = { 'down': '40%' }
 nnoremap <C-f>f :Files<cr>
 nnoremap <C-f>b :Buffer<cr>
 nnoremap <leader>b :Buffer<cr>
+nnoremap <leader>t :Buffer<cr>
 nnoremap <C-f>a :Rg
 nnoremap <C-f>i :BLines<cr>
 nnoremap <C-f>h :History<cr>
@@ -367,17 +441,24 @@ vmap <leader>f <Plug>ToggleCommentMap
 " highlight toggle
 nnoremap <leader>h :set hlsearch! hlsearch?<cr>
 
-" Disable netrw.
-"let g:loaded_netrw  = 1
-"let g:loaded_netrwPlugin = 1
-"let g:loaded_netrwSettings = 1
-"let g:loaded_netrwFileHandlers = 1
-
+let g:netrw_banner = 0
+let g:netrw_keepdir = 0
+let g:netrw_winsize = 25
+let g:netrw_liststyle = 3
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+let g:netrw_localcopydircmd = 'cp -r'
+hi! link netrwMarkFile Search
+nmap <leader>` :Lexplore<CR>
 
 " aethetics
-let g:airline#extensions#whitespace#enabled = 0 " no trailing whitespace check
-let g:airline#extensions#tabline#enabled = 1 " automatically show all buffers when only one tab open
-let g:airline#extensions#tabline#buffer_nr_show = 1 " show buffer number
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline_section_y = 0
+let g:airline_section_z = airline#section#create(['%5l/%L:%3v'])
+let g:airline_section_error = 0
+let g:airline_section_warning = 0
 
 set background=dark
 colorscheme gruvbox8
