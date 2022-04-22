@@ -225,3 +225,17 @@ define rad(deg) {
 define deg(rad) {
     return rad/pi*180;
 }
+
+define int(x) {
+    auto oldscale;
+    oldscale=scale; 
+    scale=0; 
+    x=x/1; 
+    scale=oldscale; 
+    return( x );
+}
+
+define mod(x, y) {
+    return x - y * int(x/y)
+}
+
