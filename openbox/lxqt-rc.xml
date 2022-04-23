@@ -258,6 +258,13 @@
         <wrap>yes</wrap>
       </action>
     </keybind>
+    <!-- Keybindings for desktop scroll -->
+    <keybind key="C-A-w">
+      <action name="GoToDesktop">
+        <to>previous</to>
+        <wrap>yes</wrap>
+      </action>
+    </keybind>
     <!-- Minimize window -->
     <keybind key="A-q">
       <action name="Lower"/>
