@@ -187,19 +187,25 @@
   </dock>
   <keyboard>
     <chainQuitKey>C-g</chainQuitKey>
+
     <!-- Keybindings for desktop switching -->
-    <keybind key="A-Left">
+    <keybind key="C-A-l"> <!-- <keybind key="A-Right"> -->
       <action name="SendToDesktop">
-        <to>left</to>
+        <to>next</to>
         <wrap>yes</wrap>
       </action>
     </keybind>
-    <keybind key="A-Right">
+    <keybind key="C-A-h"> <!-- <keybind key="A-Left"> -->
       <action name="SendToDesktop">
-        <to>right</to>
+        <to>previous</to>
         <wrap>yes</wrap>
       </action>
     </keybind>
+
+    <keybind key="C-A-q">
+      <action name="ToggleOmnipresent"/>
+    </keybind>
+
     <!-- Keybindings for windows -->
     <keybind key="A-c">
       <action name="Close"/>
@@ -233,7 +239,7 @@
         <width>50%</width>
       </action>
     </keybind>
-    <keybind key="A-Up">
+    <keybind key="C-A-g">
       <action name="UnmaximizeFull"/>
       <action name="MoveResizeTo">
         <x>0</x>
@@ -242,7 +248,7 @@
         <width>100%</width>
       </action>
     </keybind>
-    <keybind key="A-Down">
+    <keybind key="C-A-k">
       <action name="UnmaximizeFull"/>
       <action name="MoveResizeTo">
         <x>0</x>
@@ -271,6 +277,16 @@
       <action name="FocusToBottom"/>
       <action name="Unfocus"/>
     </keybind>
+
+    <!-- Minimize window -->
+    <keybind key="A-p">
+        <!-- <keybind key="C-A-Down"> -->
+      <action name="Lower"/>
+      <action name="FocusToBottom"/>
+      <action name="Unfocus"/>
+    </keybind>
+
+
     <!-- Pick window -->
     <keybind key="A-space">
       <action name="NextWindow">
