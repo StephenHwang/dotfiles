@@ -34,6 +34,10 @@
 (xbindkey '(b:9) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Forward")
 (xbindkey '(b:8) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Backward")
 
+(xbindkey '(control b:8) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Alt_Backward")
+;; (xbindkey '(control b:9) "firefox")
+;; (xbindkey '(control b:8) "firefox")
+
 ;; 10 is middle button
 (xbindkey '(b:10) "xte 'keydown Alt_L' 'key w' 'keyup Alt_L'")
 
@@ -41,9 +45,16 @@
 ;;   thumb wheel up and down => next tab/buffer
 (xbindkey '(b:7) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Scroll_R")
 (xbindkey '(b:6) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Scroll_L")
+
 ;;   alt thumbwheel volume
-;;(xbindkey '(alt b:7) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Alt_Scroll_R")
-;;(xbindkey '(alt b:6) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Alt_Scroll_L")
+(xbindkey '(control b:7) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Control_Scroll_R")
+(xbindkey '(control b:6) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Control_Scroll_L")
+
+(xbindkey '(shift b:7) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Shift_Scroll_R")
+(xbindkey '(shift b:6) "~/dotfiles/mouse_and_keyboard/MX-Master-3-bindings.sh Shift_Scroll_L")
+
+
+
 
 ;; Headphones and media keys
 (xbindkey '(XF86AudioPlay) "playerctl -p spotify play") ;; seems to not be picked up
