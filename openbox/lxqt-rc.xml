@@ -286,6 +286,23 @@
       <action name="Unfocus"/>
     </keybind>
 
+    <!-- Cycle window -->
+    <keybind key="A-Tab">
+      <action name="NextWindow">
+        <dialog>no</dialog>
+        <raise>yes</raise>
+        <linear>yes</linear>
+        <bar>yes</bar>
+      </action>
+    </keybind>
+    <keybind key="A-S-Tab">
+      <action name="PreviousWindow">
+        <dialog>no</dialog>
+        <raise>yes</raise>
+        <linear>yes</linear>
+        <bar>yes</bar>
+      </action>
+    </keybind>
 
     <!-- Pick window -->
     <keybind key="A-space">
