@@ -62,13 +62,29 @@ case "$button" in
     esac
   ;;
 
-  "Alt_Scroll_R")
-    xdotool key --clearmodifiers XF86AudioRaiseVolume;
+  "Control_Scroll_R")
+    # xdotool key --clearmodifiers XF86AudioRaiseVolume;
+    temporizeHorizontalScroll "R"
+      xdotool key --clearmodifiers XF86MonBrightnessUp;
   ;;
 
-  "Alt_Scroll_L")
-    xdotool key --clearmodifiers XF86AudioLowerVolume;
+  "Control_Scroll_L")
+    # xdotool key --clearmodifiers XF86AudioLowerVolume;
+    temporizeHorizontalScroll "L"
+      xdotool key --clearmodifiers XF86MonBrightnessDown;
   ;;
+
+  "Shift_Scroll_R")
+    temporizeHorizontalScroll "R"
+      xdotool key --clearmodifiers keydown alt key Tab keyup alt;
+  ;;
+
+  "Shift_Scroll_L")
+    temporizeHorizontalScroll "L"
+      xdotool keydown alt key Tab keyup alt;
+  ;;
+
+
 
   # forward and backward buttons
   "Forward")
@@ -94,5 +110,14 @@ case "$button" in
       *) xte 'keydown Control_L' 'key bracketright' 'keyup Control_L'; ;;
     esac
     ;;
+
+  "Alt_Backward")
+    case "$Wname" in
+      '"qterminal"')
+          # xte 'keydown Control_L' 'key a' 'keyup Control_L' 'key n'; ;;
+          xdotool key --clearmodifiers keydown Control_L key a keyup Control_L key m;
+    esac
+    ;;
+
 
 esac
