@@ -3,3 +3,5 @@ xrandr --output HDMI-2 --off --output HDMI-1 --off --output DP-1 --off --output 
 killall conky
 conky
 feh --bg-fill /home/stephen/Pictures/wallpapers/horizontal_mtn.jpg
+
+eval "xinput enable $(xinput list | grep "Synaptics" | sed 's/.*id=//' | cut -f1)"
