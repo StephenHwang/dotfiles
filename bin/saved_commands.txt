@@ -96,11 +96,11 @@ tmux attach -t default2
 ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu          # sshcport
 netstat -ntlp | grep LISTEN'                                                         # ports
 ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu          # portc
-kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'                         # portk
-ssh sjhwang@hb.ucsc.edu
-ssh shwang@bioinformatics.tenaya.local
-ssh sjhwang@courtyard.gi.ucsc.edu
+kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)                          # portk
 mosh sjhwang@courtyard.gi.ucsc.edu
+sjhwang@hb.ucsc.edu                           #
+shwang@bioinformatics.tenaya.local
+sjhwang@courtyard.gi.ucsc.edu
 
 # conda commands                                                                         #
 conda create --name myenv
