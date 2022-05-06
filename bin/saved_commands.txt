@@ -1,6 +1,13 @@
 # Assorted saved commands
 # setup in .bashrc
-bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"'
+# fzf saved commands and filter comments
+#   saved_commands() {
+#     sed_command="sed 's/#.*$//;/^$/d'"
+#     com_base="tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m"
+#     eval $com_base | eval $sed_command
+#   }
+#   bind '"\C-f": "$(saved_commands)\e\C-e\er\e^"'
+vim ~/bin/saved_commands.txt
 
 # split pdf
 pdftk myoldfile.pdf cat 1-2 4-5 output mynewfile.pdf
@@ -86,6 +93,8 @@ sort -V                               # version sort
 uniq                                  # unique
 
 # tmux                                                                                 #
+#   :swap-window -t <window_idx>            # tmux swap window
+#   :rename-window <window_name>            # tmux rename window
 tmux kill-server       # killall sessions
 tmux new-session -t vg -s vg2
 tmux attach-session -t vg2
