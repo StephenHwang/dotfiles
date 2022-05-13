@@ -204,11 +204,6 @@ nnoremap yy "+yy
 vnoremap y "+y
 vnoremap <C-c> "+y
 
-" remaps
-" move visual selection up and down a line
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
 " marks
 "  gb    : select between m and n marks
 "  mw    : cursorhold mark
