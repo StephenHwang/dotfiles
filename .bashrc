@@ -54,9 +54,9 @@ export XMODIFIERS=@im=ibus
 export QT_IM_MODUlE=ibus
 
 # auto-start a tmux session on terminal open
-if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-    tmux attach -t default || tmux new -s default
-fi
+#if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+#    tmux attach -t default || tmux new -s default
+#fi
 
 
 ################################################################################
@@ -120,12 +120,18 @@ saved_commands() {
 }
 bind '"\C-f": "$(saved_commands)\e\C-e\er\e^"'
 
-
 # fzf conda activate
 act() {
   local envs
   envs=$(ls /home/stephen/anaconda3/envs 2> /dev/null | fzf +m) &&
   conda activate "$envs"
+  }
+
+# fzf tmux attach -t
+ta() {
+  local window
+  window=$(tmux ls -F '#{session_name}' 2> /dev/null | fzf +m) &&
+  tmux attach -t "$window"
   }
 
 #  https://medium.com/@_ahmed_ab/crazy-super-fast-fuzzy-search-9d44c29e14f
