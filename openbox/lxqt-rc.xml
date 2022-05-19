@@ -187,25 +187,24 @@
   </dock>
   <keyboard>
     <chainQuitKey>C-g</chainQuitKey>
-
     <!-- Keybindings for desktop switching -->
-    <keybind key="C-A-l"> <!-- <keybind key="A-Right"> -->
+    <keybind key="C-A-l">
+      <!-- <keybind key="A-Right"> -->
       <action name="SendToDesktop">
         <to>next</to>
         <wrap>yes</wrap>
       </action>
     </keybind>
-    <keybind key="C-A-h"> <!-- <keybind key="A-Left"> -->
+    <keybind key="C-A-h">
+      <!-- <keybind key="A-Left"> -->
       <action name="SendToDesktop">
         <to>previous</to>
         <wrap>yes</wrap>
       </action>
     </keybind>
-
     <keybind key="C-A-q">
       <action name="ToggleOmnipresent"/>
     </keybind>
-
     <!-- Keybindings for windows -->
     <keybind key="A-c">
       <action name="Close"/>
@@ -277,15 +276,13 @@
       <action name="FocusToBottom"/>
       <action name="Unfocus"/>
     </keybind>
-
     <!-- Minimize window -->
     <keybind key="A-p">
-        <!-- <keybind key="C-A-Down"> -->
+      <!-- <keybind key="C-A-Down"> -->
       <action name="Lower"/>
       <action name="FocusToBottom"/>
       <action name="Unfocus"/>
     </keybind>
-
     <!-- Cycle window -->
     <keybind key="A-Tab">
       <action name="NextWindow">
@@ -303,7 +300,6 @@
         <bar>yes</bar>
       </action>
     </keybind>
-
     <!-- Pick window -->
     <keybind key="A-space">
       <action name="NextWindow">
