@@ -1,6 +1,13 @@
 # Assorted saved commands
 # setup in .bashrc
-bind '"\C-f": "$(tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m)\e\C-e\er\e^"'
+# fzf saved commands and filter comments
+#   saved_commands() {
+#     sed_command="sed 's/#.*$//;/^$/d'"
+#     com_base="tac ~/bin/saved_commands.txt 2> /dev/null | fzf +m"
+#     eval $com_base | eval $sed_command
+#   }
+#   bind '"\C-f": "$(saved_commands)\e\C-e\er\e^"'
+vim ~/bin/saved_commands.txt
 
 # split pdf
 pdftk myoldfile.pdf cat 1-2 4-5 output mynewfile.pdf
@@ -31,6 +38,7 @@ cat /etc/*-release                                                 # check syste
 sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
 find . -exec touch {} \; && echo done                              # renew all timestamp
 rsync -ah --progress src dest                                      # cp
+du -h -d1 2> /dev/nul                                              # file size
 
 sudo dpkg --install
 tar -zxvf
@@ -86,11 +94,13 @@ sort -V                               # version sort
 uniq                                  # unique
 
 # tmux                                                                                 #
+#   :swap-window -t <window_idx>            # tmux swap window
+#   :rename-window <window_name>            # tmux rename window
 tmux kill-server       # killall sessions
-tmux new-session -t default -s default2   # 2nd view
 tmux attach-session -t default2           # attach 2nd view
+tmux new-session -t default -s default2   # create 2nd view
 tmux new -s default
-tmux attach -t default2
+tmux attach -t default
 
 # ssh                                                                                           #
 ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu          # sshcport
