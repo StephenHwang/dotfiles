@@ -85,6 +85,7 @@ set undofile                " persistent undo
 set undodir=~/.vim/undodir/
 set backupdir=~/.vim/backup/
 set directory=~/.vim/swap/
+set viminfo+=n~/.vim/viminfo
 
 " key maps with leader key
 let mapleader="\<space>"
@@ -142,6 +143,7 @@ nnoremap dD cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
 command! TW :call TrimWhitespace()
+command! PM set invnumber | IndentLinesToggle
 
 "" Jump to first non-blank, non-bullet character
 function! JumpStart()
@@ -224,6 +226,8 @@ noremap x "_x<silent>
 nnoremap Y "+y$
 nnoremap yy "+yy
 vnoremap y "+y
+
+
 
 "" Code folding
 set foldlevel=99
