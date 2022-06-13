@@ -38,7 +38,7 @@ cat /etc/*-release                                                 # check syste
 sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
 find . -exec touch {} \; && echo done                              # renew all timestamp
 rsync -ah --progress src dest                                      # cp
-du -h -d1 2> /dev/nul                                              # file size
+du -h -d1 2> /dev/null                                             # file size
 
 sudo dpkg --install
 tar -zxvf
