@@ -103,6 +103,16 @@ source /home/stephen/anaconda3/etc/profile.d/conda.sh # conda initialize
 source /home/stephen/bin/tmux-completion/tmux       # tmux autocompletion
 source /home/stephen/bin/git-completion.bash        # git autocompletion
 
+# full paths
+lll() {
+  if [ -z "$*" ];
+  then # or use `realpath *` but doesn't capture dotfiles
+    ls -rd1 --group-directories-first "$PWD"/{*,.*};
+  else
+    realpath $*;
+  fi
+}
+
 # fzf and ripgrep (rg)
 # https://github.com/junegunn/fzf#usage
 #     ignored rg files in .rgignore
