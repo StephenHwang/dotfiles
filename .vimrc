@@ -119,9 +119,19 @@ nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<cr>
 nnoremap ciw *``cgn
 nnoremap gc *``cgn<C-r>.<ESC>
 
-" prevent paste from overwriting original copy
+" copy pasting with system
+"   selection and normal clipboard
+"   must have clipboard+ setting
+"   prevent paste from overwriting original copy
+set clipboard=unnamed
+noremap x "_x<silent>
+nnoremap Y "+y$
+nnoremap yy "+yy
+vnoremap y "+y
 xnoremap p pgvy
 xnoremap P Pgvy
+inoremap <C-v> <Esc>"+p
+
 
 " start of line on gg and G
 nnoremap gg gg0
@@ -217,16 +227,6 @@ noremap <silent>gb `nv`m
 " google search
 nnoremap go viw"zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
 xnoremap go "zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
-
-" copy pasting with system
-"   selection and normal clipboard
-"   must have clipboard+ setting
-set clipboard=unnamed
-noremap x "_x<silent>
-nnoremap Y "+y$
-nnoremap yy "+yy
-vnoremap y "+y
-
 
 
 "" Code folding
@@ -403,8 +403,8 @@ if !exists("*TimeStamp")
     return strftime("%a %d %b %Y, %X")
   endfun
 endif
-iabbr dtime <C-R>=DateStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
-iabbr ctime <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>k
+iabbr dtime <C-R>=DateStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>mDmdk
+iabbr ctime <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>mDmdk
 
 " split line
 function! BreakHere()
