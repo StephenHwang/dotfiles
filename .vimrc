@@ -128,9 +128,10 @@ noremap x "_x<silent>
 nnoremap Y "+y$
 nnoremap yy "+yy
 vnoremap y "+y
-xnoremap p pgvy
-xnoremap P Pgvy
-inoremap <C-v> <Esc>"+p
+xnoremap p "+pgvy
+xnoremap P "+Pgvy
+nnoremap p "+p
+nnoremap P "+P
 
 
 " start of line on gg and G
