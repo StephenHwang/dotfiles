@@ -119,19 +119,22 @@ nnoremap <silent>. :<C-u>execute "norm! " . repeat(".", v:count1)<cr>
 nnoremap ciw *``cgn
 nnoremap gc *``cgn<C-r>.<ESC>
 
-" copy pasting with system
-"   selection and normal clipboard
+
+" copy into system clipboard
 "   must have clipboard+ setting
-"   prevent paste from overwriting original copy
+"   paste on selection does not overwrite clipboard
 set clipboard=unnamed
 noremap x "_x<silent>
 nnoremap Y "+y$
 nnoremap yy "+yy
 vnoremap y "+y
-xnoremap p "+pgvy
-xnoremap P "+Pgvy
-nnoremap p "+p
-nnoremap P "+P
+
+" paste from system clipboard
+inoremap <C-v> <Esc>"+p
+xnoremap sp "+pgvy
+xnoremap sP "+Pgvy
+nnoremap sp "+p
+nnoremap sP "+P
 
 
 " start of line on gg and G
