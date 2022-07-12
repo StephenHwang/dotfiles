@@ -6,6 +6,10 @@ setlocal foldexpr=Fold(v:lnum)
 setlocal foldmethod=expr
 setlocal matchpairs-=[:]
 
+" jump to next/prev headers in visual mode
+vnoremap [[ :call vimwiki#base#goto_prev_header()<CR>v`<o
+vnoremap ]] :call vimwiki#base#goto_next_header()<CR>v`<o
+
 " Fold function
 function! Fold(lnum)
   let fold_level = strlen(matchstr(getline(a:lnum), '^' . '=' . '\+'))
