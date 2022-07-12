@@ -73,6 +73,11 @@ alias pwdc='pwd | xclip -selection clipboard && pwd'
 alias gs='git status 2> /dev/null'
 alias sb='source ~/.bashrc'
 
+alias eol='vim ~/bin/one_liners.wiki'
+alias esc='vim ~/bin/saved_commands.txt'
+alias sc='$(saved_commands)'
+alias ding='paplay /usr/share/sounds/freedesktop/stereo/complete.oga && notify-send "Succeeded"'
+
 # basic software
 alias tmux='tmux -2'
 alias lab='jupyter-lab'

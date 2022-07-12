@@ -30,8 +30,8 @@ upright_monitor.sh
 openbox --restart
 
 # wget replacement with continue
-curl -L -O your_url
-curl -L -O -C - your_url
+curl -L -O url
+curl -L -O -C - url
 
 # assorted
 cat /etc/*-release                                                 # check system distro
@@ -53,6 +53,14 @@ sudo apt update                       # downloads package info from all configur
 sudo apt upgrade                      # upgrades packages
 && espeak "Done" && notify-send "Command succeeded" || notify-send "Command failed" # notify
 && notify-send "Succeeded" || notify-send "Failed" && espeak "Done"   # notify
+
+# ding                                                                                                                                                                         #
+paplay /usr/share/sounds/freedesktop/stereo/complete.oga                                     # ding
+ncat -klc "paplay /usr/share/sounds/freedesktop/stereo/complete.oga && notify-send "Succeeded"" localhost 10009 &    # ding watcher 1/2
+ssh -N -R 10008:localhost:10009 sjhwang@courtyard.gi.ucsc.edu                                                        # ding watcher 2/2
+ncat --idle-timeout 1s localhost 10008                                                       # server-side ding
+
+paplay /usr/share/sounds/freedesktop/stereo/complete.oga && notify-send "Succeeded"
 
 # aws                                                                                 #
 aws s3 cp s3://vg-k8s/users/sjhwang/ .
