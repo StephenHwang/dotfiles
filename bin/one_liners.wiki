@@ -1,0 +1,9 @@
+ = Assorted one liners =
+
+awk '$10 == "TRUE"' tmp.txt
+  - subset rows with column 10 as TRUE
+  - may also consider grepping for TRUE
+
+
+
+
