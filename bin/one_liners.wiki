@@ -1,9 +1,143 @@
- = Assorted one liners =
+= Assorted one liners =
 
-awk '$10 == "TRUE"' tmp.txt
+== xargs ==
+  - -I variable : set variable
+  - -a file     : read lines from a file
+  - -p interactive
+  - ie:
+    - touch cf.txt && seq 1 10 | xargs -I file echo "rm file" >> cf.txt
+    - seq 1 10 | xargs -I file touch file
+    - xargs -a cf.txt -I file sh -c file
+
+
+== bash ==
+ctrl-z, fg; ding
+  append command to running command
+
+command substition:
+  - evaluate command and provide result to different command
+    1. using backticks:   `which vg`
+    2. using dlr prn:   $(which vg)
+
+
+== awk ==
+  - && to chain queries
+
+awk '$10 == "TRUE"' file
   - subset rows with column 10 as TRUE
-  - may also consider grepping for TRUE
+
+awk -F"\t" '$3!=""' file
+  - -F delimits by tab
+  - excludes rows with empty column 3
+
+awk -F'\t' '{print NF}' file | sort -nu | uniq
+  - count number of columns in file
+
+awk -F'\t' 'NF!=4' file
+  - filter rows with 4 columns
+
+awk '$6~/^[0-9]+/' file
+  - column 6 is number
+  - ~ : tilde means match the pattern to regex
+  - regex enclosed in /  /
+
+
+== less ==
+can be used even when open (ie. ":-S")
+-N
+  - show line number
+  - can be used in conjunction with search: \query
+-S
+  - shorten lines
+
+
+== assorted ==
+paste file1 file2 > file_out
+  - join columns
+
+cut -f2-7
+  - cut columns 2 to 7 from file
+
+tail -n +2 file
+  - remove first line
+
+cat file | grep -v query
+  - invert match (exclude those lines)
+
+sort --version-sort --field-separator=_ file
+  - version sort by _
+  - ie. sort a list of reads s1_234
+
+... | paste -sd+ | bc
+  - sum
+
+
+== vim ==
+search and replace: ( https://vim.fandom.com/wiki/Search_and_replace )
+  - :%s/foo/bar/g      : replace 'foo' (in the all current line) with 'bar'
+  - :s/foo/bar/g       : replace 'foo' (in the current line only) with 'bar'
+  - :%s/\s\+/\r/g      : replace whitespace with new line
+    - :%s
+    - \s\+
+    - \r
+    - g
+
+search and execute
+  - :g/query/action
+  - ie. remove blank lines
+    - :g/^$/d
+
+macros
+  - write the commands in a buffer or i<c-r>
+  - edit and yank command
+  - @y  to run macro
+
+registers (:reg)
+  - i<c-r>3               : paste yanked text in register 3 (:reg)
+  - i<c-r>%               : insert mode % register for current filepath
+
+writing from file (:r)
+  - :r !pwd/date          : insert text from file/command
+  - :r !seq 1 10         : read and enter text ( or :put =range(1,10) )
+
+selection + norm
+  - delete every other line in file (or visual selection)
+    - %norm jdd
+  - align to here:
+    - :'<,'> norm 2ldw
+
+reset vimwik folds
+  zE
+  zR
+  setlocal foldmethod=expr
+  zR
+
+fzf (<C-f>)
+  - f                : find file
+  - a                : find in all files
+  - i                : find in current file
+  - h                : find history
+  - g                : find git file (with differences)
+
+splits
+  - :vsp/sp               : open vertical and horizontal split
+  - C-w <hjlk>            : navigate splits
+  - resizing
+    - C-w _                 : maximize height of current split
+    - C-w |                 : maximize width of current split
+    - C-w =                 : normalize split sizes
+    - C-w n</>              : resize split width
+    - C-w n</>              : resize split height
+    - C-w r                 : swap splits
+    - C-w q                 : remove split
+    - :on                   : make split only split
+
+other:
+  - set background=light : Setting light mode
 
 
 
-
+== notes ==
+g++ as cpp compiler
+jdownloader2
+  - download using link
