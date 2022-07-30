@@ -76,14 +76,15 @@ alias sb='source ~/.bashrc'
 alias eol='vim ~/bin/one_liners.wiki'
 alias esc='vim ~/bin/saved_commands.txt'
 alias sc='$(saved_commands)'
-alias ding='paplay /usr/share/sounds/freedesktop/stereo/complete.oga && notify-send "Succeeded"'
+alias ding='paplay /usr/share/sounds/freedesktop/stereo/complete.oga && notify-send "Completed"'
 
 # basic software
 alias tmux='tmux -2'
 alias lab='jupyter-lab'
 alias pip='pip3'
-alias ipython='ipython --no-autoindent'
-alias ipy='ipython --no-autoindent'
+# alias ipython='ipython --no-autoindent'
+# alias ipy='ipython --no-autoindent'
+alias dact='conda deactivate'
 alias bc='bc ~/dotfiles/apps/.bcrc -l'
 
 # assorted software
