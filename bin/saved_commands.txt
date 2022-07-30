@@ -39,6 +39,8 @@ sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
 find . -exec touch {} \; && echo done                              # renew all timestamp
 rsync -ah --progress src dest                                      # cp
 du -h -d1 2> /dev/null                                             # file size
+wc -L file                                                         # longest line in file
+| paste -sd+ | bc                                                  # sum
 
 sudo dpkg --install
 tar -zxvf
@@ -121,6 +123,6 @@ shwang@bioinformatics.tenaya.local
 sjhwang@courtyard.gi.ucsc.edu
 
 # conda commands                                                                         #
-conda create --name myenv
-conda remove --name myenv --all
-act  # conda activate
+conda create --name myenv                                   # conda create env
+conda deactivate; conda remove --yes --name myenv --all     # conda delete env
+act                                                         # conda activate
