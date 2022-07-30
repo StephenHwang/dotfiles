@@ -123,11 +123,15 @@ nnoremap gc *``cgn<C-r>.<ESC>
 " copy into system clipboard
 "   must have clipboard+ setting
 "   paste on selection does not overwrite clipboard
+" nnoremap Y "+y$
+" nnoremap yy "+yy
+" vnoremap y "+y
 set clipboard=unnamed
 noremap x "_x<silent>
-nnoremap Y "+y$
-nnoremap yy "+yy
-vnoremap y "+y
+nnoremap Y "+y$"yy$
+nnoremap yy "+yy"yyy
+vnoremap y "+y"yy
+
 
 " paste from system clipboard
 inoremap <C-v> <Esc>"+p
@@ -456,6 +460,7 @@ let g:tagbar_type_r = {
       \ 'v:FunctionVariables',
     \ ]
   \ }
+
 
 " vim-slime: tmux REPL integration (:SlimeConfig to configure panels)
 let g:slime_target = 'tmux'
