@@ -153,7 +153,7 @@ vnoremap <C-q> g<C-a>
 
 " assorted other shorcuts
 map Q gq
-nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nol<cr>
+nnoremap <leader>ss :s/,/\ /ge<cr> <bar> :s/\s\+/\r/g<cr>:nohlsearch<cr>
 nnoremap <silent>gs xph
 nnoremap <BS> X
 nnoremap X cc<Esc>
@@ -414,22 +414,13 @@ endif
 iabbr dtime <C-R>=DateStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>mDmdk
 iabbr ctime <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>mDmdk
 
-" split line
+" break line
 function! BreakHere()
     s/^\(\s*\)\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\2\r\1\4\6
     call histdel("/", -1)
 endfunction
 nnoremap <leader>sl :<C-u>call BreakHere()<CR>
 nnoremap K :<C-u>call BreakHere()<CR>
-
-" split space
-function! SplitSpace()
-    s/,/\ /ge
-    s/\s\+/\r/g
-endfunction
-command! SS :call SplitSpace()
-command! ReplaceCommas s/,/\ /ge
-
 
 "" vimwiki settings
 "     see vimwiki ftplugin for more
