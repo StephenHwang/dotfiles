@@ -68,13 +68,9 @@ nmap <leader>y <Plug>VWLinkMap
 nnoremap <buffer> <silent> <leader>Y :VimwikiPrevLink<cr>
 nnoremap gf :VimwikiFollowLink<cr>
 
-
-" complete quotations
-" inoremap <buffer> " ""<Left>
-
 " url and img embedding
-iabbr <buffer> url [[link\|desc] ]<esc>10h
-iabbr <buffer> img {{file_url} }<esc>7h
+iabbr <buffer> urll [[link\|desc] ]<esc>10h
+iabbr <buffer> imgg {{file_url} }<esc>7h
 
 " Vimwiki abbrieviations
 iabbr <buffer> hte the
@@ -103,7 +99,7 @@ iabbr <buffer> wont won't
 iabbr <buffer> wouldnt wouldn't
 
 iabbr <buffer> rxn reaction
-iabbr <buffer> def definitely
+iabbr <buffer> defi definitely
 iabbr <buffer> prb probability
 iabbr <buffer> prob probably
 iabbr <buffer> distr distribution
