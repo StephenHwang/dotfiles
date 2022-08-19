@@ -355,6 +355,10 @@ autocmd FileType python,r inoremap <buffer> { {}<Left>
 autocmd FileType python,r inoremap <buffer> [ []<Left>
 autocmd FileType python,r inoremap <buffer> ' ''<Left>
 
+"" Nextflow mappings
+" :set syntax=groovy
+au BufNewFile,BufRead *.nf set filetype=groovy
+
 " vim-fugitive settings
 nnoremap gl :0Gclog<cr>
 
@@ -411,8 +415,8 @@ if !exists("*TimeStamp")
     return strftime("%a %d %b %Y, %X")
   endfun
 endif
-iabbr dtime <C-R>=DateStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>mDmdk
-iabbr ctime <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>mDmdk
+iabbr dtime <C-R>=DateStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>0mDmdk
+iabbr ctime <C-R>=TimeStamp()<CR><C-R>=Eatchar('\s')<CR><Esc>0mDmdk
 
 " break line
 function! BreakHere()
@@ -514,6 +518,7 @@ nnoremap <C-f>G :GFiles?<cr>
 let s:comment_map = {
     \   "c": '\/\/',
     \   "cpp": '\/\/',
+    \   "groovy": '\/\/',
     \   "python": '#',
     \   "r": '#',
     \   "sh": '#',
