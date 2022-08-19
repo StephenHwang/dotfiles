@@ -40,11 +40,11 @@ find . -exec touch {} \; && echo done                              # renew all t
 rsync -ah --progress src dest                                      # cp
 du -h -d1 2> /dev/null                                             # file size
 wc -L file                                                         # longest line in file
-| paste -sd+ | bc                                                  # sum
+ paste -sd+ | bc                                                  # sum
 
 sudo dpkg --install
 tar -zxvf
-cmp --silent $old $new || echo "files are different"
+cmp --silent $old $new || echo "files are different"               # use comm for output
 du -ah . | grep -v "/$" | sort -rh > sorted_file_sizes.txt         # sort by filesize
 systemctl restart bluetooth           # bluetooth restart
 hcitool dev | grep hci > /dev/null && rfkill block bluetooth || rfkill unblock bluetooth  # toggle bluetooth
@@ -56,13 +56,15 @@ sudo apt upgrade                      # upgrades packages
 && espeak "Done" && notify-send "Command succeeded" || notify-send "Command failed" # notify
 && notify-send "Succeeded" || notify-send "Failed" && espeak "Done"   # notify
 
-# ding                                                                                                                                                                         #
-paplay /usr/share/sounds/freedesktop/stereo/complete.oga                                     # ding
-ncat -klc "paplay /usr/share/sounds/freedesktop/stereo/complete.oga && notify-send "Succeeded"" localhost 10009 &    # ding watcher 1/2
-ssh -N -R 10008:localhost:10009 sjhwang@courtyard.gi.ucsc.edu                                                        # ding watcher 2/2
-ncat --idle-timeout 1s localhost 10008                                                       # server-side ding
 
-paplay /usr/share/sounds/freedesktop/stereo/complete.oga && notify-send "Succeeded"
+# ding                                                                                                                                                                         #
+paplay /usr/share/sounds/freedesktop/stereo/complete.oga && notify-send "Completed"            # local ding
+ncat -klc "paplay /usr/share/sounds/freedesktop/stereo/complete.oga && notify-send "Succeeded"" localhost 11111 &    # succeed action
+ncat -klc "paplay /usr/share/sounds/freedesktop/stereo/complete.oga && notify-send "Failed""    localhost 11110 &    # fail action
+ssh -fNR 11111:localhost:11111 sjhwang@courtyard.gi.ucsc.edu                                                         # succeed tunnel
+ssh -fNR 11110:localhost:11110 sjhwang@courtyard.gi.ucsc.edu                                                         # fail tunnel
+&& ./succeed_ding.sh || ./fail_ding.sh                                                                               # server-side command, aliased to ding
+
 
 # aws                                                                                 #
 aws s3 cp s3://vg-k8s/users/sjhwang/ .
