@@ -21,7 +21,10 @@ command substition:
 
 
 == awk ==
+Manual: https://www.gnu.org/software/gawk/manual/gawk.pdf
   - && to chain queries
+  - BEGIN and END:
+    - echo "1,2,3" | awk 'BEGIN {FS=OFS=","} {print $1} END {print "Done"}'
 
 awk '$10 == "TRUE"' file
   - subset rows with column 10 as TRUE
@@ -41,38 +44,60 @@ awk '$6~/^[0-9]+/' file
   - ~ : tilde means match the pattern to regex
   - regex enclosed in /  /
 
+cat reads.fastq | awk '{if(NR%4==2) print length($1)}' | sort -nr > read_length.txt
+  - read length
+
 
 == less ==
-can be used even when open (ie. ":-S")
+can be used even when open (ie. ":-S"); see "h" for help
 -N
   - show line number
   - can be used in conjunction with search: \query
 -S
   - shorten lines
 
+== bc ==
+... | paste -sd+ | bc
+  - sum
+
+echo "sin(4)" | bc
+  - pipe into bc:
+
 
 == assorted ==
-paste file1 file2 > file_out
-  - join columns
+cmp, comm, diff
+  - compare files
+
+paste file1 file2 > file.tsv
+  - join columns with tab
+  - also see join command
 
 cut -f2-7
   - cut columns 2 to 7 from file
 
+head -n -1 file
+  - remove last line in file
+
 tail -n +2 file
   - remove first line
+
+sed -i '1 i\asdf' file
+  - add line to start of file in-place
 
 cat file | grep -v query
   - invert match (exclude those lines)
 
-sort --version-sort --field-separator=_ file
+sort -V --field-separator=_ file
+  - -V == --version-sort
   - version sort by _
   - ie. sort a list of reads s1_234
 
-... | paste -sd+ | bc
-  - sum
 
 
 == vim ==
+sort file version reverse:
+  - :%!sort -Vr
+
 search and replace: ( https://vim.fandom.com/wiki/Search_and_replace )
   - :%s/foo/bar/g      : replace 'foo' (in the all current line) with 'bar'
   - :s/foo/bar/g       : replace 'foo' (in the current line only) with 'bar'
@@ -89,8 +114,8 @@ search and execute
 
 macros
   - write the commands in a buffer or i<c-r>
-  - edit and yank command
-  - @y  to run macro
+  - edit line and yy yank command
+  - `@y` to run macro
 
 registers (:reg)
   - i<c-r>3               : paste yanked text in register 3 (:reg)
