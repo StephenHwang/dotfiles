@@ -3,7 +3,6 @@ shopt -s histappend
 HISTCONTROL=ignoreboth
 HISTSIZE=1000
 HISTFILESIZE=2000
-HISTTIMEFORMAT="%l:%M:%S %p ▏ "
 HISTTIMEFORMAT="%m/%d/%y  %l:%M:%S %p ▏ "
 
 shopt -s checkwinsize
@@ -66,12 +65,15 @@ alias tmux='tmux -2'
 alias brain='cd /public/groups/hausslerlab/people/sjhwang && conda activate scRNA'
 alias vg_='cd /public/groups/vg/sjhwang'
 alias lab='jupyter-lab'
-alias ipython='ipython --no-autoindent'
-alias ipy='ipython --no-autoindent'
+# alias ipython='ipython --no-autoindent'
+# alias ipy='ipython --no-autoindent'
 alias bc='bc ~/.bcrc -l'
 
 alias gs='git status 2> /dev/null'
 alias sb='source ~/.bashrc'
+
+alias esc='vim ~/bin/saved_commands.txt'
+
 
 #####################################################################################
 
