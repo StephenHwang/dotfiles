@@ -88,7 +88,6 @@ iabbr <buffer> wo without
 iabbr <buffer> bc because
 iabbr <buffer> bw between
 iabbr <buffer> diff different
-iabbr <buffer> cont continue
 iabbr <buffer> ppl people
 
 iabbr <buffer> isnt isn't
@@ -111,3 +110,5 @@ iabbr <buffer> mu μ
 iabbr <buffer> dg °
 iabbr <buffer> omega Ω 
 iabbr <buffer> <> ⇌
+iabbr <buffer> lambda λ
+iabbr <buffer> sqrt √
