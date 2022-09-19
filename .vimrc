@@ -16,7 +16,7 @@ Plugin 'Yggdroot/indentLine'        " display vertical indentation level
 Plugin 'romainl/vim-qf'             " quickfix assist
 
 " Programming
-" Plugin  'vim-scripts/AutoComplPop'  " basic autocomplete 
+" Plugin  'vim-scripts/AutoComplPop'  " basic autocomplete
 Plugin 'sheerun/vim-polyglot'       " syntax recognition
 Plugin 'dense-analysis/ale'         " linter
 Plugin 'Valloric/YouCompleteMe'     " autocomplete
@@ -350,14 +350,23 @@ autocmd FileType python iabbr <buffer> pri print
 autocmd FileType python command! PY execute '!python %'
 
 "" Python and R  mappings
-autocmd FileType python,r,sh,vimwiki,text autocmd BufWritePre <buffer> :call TrimWhitespace()
+" autocmd FileType python,r,sh,vimwiki,text autocmd BufWritePre <buffer> :call TrimWhitespace()
+autocmd FileType python,r,sh,text autocmd BufWritePre <buffer> :call TrimWhitespace()
 autocmd FileType python,r inoremap <buffer> { {}<Left>
 autocmd FileType python,r inoremap <buffer> [ []<Left>
 autocmd FileType python,r inoremap <buffer> ' ''<Left>
 
-"" Nextflow mappings
-" :set syntax=groovy
-au BufNewFile,BufRead *.nf set filetype=groovy
+"" Nextflow settings
+au BufNewFile,BufRead *.nf
+      \ set filetype=nextflow |
+      \ set syntax=groovy
+
+"" Markdown settings
+au BufNewFile,BufRead *.md set filetype=markdown
+
+"" WDL settings
+au BufNewFile,BufRead *.wdl set filetype=wdl
+
 
 " vim-fugitive settings
 nnoremap gl :0Gclog<cr>
@@ -518,7 +527,8 @@ nnoremap <C-f>G :GFiles?<cr>
 let s:comment_map = {
     \   "c": '\/\/',
     \   "cpp": '\/\/',
-    \   "groovy": '\/\/',
+    \   "nextflow": '\/\/',
+    \   "wdl": '\/\/',
     \   "python": '#',
     \   "r": '#',
     \   "sh": '#',
