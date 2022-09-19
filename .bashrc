@@ -11,7 +11,6 @@ shopt -s histappend
 HISTCONTROL=ignoreboth
 HISTSIZE=1000
 HISTFILESIZE=2000
-HISTTIMEFORMAT="%l:%M:%S %p ▏ "
 HISTTIMEFORMAT="%m/%d/%y  %l:%M:%S %p ▏ "
 
 # check the window size after each command and, if necessary,
@@ -27,9 +26,8 @@ shopt -s globstar
 # Non-git tracking bash:
 # export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 parse_git_branch() {
-  # git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-  OUTPUT=$(git status 2> /dev/null | grep 'Changes not staged for commit' >/dev/null && echo \*)
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1'"$OUTPUT"')/'
+  MODIFIED=$(git status 2> /dev/null | grep 'Changes not staged for commit' >/dev/null && echo \*)
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1'"$MODIFIED"')/'
 }
 export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]$(parse_git_branch)\[\033[00m\]$ '
 
