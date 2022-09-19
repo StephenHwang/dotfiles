@@ -8,7 +8,8 @@
     - touch cf.txt && seq 1 10 | xargs -I file echo "rm file" >> cf.txt
     - seq 1 10 | xargs -I file touch file
     - xargs -a cf.txt -I file sh -c file
-
+  - pipe to vim:
+    - ls | grep query | xargs vim
 
 == bash ==
 ctrl-z, fg; ding
@@ -92,6 +93,8 @@ sort -V --field-separator=_ file
   - version sort by _
   - ie. sort a list of reads s1_234
 
+echo ACCTTGAAA | tr ACGTacgt TGCAtgca | rev
+  - reverse complement of sequence
 
 
 == vim ==
@@ -166,3 +169,10 @@ other:
 g++ as cpp compiler
 jdownloader2
   - download using link
+
+linux version:
+  cat /etc/os-release
+  lsb_release -a
+  hostnamectl
+  uname -r
+
