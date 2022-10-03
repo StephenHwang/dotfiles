@@ -200,53 +200,57 @@ xcd_func ()
 
 cd_func()
 {
-    # this is relatively wasteful to see if it is going to work
-    ( builtin cd "$@" >/dev/null 2>&1 )
-    badcd=$?
-    dir="$1"
-    # see if we are really changing
-    if [ -z "$1" ] ; then   # special case: no argument
-    	dir=~
-    fi
-    if [[ "$1" == "-" ]] ; then  # special case: cd -
-       dir="$OLDPWD"
-    fi
-    if [[ "$1" == "---" ]] ; then  # special case: cd --- for fzf directory search
-	    fd
-      return $?
-    fi
-    if [[ "$1" ==  "--" ]]; then  # special case: cd -- (list dirs)
-	     xcd_func --
-	     return $?
-    fi
-    if [ $badcd == 0 ]  # if we have a real place to go, find its inode
-    then
-	   pwdid=`ls -id .| cut -d ' ' -f 1`
-	   newid=`ls -id "$dir" 2>/dev/null | cut -d ' ' -f 1`
-    fi
-# if no place to go or we are going to the same place, just execute it and be done
-   if [[ $badcd == 1 || $pwdid == $newid ]]; then xcd_func "$@" ; return $? ; fi
-# if .env.sh in current directory or .., call it
-   if [ -f .env.sh ]
-   then source .env.sh leave dir "$PWD"
-   elif [ -f ../.env.sh ]
-   then source ../.env.sh leave child "$PWD"
-   fi
-# switch
-   xcd_func "$@"
-   rv=$?
-# if .env.sh in new directory or .., call it
-   if [ -f .env.sh ]
-   then source .env.sh enter dir "$PWD"
-   elif [ -f ../.env.sh ]
-   then source ../.env.sh enter child "$PWD"
-   fi
-   return $rv
+  # this is relatively wasteful to see if it is going to work
+  ( builtin cd "$@" >/dev/null 2>&1 )
+  badcd=$?
+  dir="$1"
+  # see if we are really changing
+  if [ -z "$1" ] ; then   # special case: no argument
+  	dir=~
+  fi
+  if [[ "$1" == "-" ]] ; then  # special case: cd -
+    dir="$OLDPWD"
+  fi
+  if [[ "$1" ==  "--" ]]; then  # special case: cd -- (list dirs)
+	  xcd_func --
+	  return $?
+  fi
+  if [[ "$1" == "---" ]] ; then  # special case: cd --- for fzf directory search
+	  fd
+    return $?
+  fi
+  if [ $badcd == 0 ]  # if we have a real place to go, find its inode
+  then
+	 pwdid=`ls -id .| cut -d ' ' -f 1`
+	 newid=`ls -id "$dir" 2>/dev/null | cut -d ' ' -f 1`
+  fi
+  # if no place to go or we are going to the same place, just execute it and be done
+  if [[ $badcd == 1 || $pwdid == $newid ]]; then
+    xcd_func "$@"
+    return $?
+  fi
+  # if .env.sh in current directory or .., call it
+  if [ -f .env.sh ] ; then
+    source .env.sh leave dir "$PWD"
+  elif [ -f ../.env.sh ] ; then
+    source ../.env.sh leave child "$PWD"
+  fi
+  # switch
+  xcd_func "$@"
+  rv=$?
+  # if .env.sh in new directory or .., call it
+  if [ -f .env.sh ] ; then
+    source .env.sh enter dir "$PWD"
+  elif [ -f ../.env.sh ] ; then
+    source ../.env.sh enter child "$PWD"
+  fi
+  return $rv
 }
 alias cd=cd_func
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
+alias .....="cd ../../../.."
 
 # paths
 PATH=$PATH:~/bin
