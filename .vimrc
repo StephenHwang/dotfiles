@@ -350,8 +350,7 @@ autocmd FileType python iabbr <buffer> pri print
 autocmd FileType python command! PY execute '!python %'
 
 "" Python and R  mappings
-" autocmd FileType python,r,sh,vimwiki,text autocmd BufWritePre <buffer> :call TrimWhitespace()
-autocmd FileType python,r,sh,text autocmd BufWritePre <buffer> :call TrimWhitespace()
+autocmd FileType python,r,sh,vimwiki,text autocmd BufWritePre <buffer> :call TrimWhitespace()
 autocmd FileType python,r inoremap <buffer> { {}<Left>
 autocmd FileType python,r inoremap <buffer> [ []<Left>
 autocmd FileType python,r inoremap <buffer> ' ''<Left>
@@ -362,7 +361,9 @@ au BufNewFile,BufRead *.nf
       \ set syntax=groovy
 
 "" Markdown settings
-au BufNewFile,BufRead *.md set filetype=markdown
+au BufNewFile,BufRead *.md
+      \ set filetype=markdown |
+      \ set syntax=markdown
 
 "" WDL settings
 au BufNewFile,BufRead *.wdl set filetype=wdl
@@ -528,7 +529,7 @@ let s:comment_map = {
     \   "c": '\/\/',
     \   "cpp": '\/\/',
     \   "nextflow": '\/\/',
-    \   "wdl": '\/\/',
+    \   "wdl": '#',
     \   "python": '#',
     \   "r": '#',
     \   "sh": '#',
