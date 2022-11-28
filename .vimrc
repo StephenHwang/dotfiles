@@ -127,7 +127,8 @@ nnoremap gc *``cgn<C-r>.<ESC>
 " nnoremap yy "+yy
 " vnoremap y "+y
 set clipboard=unnamed
-noremap x "_x<silent>
+nnoremap x "_x<silent>
+vnoremap x "+x<silent>
 nnoremap Y "+y$"yy$
 nnoremap yy "+yy"yyy
 vnoremap y "+y"yy
