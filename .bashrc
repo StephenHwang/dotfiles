@@ -88,6 +88,7 @@ alias bc='bc ~/dotfiles/apps/.bcrc -l'
 # assorted software
 alias popen='mimeopen' # 'mimeopen -a'
 alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
+alias plink='/home/stephen/bin/plink/plink'
 alias cursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
 alias pycharm='pycharm-community'
 alias rstudio='nohup rstudio > ~/.nohup_rstudio.out 2>&1 && rm ~/.nohup_rstudio.out &'
@@ -133,6 +134,12 @@ saved_commands() {
   eval $com_base | eval $sed_command
 }
 bind '"\C-f": "$(saved_commands)\e\C-e\er\e^"'
+
+
+# assorted bash bindings
+#   ctrl-k to send current line into history
+bind '"\C-k"':"\"\C-ahistory -s '\C-e'\C-m\""
+
 
 # fzf conda activate
 act() {
