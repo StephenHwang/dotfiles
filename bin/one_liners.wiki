@@ -48,6 +48,10 @@ awk '$6~/^[0-9]+/' file
 cat reads.fastq | awk '{if(NR%4==2) print length($1)}' | sort -nr > read_length.txt
   - read length
 
+samtools faidx sample.fa
+cut -f1-2 sample.fa.fai > sample_lengths.txt
+  - length of records in a fasta file
+
 
 == less ==
 can be used even when open (ie. ":-S"); see "h" for help
