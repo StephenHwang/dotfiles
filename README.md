@@ -1,3 +1,3 @@
 # Dotfiles and scripts
-Dotfiles and scripts for assorted applications.
+Dotfiles and scripts for assorted applications on Rockfish server.
 

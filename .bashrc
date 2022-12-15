@@ -1,3 +1,10 @@
+# .bashrc for rockfish
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+
 # History settings
 shopt -s histappend
 HISTCONTROL=ignoreboth
@@ -56,22 +63,24 @@ alias ll='ls -alhF --time-style="+ | %b %e %Y %H:%M |" --group-directories-first
 alias la='ls -A --group-directories-first'
 alias lsmb='ls -l --block-size=M'
 alias lsgb='ls -l --block-size=G'
+# full paths
+lll() {
+  if [ -z "$*" ];
+  then # or use `realpath *` but doesn't capture dotfiles
+    ls -rd1 --group-directories-first "$PWD"/{*,.*};
+  else
+    realpath $*;
+  fi
+}
 
-alias pip='pip3'
-alias python='python3'
+
+
 alias e='exit'
 alias h='history'
 alias tmux='tmux -2'
-alias brain='cd /public/groups/hausslerlab/people/sjhwang && conda activate scRNA'
-alias vg_='cd /public/groups/vg/sjhwang'
-alias lab='jupyter-lab'
-# alias ipython='ipython --no-autoindent'
-# alias ipy='ipython --no-autoindent'
-alias bc='bc ~/.bcrc -l'
-
+alias bc='bc ~/dotfiles/apps/.bcrc -l'
 alias gs='git status 2> /dev/null'
 alias sb='source ~/.bashrc'
-
 alias esc='vim ~/bin/saved_commands.txt'
 
 
@@ -79,17 +88,18 @@ alias esc='vim ~/bin/saved_commands.txt'
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/public/home/sjhwang/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$('/home/shwang45/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/public/home/sjhwang/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/public/home/sjhwang/miniconda3/etc/profile.d/conda.sh"
+    if [ -f "/home/shwang45/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/shwang45/miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/public/home/sjhwang/miniconda3/bin:$PATH"
+        export PATH="/home/shwang45/miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
+conda deactivate
 # <<< conda initialize <<<
 
 
@@ -122,18 +132,25 @@ saved_commands() {
 }
 bind '"\C-f": "$(saved_commands)\e\C-e\er\e^"'
 
-# fzf conda activate
-act() {
-  local envs
-  envs=$(ls ~/miniconda3/envs 2> /dev/null | fzf +m) &&
-  conda activate "$envs"
-  }
-
 #  https://medium.com/@_ahmed_ab/crazy-super-fast-fuzzy-search-9d44c29e14f
 fd() {
   local dir
   dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d  -print 2> /dev/null | fzf +m) &&
   cd "$dir"
+  }
+
+# fzf tmux attach -t
+ta() {
+  local window
+  window=$(tmux ls -F '#{session_name}' 2> /dev/null | fzf +m) &&
+  tmux attach -t "$window"
+  }
+
+# fzf conda activate
+act() {
+  local envs
+  envs=$(ls ~/miniconda3/envs 2> /dev/null | fzf +m) &&
+  conda activate "$envs"
   }
 
 # Petar Marinov, http:/geocities.com/h2428
@@ -228,35 +245,13 @@ alias cd=cd_func
 alias ..="cd .."
 alias ...="cd ../.."
 
-conda deactivate
-
-# source
-source /public/groups/vg/sjhwang/vg/autocomp.bash
 
 # paths
-export VIMRUNTIME=/public/home/sjhwang/.local/usr/share/vim/vim82
-export PATH="/public/home/sjhwang/.local/bin:$PATH"
-export PATH="/public/home/sjhwang/bin:$PATH"
-export PATH="/public/home/sjhwang/cmake-3.17.2-Linux-x86_64/bin/:$PATH"
-export PATH="/public/home/sjhwang/R/server/usr/lib/rstudio-server/bin:$PATH"
-export PATH="/public/home/sjhwang/bin/vim/src/:$PATH"
-export PATH="/public/groups/vg/sjhwang/vg/bin:$PATH"
-export PATH="/public/home/sjhwang/bin/zstd/programs:$PATH"
+PATH="$PATH:~/bin"
+export PATH="$HOME/local/bin:$PATH"
+export PATH="$HOME/bin/moni/build:$PATH"
 
-# paths to build VG (from adam)
-export PATH=/public/home/sjhwang/.local/bin:/public/home/anovak/.local/bin:$PATH
-export LD_LIBRARY_PATH=/public/home/sjhwang/.local/lib:/public/home/anovak/.local/lib64/:/public/home/anovak/.local/lib/:$LD_LIBRARY_PATH
-export LD_RUN_PATH=/public/home/sjhwang/.local/lib:/public/home/anovak/.local/lib64/:/public/home/anovak/.local/lib/:$LD_RUN_PATH
-export LIBRARY_PATH=/public/home/sjhwang/.local/lib:/public/home/anovak/.local/lib64/:/public/home/anovak/.local/lib/:$LIBRARY_PATH
-export PKG_CONFIG_PATH=/public/home/anovak/.local/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib64/pkgconfig:$PKG_CONFIG_PATH
-export C_INCLUDE_PATH=/public/home/sjhwang/.local/include:/public/home/anovak/.local/include
-export CPLUS_INCLUDE_PATH=/public/home/sjhwang/.local/include:/public/home/anovak/.local/include
+export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
+export PKG_CONFIG_PATH="$HOME/local/lib/pkgconfig:$HOME/bin/ncurses-6.3/include:$PKG_CONFIG_PATH"
 
-export CPATH=$CPATH:/public/home/sjhwang/.local/install/miniconda/include/python2.7
-export LIBRARY_PATH=$LIBRARY_PATH:/usr/lib64:/usr/lib/x86_64-redhat-linux6E/lib64
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib64:/usr/lib/x86_64-redhat-linux6E/lib64
-export LD_RUN_PATH=$LD_RUN_PATH:/usr/lib64:/usr/lib/x86_64-redhat-linux6E/lib64
-export GVBINDIR=/usr/lib64/graphviz/
-
-# ccache compiles
-export PATH="/public/home/sjhwang/bin/ccache_compilers/:$PATH"
+module load vim/9.0

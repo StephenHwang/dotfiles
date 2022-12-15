@@ -1,5 +1,7 @@
 set nocompatible
 filetype off
+" .vimrc for rockfish
+
 
 " vundle package manager: https://github.com/VundleVim/Vundle.vim
 " set up by:  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
@@ -150,7 +152,7 @@ nnoremap <silent>_ :call JumpStart()<cr>
 vnoremap <silent>_ :call JumpStart()<cr>v`<
 onoremap <silent>_ :call JumpStart()<cr>
 
-"" Match jump: toggle between matchparis or front/end of line
+"" Match jump: toggle between matchpairs or front/end of line
 function! GetMatchPairs()
   let match_cases = '[' . substitute(substitute(escape(&mps, '[$^.*~\\/?]'), ",", "", "g"), ":", "", "g") . ']'
   return match_cases
@@ -455,5 +457,8 @@ let g:airline_section_z = airline#section#create(['%5l/%L:%3v'])
 let g:airline_section_error = 0
 let g:airline_section_warning = 0
 
+" colorscheme
+" let g:gruvbox_contrast_dark='hard'
+" colorscheme gruvbox
 set background=dark
 colorscheme gruvbox8
