@@ -21,7 +21,8 @@ rsync -ah --progress src dest                                      # cp
 sudo dpkg --install
 tar -zxvf
 cmp --silent $old $new || echo "files are different"
-du -ah . | grep -v "/$" | sort -rh > sorted_file_sizes.txt         # sort by filesize
+du -ah . | grep -v "/$" | sort -rh                                 # sort by filesize
+du -h -d1 2> /dev/null                                             # file size
 
 # aws                                                                                 #
 aws s3 cp s3://vg-k8s/users/sjhwang/ .
