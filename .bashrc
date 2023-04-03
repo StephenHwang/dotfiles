@@ -80,10 +80,8 @@ alias ding='paplay /usr/share/sounds/freedesktop/stereo/complete.oga && notify-s
 alias tmux='tmux -2'
 alias lab='jupyter-lab'
 alias pip='pip3'
-# alias ipython='ipython --no-autoindent'
-# alias ipy='ipython --no-autoindent'
-alias dact='conda deactivate'
 alias bc='bc ~/dotfiles/apps/.bcrc -l'
+alias dact='conda deactivate'
 
 # assorted software
 alias popen='mimeopen' # 'mimeopen -a'
@@ -118,6 +116,13 @@ lll() {
   fi
 }
 
+# mkdir and cd immediately to it
+mkdirc() {
+  mkdir "$1"
+  cd "$1"
+}
+
+
 # fzf and ripgrep (rg)
 # https://github.com/junegunn/fzf#usage
 #     ignored rg files in .rgignore
@@ -137,9 +142,9 @@ bind '"\C-f": "$(saved_commands)\e\C-e\er\e^"'
 
 
 # assorted bash bindings
-#   ctrl-k to send current line into history
-bind '"\C-k"':"\"\C-ahistory -s '\C-e'\C-m\""
-
+#   ctrl-y to send current line into history
+# bind '"\C-y"':"\"\C-ahistory -s '\C-e'\C-m\""
+# pwd | xclip -selection clipboard
 
 # fzf conda activate
 act() {
@@ -268,5 +273,18 @@ export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
 export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
 export PATH="/home/stephen/bin/pymol/:$PATH"
 export PATH="/home/stephen/bin/matlab/bin:$PATH"
+export PATH="/home/stephen/bin/jdk-17.0.6+10/bin:$PATH"
 export PATH="/home/stephen/bin/syncthing-linux-amd64-v1.18.2:$PATH"
 export PATH="/usr/lib/ccache:$PATH"
+
+
+# Spumoni
+export PATH="/home/stephen/Documents/projects/langmead_lab/spumoni/build:$PATH"
+export SPUMONI_BUILD_DIR="/home/stephen/Documents/projects/langmead_lab/spumoni/build"
+
+# Docprofiles
+export PATH="/home/stephen/Documents/projects/langmead_lab/docprofiles/build:$PATH"
+export PFPDOC_BUILD_DIR="/home/stephen/Documents/projects/langmead_lab/docprofiles/build"
+
+
+
