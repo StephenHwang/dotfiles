@@ -39,7 +39,9 @@ curl -L -O url
 curl -L -O -C - url
 
 # assorted
+time cat                                                           # then ctrl-c to timer
 cat /etc/*-release                                                 # check system distro
+grep MemTotal /proc/meminfo                                        # check max memory
 sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
 find . -exec touch {} \; && echo done                              # renew all timestamp
 rsync -ah --progress src dest                                      # cp

@@ -68,17 +68,24 @@ can be used even when open (ie. ":-S"); see "h" for help
 echo "sin(4)" | bc
   - pipe into bc:
 
+== cut ==
+cut -f2-7
+  - cut columns 2 to 7 from file
+- delimiter
+  - normal
+    - cut -f2 -d',' infile
+  - tab
+    - cut -f2 -d$'\t' infile
+
+
 
 == assorted ==
 cmp, comm, diff
   - compare files
 
 paste file1 file2 > file.tsv
-  - join columns with tab
+  - join column-wise with tab delim
   - also see join command
-
-cut -f2-7
-  - cut columns 2 to 7 from file
 
 head -n -1 file
   - remove last line in file
@@ -86,8 +93,6 @@ head -n -1 file
 tail -n +2 file
   - remove first line
 
-sed -i '1 i\asdf' file
-  - add line to start of file in-place
 
 cat file | grep -v query
   - invert match (exclude those lines)
@@ -99,6 +104,21 @@ sort -V --field-separator=_ file
 
 echo ACCTTGAAA | tr ACGTacgt TGCAtgca | rev
   - reverse complement of sequence
+
+
+== sed ==
+sed -i '1 i\asdf' file
+  - add line to start of file in-place
+
+sed -i 's/old-text/new-text/g' input.txt
+
+sed -i '/^all:/ s/$/ anotherthing/' file
+
+sed -i '/^>/ s/$/ text/g' tmp.txt
+  - first part: a pattern to find lines that start with >
+  - secnd part: normal sed substitution with $ to append " text"
+
+sed 's/^/insert text at start /' file
 
 
 == vim ==
