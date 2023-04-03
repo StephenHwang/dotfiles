@@ -108,7 +108,7 @@ iabbr <buffer> theta θ
 iabbr <buffer> Delta Δ
 iabbr <buffer> mu μ
 iabbr <buffer> dg °
-iabbr <buffer> omega Ω 
+iabbr <buffer> omega Ω
 iabbr <buffer> <> ⇌
 iabbr <buffer> lambda λ
 iabbr <buffer> sqrt √
