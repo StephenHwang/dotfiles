@@ -48,6 +48,13 @@ if has("autocmd")
   au FocusGained,BufEnter * :checktime
 endif
 
+" colorscheme
+" set background=dark
+" colorscheme gruvbox8   " simplified gruvbox
+let g:gruvbox_contrast_dark='hard'
+colorscheme gruvbox
+highlight MarkM_line ctermbg=239
+highlight MarkM_pos ctermbg=130
 
 " Basic vim options
 set encoding=utf-8
@@ -127,8 +134,7 @@ nnoremap gc *``cgn<C-r>.<ESC>
 " nnoremap yy "+yy
 " vnoremap y "+y
 set clipboard=unnamed
-nnoremap x "_x<silent>
-vnoremap x "+x<silent>
+noremap x "_x<silent>
 nnoremap Y "+y$"yy$
 nnoremap yy "+yy"yyy
 vnoremap y "+y"yy
@@ -142,7 +148,7 @@ nnoremap sp "+p
 nnoremap sP "+P
 
 
-" start of line on gg and G
+" start of line on gg and G (bc :set nostartofline)
 nnoremap gg gg0
 nnoremap G G0
 vnoremap gg gg0
@@ -162,7 +168,7 @@ nnoremap dD cc<Esc>
 nnoremap U <C-R>
 command! CD cd %:p:h
 command! TW :call TrimWhitespace()
-command! PM set invnumber | IndentLinesToggle
+command! PrintMode set invnumber | IndentLinesToggle
 
 "" Jump to first non-blank, non-bullet character
 function! JumpStart()
@@ -224,14 +230,22 @@ endfunction
 nnoremap <silent>% :call MatchJump()<cr>
 vnoremap <silent><expr> % (match(getline('.'), GetMatchPairs()) >= 0) ? "%" : "v:call VisualMatchJump(col('.'))<cr>"
 
-
 " marks
 "  gb    : select between m and n marks
 "  mw    : cursorhold mark
-" autocmd CursorHold * echo 'mark l' line(".") | :norm mw
-autocmd CursorHold * :norm mw
-noremap <silent>`` `m
-noremap <silent>gb `nv`m
+" noremap <silent>`` `m
+" noremap <silent>gb `nv`m
+autocmd CursorHold * echomsg 'mark w set' | :norm mw
+noremap <silent>`` `b
+noremap <silent>gb `nv`b
+let mfg=matchaddpos('MarkM_pos', [[0,0]]) 
+let mbg=matchaddpos('MarkM_pos', [[0,0]]) 
+noremap mm :call matchdelete(mfg) <bar> 
+      \ call matchdelete(mbg) <bar> 
+      \ let mbg=matchadd('MarkM_line', '\%'.line('.').'l') <bar> 
+      \ let mfg=matchaddpos('MarkM_pos', [[line('.'), col('.')]]) <bar> 
+      \ norm mb<cr>
+
 
 " google search
 nnoremap go viw"zy:!firefox "http://www.google.com/search?q=<c-r>=substitute(@z, ' ' , '+','g')<cr>"<cr><cr>
@@ -368,7 +382,6 @@ au BufNewFile,BufRead *.md
 
 "" WDL settings
 au BufNewFile,BufRead *.wdl set filetype=wdl
-
 
 " vim-fugitive settings
 nnoremap gl :0Gclog<cr>
@@ -593,8 +606,3 @@ let g:airline_section_z = airline#section#create(['%5l/%L:%3v'])
 let g:airline_section_error = 0
 let g:airline_section_warning = 0
 
-" colorscheme
-" set background=dark
-" colorscheme gruvbox8   " simplified gruvbox
-let g:gruvbox_contrast_dark='hard'
-colorscheme gruvbox
