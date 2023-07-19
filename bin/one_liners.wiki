@@ -34,8 +34,10 @@ awk -F"\t" '$3!=""' file
   - -F delimits by tab
   - excludes rows with empty column 3
 
-awk -F'\t' '{print NF}' file | sort -nu | uniq
-  - count number of columns in file
+- count number of columns in file:
+  awk -F'\t' '{print NF}' file | sort -nu | uniq
+  cat file | awk '{print NF}' | sort -nu
+
 
 awk -F'\t' 'NF!=4' file
   - filter rows with 4 columns
@@ -44,6 +46,11 @@ awk '$6~/^[0-9]+/' file
   - column 6 is number
   - ~ : tilde means match the pattern to regex
   - regex enclosed in /  /
+
+difference of two columns
+{{{
+awk '{ $5 = $2 - $4 } 1' input.txt > inputdiff.txt
+}}}
 
 cat reads.fastq | awk '{if(NR%4==2) print length($1)}' | sort -nr > read_length.txt
   - read length
@@ -85,14 +92,28 @@ cmp, comm, diff
 
 paste file1 file2 > file.tsv
   - join column-wise with tab delim
-  - also see join command
+  - also see join command to join by common field
+  - -d ' ' : delimter
+
+
+
+join every N rows
+{{{
+cat $FILE | paste -d' ' $(printf -- '- %.0s' $(seq 0 $NUM_ORDER_MEMS))
+awk '{ printf "%s ", $0 } !(NR%5) { print "" }' $FILE
+}}}
+
+check if file is sorted:
+{{{
+sort -c -u -n file
+cmp file <(sort -n file | uniq)
+}}}
 
 head -n -1 file
   - remove last line in file
 
 tail -n +2 file
   - remove first line
-
 
 cat file | grep -v query
   - invert match (exclude those lines)
@@ -105,12 +126,23 @@ sort -V --field-separator=_ file
 echo ACCTTGAAA | tr ACGTacgt TGCAtgca | rev
   - reverse complement of sequence
 
+cat ecoli_sterilize_w_rc.txt | tr . \\n > tmp.txt
+  - replace "." with new line
+
+filter fasta file:
+    - cat ecoli.lengths | grep -v "rc$" | grep -A1 "^>" | grep -v "\-\-" > tmp.lengths
+  - select lines not ending in "rc"
+  - select fasta records and their following lines
+  - filtering the consecutive records
+
+
 
 == sed ==
 sed -i '1 i\asdf' file
   - add line to start of file in-place
 
 sed -i 's/old-text/new-text/g' input.txt
+  - replace text
 
 sed -i '/^all:/ s/$/ anotherthing/' file
 
@@ -118,7 +150,14 @@ sed -i '/^>/ s/$/ text/g' tmp.txt
   - first part: a pattern to find lines that start with >
   - secnd part: normal sed substitution with $ to append " text"
 
-sed 's/^/insert text at start /' file
+sed 's/^/ text_at_start_of_line /' file
+  - add text to start (replace $ to add at end)
+
+# to use variables, use double quotes
+{{{
+  APPEND=ecoli_k12
+  sed -i "/^>/ s/$/ $APPEND/g" e_coli_ecoli_k12.lengths
+}}}
 
 
 == vim ==
@@ -186,6 +225,17 @@ splits
 
 other:
   - set background=light : Setting light mode
+
+
+# join line
+sed ':a;N;/>/!s/\n//;ta;P;D' file.fa
+cat file.fa | grep --no-group-separator -A1 "^>header"
+
+# join line test
+{{{
+awk -v RS="^>" 'NR>1{$1=$1; print RS, $0}' ecoli_head.fa
+awk -v RS='>' 'NR>1{$1=$1; print RS, $0}' ecoli_head.fa
+}}}
 
 
 

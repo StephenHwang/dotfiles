@@ -60,6 +60,7 @@ sudoedit                              # sudo vim
 sudo systemctl suspend                # suspend
 sudo apt update                       # downloads package info from all configured sources
 sudo apt upgrade                      # upgrades packages
+sudo snap refresh <application>       # upgrade snap package
 && espeak "Done" && notify-send "Command succeeded" || notify-send "Command failed" # notify
 && notify-send "Succeeded" || notify-send "Failed" && espeak "Done"   # notify
 ipython --no-autoindent                                               # ipy
