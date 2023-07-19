@@ -6,7 +6,7 @@
 # feh --bg-fill /home/stephen/Pictures/wallpapers/vertical_mtn.jpg /home/stephen/Pictures/wallpapers/vertical_mtn.jpg /home/stephen/Pictures/wallpapers/horizontal_mtn.jpg
 
 touchpad_device_id=$(xinput list | grep "Synaptics" | sed 's/.*id=//' | cut -f1)
-eval "xinput enable $touchpad_device_id"
+eval "xinput disable $touchpad_device_id"
 
 # docked dual
 autorandr --load docked

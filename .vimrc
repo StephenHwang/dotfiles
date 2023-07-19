@@ -12,6 +12,7 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'tpope/vim-fugitive'         " git integration
 Plugin 'StephenHwang/vim-surround'  " fork of tpope's vim-surround
 Plugin 'tpope/vim-repeat'           " dot command for vim surround
+Plugin 'tpope/vim-obsession'        " save vim session
 Plugin 'Yggdroot/indentLine'        " display vertical indentation level
 Plugin 'romainl/vim-qf'             " quickfix assist
 
@@ -240,11 +241,11 @@ noremap <silent>`` `b
 noremap <silent>gb `nv`b
 let mfg=matchaddpos('MarkM_pos', [[0,0]]) 
 let mbg=matchaddpos('MarkM_pos', [[0,0]]) 
-noremap mm :call matchdelete(mfg) <bar> 
-      \ call matchdelete(mbg) <bar> 
-      \ let mbg=matchadd('MarkM_line', '\%'.line('.').'l') <bar> 
-      \ let mfg=matchaddpos('MarkM_pos', [[line('.'), col('.')]]) <bar> 
-      \ norm mb<cr>
+noremap <silent>mm :call matchdelete(mfg) <bar> 
+                  \ call matchdelete(mbg) <bar> 
+                  \ let mbg=matchadd('MarkM_line', '\%'.line('.').'l') <bar> 
+                  \ let mfg=matchaddpos('MarkM_pos', [[line('.'), col('.')]]) <bar> 
+                  \ norm mb <cr>
 
 
 " google search
