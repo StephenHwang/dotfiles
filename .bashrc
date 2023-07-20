@@ -63,6 +63,7 @@ alias ll='ls -alhF --time-style="+ | %b %e %Y %H:%M |" --group-directories-first
 alias la='ls -A --group-directories-first'
 alias lsmb='ls -l --block-size=M'
 alias lsgb='ls -l --block-size=G'
+alias tree='find . -print | sed -e "s;[^/]*/;|____;g;s;____|; |;g"'
 # full paths
 lll() {
   if [ -z "$*" ];
@@ -121,7 +122,7 @@ function displaytime {
 # fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
-export FZF_DEFAULT_COMMAND='find "$PWD" -name ".*" -prune -o -print'
+export FZF_DEFAULT_COMMAND='find -L "$PWD" -name ".*" -prune -o -print'
 export FZF_COMPLETION_TRIGGER='--'
 
 # fzf saved commands and filter comments
@@ -135,7 +136,7 @@ bind '"\C-f": "$(saved_commands)\e\C-e\er\e^"'
 #  https://medium.com/@_ahmed_ab/crazy-super-fast-fuzzy-search-9d44c29e14f
 fd() {
   local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune -o -type d  -print 2> /dev/null | fzf +m) &&
+  dir=$(find -L ${1:-.} -path '*/\.*' -prune -o -type d  -print 2> /dev/null | fzf +m) &&
   cd "$dir"
   }
 
@@ -244,14 +245,34 @@ cd_func()
 alias cd=cd_func
 alias ..="cd .."
 alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
 
 
-# paths
+# Paths
 PATH="$PATH:~/bin"
 export PATH="$HOME/local/bin:$PATH"
-export PATH="$HOME/bin/moni/build:$PATH"
-
+export PATH="/scratch4/blangme2//sjhwang/scripts:$PATH"
 export LD_LIBRARY_PATH="$HOME/local/lib:$LD_LIBRARY_PATH"
 export PKG_CONFIG_PATH="$HOME/local/lib/pkgconfig:$HOME/bin/ncurses-6.3/include:$PKG_CONFIG_PATH"
 
-module load vim/9.0
+# assorted tools
+export PATH="~/bin/moni/build:$PATH"
+export SPUMONI_BUILD_DIR="~/bin/spumoni/build"
+export PATH="~/bin/spumoni/build:$PATH"
+export PFPDOC_BUILD_DIR="~/bin/docprofiles/build"
+export PATH="~/bin/docprofiles/build/:$PATH"
+export PATH="~/bin/FastANI/bin:$PATH"
+export PATH="~/bin/seqtk/:$PATH"
+
+
+## Modules to load
+#module load vim/9.0
+#module load cmake/3.18.4
+#module load zlib/1.2.11
+#module load samtools/1.15.1
+#module load bcftools/1.12
+#module load HTSlib/1.12
+#module load bzip2/1.0.8
+#module load bedtools/2.30
+
