@@ -334,6 +334,11 @@ autocmd FileType r iabbr <buffer><silent> brow browser()  # TODO:<c-r>=Eatchar('
 autocmd FileType python iabbr <buffer> pri print
 autocmd FileType python command! PY execute '!python %'
 
+"" Nextflow settings
+au BufNewFile,BufRead *.nf
+      \ set filetype=nextflow |
+      \ set syntax=groovy
+
 " vim-fugitive settings
 nnoremap gl :0Gclog<cr>
 
@@ -402,6 +407,8 @@ inoremap <expr> <Tab> pumvisible() ? '<C-n>' : '<Tab>'
 let s:comment_map = {
     \   "c": '\/\/',
     \   "cpp": '\/\/',
+    \   "nextflow": '\/\/',
+    \   "wdl": '#',
     \   "python": '#',
     \   "r": '#',
     \   "sh": '#',
