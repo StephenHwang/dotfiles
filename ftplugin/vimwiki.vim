@@ -36,7 +36,7 @@ function! MakeListToggleList()
   endif
   if getline('.') =~ '^\s*- '       " toggle normal list item checkbox
     :VimwikiToggleListItem
-  else
+  else                              " note: must include the space behind I-
     norm I- 
   end
 endfunction
@@ -89,6 +89,8 @@ iabbr <buffer> bc because
 iabbr <buffer> bw between
 iabbr <buffer> diff different
 iabbr <buffer> ppl people
+iabbr <buffer> lenghts lengths
+iabbr <buffer> lenght length
 
 iabbr <buffer> isnt isn't
 iabbr <buffer> cant can't
@@ -109,6 +111,9 @@ iabbr <buffer> Delta Δ
 iabbr <buffer> mu μ
 iabbr <buffer> dg °
 iabbr <buffer> omega Ω
+iabbr <buffer> sigma Σ
+iabbr <buffer> elementof ∈
+iabbr <buffer> union ∪
 iabbr <buffer> <> ⇌
 iabbr <buffer> lambda λ
 iabbr <buffer> sqrt √
