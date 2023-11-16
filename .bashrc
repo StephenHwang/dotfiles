@@ -57,6 +57,7 @@ alias bc='bc -l ~/dotfiles/apps/.bcrc'
 alias tmux='tmux -2'
 alias dact='conda deactivate'
 alias lab='jupyter-lab'
+alias python='python3'
 
 # full paths
 lll() {
@@ -70,13 +71,6 @@ lll() {
 
 ## fzf and ripgrep (rg)
 ## https://github.com/junegunn/fzf#usage
-##     ignored rg files in .rgignore
-#alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
-#export FZF_DEFAULT_COMMAND='rg --files --smart-case --follow --no-hidden'
-#export FZF_COMPLETION_TRIGGER='--'
-#source /usr/share/doc/fzf/examples/key-bindings.bash
-#source /usr/share/doc/fzf/examples/completion.bash
-
 # fzf saved commands and filter comments
 saved_commands() {
   sed_command="sed 's/#.*$//;/^$/d'"
@@ -84,12 +78,6 @@ saved_commands() {
   eval $com_base | eval $sed_command
 }
 bind '"\C-f": "$(saved_commands)\e\C-e\er\e^"'
-
-
-# assorted bash bindings
-#   ctrl-y to send current line into history
-# bind '"\C-y"':"\"\C-ahistory -s '\C-e'\C-m\""
-# pwd | xclip -selection clipboard
 
 # fzf conda activate
 act() {

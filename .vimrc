@@ -28,7 +28,7 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'vimwiki/vimwiki', {'branch': 'dev'}
 " Plugin 'jpalardy/vim-slime.git'
-" Plugin 'lervag/vimtex'
+Plugin 'lervag/vimtex'
 
 " Aesthetics
 Plugin 'morhetz/gruvbox'
