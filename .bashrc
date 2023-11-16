@@ -6,6 +6,9 @@ case $- in
       *) return;;
 esac
 
+# silence ZSH defualt warning
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 # History settings
 shopt -s histappend
 HISTCONTROL=ignoreboth
@@ -51,16 +54,9 @@ alias sc='$(saved_commands)'
 
 # basic software
 alias bc='bc -l ~/dotfiles/apps/.bcrc'
-# alias tmux='tmux -2'
-# alias lab='jupyter-lab'
-# alias pip='pip3'
-# alias dact='conda deactivate'
-
-## source
-#source /usr/share/bash-completion/bash_completion # bash completion
-#source /home/stephen/anaconda3/etc/profile.d/conda.sh # conda initialize
-#source /home/stephen/bin/tmux-completion/tmux       # tmux autocompletion
-#source /home/stephen/bin/git-completion.bash        # git autocompletion
+alias tmux='tmux -2'
+alias dact='conda deactivate'
+alias lab='jupyter-lab'
 
 # full paths
 lll() {
@@ -216,24 +212,4 @@ alias .....="cd ../../../.."
 # paths
 PATH=$PATH:~/bin
 #export PATH="home/stephen/.local/bin:$PATH"
-#export PATH="home/stephen/.local/bin/IGV_Linux_2.8.6/:$PATH"
-#export PATH="/home/stephen/anaconda3/bin/:$PATH"
-#export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
-#export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
-#export PATH="/home/stephen/bin/pymol/:$PATH"
-#export PATH="/home/stephen/bin/matlab/bin:$PATH"
-#export PATH="/home/stephen/bin/jdk-17.0.6+10/bin:$PATH"
-#export PATH="/home/stephen/bin/syncthing-linux-amd64-v1.18.2:$PATH"
-#export PATH="/usr/lib/ccache:$PATH"
-
-
-## Spumoni
-#export PATH="/home/stephen/Documents/projects/langmead_lab/spumoni/build:$PATH"
-#export SPUMONI_BUILD_DIR="/home/stephen/Documents/projects/langmead_lab/spumoni/build"
-#
-## Docprofiles
-#export PATH="/home/stephen/Documents/projects/langmead_lab/docprofiles/build:$PATH"
-#export PFPDOC_BUILD_DIR="/home/stephen/Documents/projects/langmead_lab/docprofiles/build"
-
-
 

@@ -50,10 +50,10 @@ if has("autocmd")
 endif
 
 " colorscheme
-" set background=dark
-colorscheme gruvbox8   " simplified gruvbox
-" let g:gruvbox_contrast_dark='hard'
-" colorscheme gruvbox
+set background=dark
+" colorscheme gruvbox8   " simplified gruvbox
+let g:gruvbox_contrast_dark='hard'
+colorscheme gruvbox
 highlight MarkM_line ctermbg=239
 highlight MarkM_pos ctermbg=130
 
