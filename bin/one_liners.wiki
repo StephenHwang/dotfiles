@@ -95,6 +95,8 @@ paste file1 file2 > file.tsv
   - also see join command to join by common field
   - -d ' ' : delimter
 
+make install &> build.log; grep "error:" build.log
+  - make and search to identify compile errors
 
 
 join every N rows
@@ -135,7 +137,8 @@ filter fasta file:
   - select fasta records and their following lines
   - filtering the consecutive records
 
-
+grep . file.txt
+  - remove blank lines
 
 == sed ==
 sed -i '1 i\asdf' file
@@ -237,6 +240,14 @@ awk -v RS="^>" 'NR>1{$1=$1; print RS, $0}' ecoli_head.fa
 awk -v RS='>' 'NR>1{$1=$1; print RS, $0}' ecoli_head.fa
 }}}
 
+
+== seqtk ==
+multiline fasta to joined lines
+  seqtk seq -l0 file.fa
+
+Extract sequences with names in file `name.lst`, one header per line:
+    cat in.fa | grep "^>" | cut -d'>' -f2 > name.lst
+    seqtk subseq in.fa name.lst
 
 
 == notes ==

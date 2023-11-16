@@ -44,11 +44,15 @@ cat /etc/*-release                                                 # check syste
 grep MemTotal /proc/meminfo                                        # check max memory
 sudo rsync -avxP /home/stephen/ /media/stephen/main/backup/        # backup
 find . -exec touch {} \; && echo done                              # renew all timestamp
+find . -exec chmod g+r {} \; && echo "Add group read"              # add group read
+find -type d -exec chmod 750 {} \; && echo "Directory permission"  # change directory permissions
 rsync -ah --progress src dest                                      # cp
 du -h -d1 2> /dev/null                                             # file size
 wc -L file                                                         # longest line in file
- paste -sd+ | bc                                                  # sum
+ paste -sd+ | bc                                                   # sum
 
+/usr/bin/time -v                                                   # get peak memory usage
+/usr/bin/time --format='Run stats: user=%U, system=%S, elapsed=%e, CPU=%P, MemMax=%M'    #  peak memory usage formatted
 sudo dpkg --install
 tar -zxvf                                                          # unzip tar.gz files
 cmp --silent $old $new || echo "files are different"               # use comm for output
@@ -74,6 +78,8 @@ ssh -fNR 11111:localhost:11111 sjhwang@courtyard.gi.ucsc.edu                    
 ssh -fNR 11110:localhost:11110 sjhwang@courtyard.gi.ucsc.edu                                                         # fail tunnel
 && ./succeed_ding.sh || ./fail_ding.sh                                                                               # server-side command, aliased to ding
 
+# compile
+make &> build.log; grep "error:" build.log
 
 # aws                                                                                 #
 aws s3 cp s3://vg-k8s/users/sjhwang/ .
@@ -114,6 +120,8 @@ awk '{print $2}' filename             # cut column 2
 cut -f2 filename                      # cut column 2
 sort -V                               # version sort
 uniq                                  # unique
+chgrp <group> <files>                 # change group of a file
+id -gn <username>                     # check default group (or use groups)
 
 # tmux                                                                                 #
 #   :swap-window -t <window_idx>            # tmux swap window
@@ -129,6 +137,7 @@ ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu     
 netstat -ntlp | grep LISTEN'                                                         # ports
 ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu          # portc
 kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)                          # portk
+ssh-keygen -R XXX.XXX.X.XXX                                                          # remove key when server ssh changes
 mosh sjhwang@courtyard.gi.ucsc.edu
 sjhwang@hb.ucsc.edu                           #
 shwang@bioinformatics.tenaya.local
