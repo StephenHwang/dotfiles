@@ -45,7 +45,7 @@ alias lsgb='ls -lk | tail -n +2 | awk '\''{print $5/(1024^2)" GiB", $NF}'\'''
 
 alias e='exit'
 alias h='history'
-alias pwdc='pwd | xclip -selection clipboard && pwd'
+alias pwdc='pwd | pbcopy && pwd'
 alias sb='source ~/.bashrc'
 
 alias eol='vim ~/bin/one_liners.wiki'

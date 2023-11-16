@@ -68,6 +68,8 @@ sort -V                               # version sort
 uniq                                  # unique
 chgrp <group> <files>                 # change group of a file
 id -gn <username>                     # check default group (or use groups)
+| pbcopy                              # copy into clipboard
+
 
 # tmux                                                                                 #
 #   :swap-window -t <window_idx>            # tmux swap window
