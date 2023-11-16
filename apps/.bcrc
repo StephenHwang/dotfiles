@@ -1,6 +1,6 @@
 # scale=6;
-pi=4*a(1);
-e=e(1);
+#pi=4*a(1);
+#e=e(1);
 
 define sin(x) {
     if (x == pi/2) {
@@ -175,13 +175,6 @@ define exp(x) {
 
 define cbrt(x) {
     return pow(x, 1/3);
-}
-
-define abs(x) {
-    if (x < 0) {
-        return -x;
-    }
-    return x;
 }
 
 define bessel(n, x) {
