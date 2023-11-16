@@ -94,7 +94,7 @@ bind '"\C-f": "$(saved_commands)\e\C-e\er\e^"'
 # fzf conda activate
 act() {
   local envs
-  envs=$(ls /home/stephen/anaconda3/envs 2> /dev/null | fzf +m) &&
+  envs=$(cat ~/.conda/environments.txt 2> /dev/null | fzf +m) &&
   conda activate "$envs"
   }
 
@@ -213,3 +213,5 @@ alias .....="cd ../../../.."
 PATH=$PATH:~/bin
 #export PATH="home/stephen/.local/bin:$PATH"
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
