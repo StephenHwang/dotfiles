@@ -14,7 +14,7 @@ Plugin 'StephenHwang/vim-surround'  " fork of tpope's vim-surround
 Plugin 'tpope/vim-repeat'           " dot command for vim surround
 Plugin 'tpope/vim-obsession'        " save vim session
 Plugin 'Yggdroot/indentLine'        " display vertical indentation level
-Plugin 'romainl/vim-qf'             " quickfix assist
+" Plugin 'romainl/vim-qf'             " quickfix assist
 
 " Programming
 " Plugin  'vim-scripts/AutoComplPop'  " basic autocomplete
@@ -27,8 +27,8 @@ Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'vimwiki/vimwiki', {'branch': 'dev'}
-Plugin 'jpalardy/vim-slime.git'
-Plugin 'lervag/vimtex'
+" Plugin 'jpalardy/vim-slime.git'
+" Plugin 'lervag/vimtex'
 
 " Aesthetics
 Plugin 'morhetz/gruvbox'
@@ -51,9 +51,9 @@ endif
 
 " colorscheme
 " set background=dark
-" colorscheme gruvbox8   " simplified gruvbox
-let g:gruvbox_contrast_dark='hard'
-colorscheme gruvbox
+colorscheme gruvbox8   " simplified gruvbox
+" let g:gruvbox_contrast_dark='hard'
+" colorscheme gruvbox
 highlight MarkM_line ctermbg=239
 highlight MarkM_pos ctermbg=130
 

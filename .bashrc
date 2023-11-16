@@ -17,8 +17,8 @@ HISTTIMEFORMAT="%m/%d/%y  %l:%M:%S %p ▏ "
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
-# pattern "**" used in a pathname expansion matches all files and directories
-shopt -s globstar
+## vim as Manual page
+export MANPAGER="vim -M +MANPAGER -"
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -31,106 +31,55 @@ parse_git_branch() {
 }
 export PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]$(parse_git_branch)\[\033[00m\]$ '
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto --group-directories-first'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# vim as Manual page
-export MANPAGER="vim -M +MANPAGER -"
-
-# ibus
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODUlE=ibus
-
-# auto-start a tmux session on terminal open
-#if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-#    tmux attach -t default || tmux new -s default
-#fi
-
 
 ################################################################################
 ####                              aliases                                   ####
-alias ll='ls -alhF --time-style="+ | %b %e %Y %H:%M |" --group-directories-first'
-alias la='ls -A --group-directories-first'
-alias lsmb='ls -l --block-size=M'
-alias lsgb='ls -l --block-size=G'
+alias ls='ls -G'
+alias ll='ls -alhFG'
+alias la='ls -AG'
+alias lsmb='ls -lk | tail -n +2 | awk '\''{print $5/(1024^2)" MiB", $NF}'\'''
+alias lsgb='ls -lk | tail -n +2 | awk '\''{print $5/(1024^2)" GiB", $NF}'\'''
 
 alias e='exit'
 alias h='history'
-alias ctime='date'
 alias pwdc='pwd | xclip -selection clipboard && pwd'
-alias gs='git status 2> /dev/null'
 alias sb='source ~/.bashrc'
 
 alias eol='vim ~/bin/one_liners.wiki'
 alias esc='vim ~/bin/saved_commands.txt'
 alias sc='$(saved_commands)'
-alias ding='paplay /usr/share/sounds/freedesktop/stereo/complete.oga && notify-send "Completed"'
 
 # basic software
-alias tmux='tmux -2'
-alias lab='jupyter-lab'
-alias pip='pip3'
-alias bc='bc ~/dotfiles/apps/.bcrc -l'
-alias dact='conda deactivate'
+alias bc='bc -l ~/dotfiles/apps/.bcrc'
+# alias tmux='tmux -2'
+# alias lab='jupyter-lab'
+# alias pip='pip3'
+# alias dact='conda deactivate'
 
-# assorted software
-alias popen='mimeopen' # 'mimeopen -a'
-alias igv='/home/stephen/bin/IGV_Linux_2.8.6/igv.sh'
-alias plink='/home/stephen/bin/plink/plink'
-alias cursor='/home/stephen/bin/find-cursor/find-cursor --repeat 0 --follow --distance 1 --line-width 16 --size 16 --color red'
-alias pycharm='pycharm-community'
-alias rstudio='nohup rstudio > ~/.nohup_rstudio.out 2>&1 && rm ~/.nohup_rstudio.out &'
-alias zotero='zotero &'
-alias ApE='wine /home/stephen/bin/ApE/ApE_win_current.exe'
-alias OpenMarkov='java -jar ~/bin/OpenMarkov-0.3.4.jar'
-
-# Ports
-alias sshcport='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
-alias ports='netstat -ntlp | grep LISTEN'
-alias portc='ssh -X -N -f -L localhost:9999:localhost:9999 sjhwang@courtyard.gi.ucsc.edu'
-alias portk='kill $(ports | grep -o '[0-9]*/ssh' | rev | cut -c5- | rev)'
-
-# source
-source /usr/share/bash-completion/bash_completion # bash completion
-source /home/stephen/anaconda3/etc/profile.d/conda.sh # conda initialize
-source /home/stephen/bin/tmux-completion/tmux       # tmux autocompletion
-source /home/stephen/bin/git-completion.bash        # git autocompletion
+## source
+#source /usr/share/bash-completion/bash_completion # bash completion
+#source /home/stephen/anaconda3/etc/profile.d/conda.sh # conda initialize
+#source /home/stephen/bin/tmux-completion/tmux       # tmux autocompletion
+#source /home/stephen/bin/git-completion.bash        # git autocompletion
 
 # full paths
 lll() {
   if [ -z "$*" ];
   then # or use `realpath *` but doesn't capture dotfiles
-    ls -rd1 --group-directories-first "$PWD"/{*,.*};
+    ls -rd1 "$PWD"/{*,.*};
   else
     realpath $*;
   fi
 }
 
-# mkdir and cd immediately to it
-mkdirc() {
-  mkdir "$1"
-  cd "$1"
-}
-
-
-# fzf and ripgrep (rg)
-# https://github.com/junegunn/fzf#usage
-#     ignored rg files in .rgignore
-alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
-export FZF_DEFAULT_COMMAND='rg --files --smart-case --follow --no-hidden'
-export FZF_COMPLETION_TRIGGER='--'
-source /usr/share/doc/fzf/examples/key-bindings.bash
-source /usr/share/doc/fzf/examples/completion.bash
+## fzf and ripgrep (rg)
+## https://github.com/junegunn/fzf#usage
+##     ignored rg files in .rgignore
+#alias vimf='vim $(fzf -m --height 60%)'   # to start up vim with fzf
+#export FZF_DEFAULT_COMMAND='rg --files --smart-case --follow --no-hidden'
+#export FZF_COMPLETION_TRIGGER='--'
+#source /usr/share/doc/fzf/examples/key-bindings.bash
+#source /usr/share/doc/fzf/examples/completion.bash
 
 # fzf saved commands and filter comments
 saved_commands() {
@@ -266,25 +215,25 @@ alias .....="cd ../../../.."
 
 # paths
 PATH=$PATH:~/bin
-export PATH="home/stephen/.local/bin:$PATH"
-export PATH="home/stephen/.local/bin/IGV_Linux_2.8.6/:$PATH"
-export PATH="/home/stephen/anaconda3/bin/:$PATH"
-export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
-export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
-export PATH="/home/stephen/bin/pymol/:$PATH"
-export PATH="/home/stephen/bin/matlab/bin:$PATH"
-export PATH="/home/stephen/bin/jdk-17.0.6+10/bin:$PATH"
-export PATH="/home/stephen/bin/syncthing-linux-amd64-v1.18.2:$PATH"
-export PATH="/usr/lib/ccache:$PATH"
+#export PATH="home/stephen/.local/bin:$PATH"
+#export PATH="home/stephen/.local/bin/IGV_Linux_2.8.6/:$PATH"
+#export PATH="/home/stephen/anaconda3/bin/:$PATH"
+#export PATH="/home/stephen/Downloads/netextender/try/netExtenderClient/:$PATH"
+#export PATH="/home/stephen/bin/Zotero_linux-x86_64/:$PATH"
+#export PATH="/home/stephen/bin/pymol/:$PATH"
+#export PATH="/home/stephen/bin/matlab/bin:$PATH"
+#export PATH="/home/stephen/bin/jdk-17.0.6+10/bin:$PATH"
+#export PATH="/home/stephen/bin/syncthing-linux-amd64-v1.18.2:$PATH"
+#export PATH="/usr/lib/ccache:$PATH"
 
 
-# Spumoni
-export PATH="/home/stephen/Documents/projects/langmead_lab/spumoni/build:$PATH"
-export SPUMONI_BUILD_DIR="/home/stephen/Documents/projects/langmead_lab/spumoni/build"
-
-# Docprofiles
-export PATH="/home/stephen/Documents/projects/langmead_lab/docprofiles/build:$PATH"
-export PFPDOC_BUILD_DIR="/home/stephen/Documents/projects/langmead_lab/docprofiles/build"
+## Spumoni
+#export PATH="/home/stephen/Documents/projects/langmead_lab/spumoni/build:$PATH"
+#export SPUMONI_BUILD_DIR="/home/stephen/Documents/projects/langmead_lab/spumoni/build"
+#
+## Docprofiles
+#export PATH="/home/stephen/Documents/projects/langmead_lab/docprofiles/build:$PATH"
+#export PFPDOC_BUILD_DIR="/home/stephen/Documents/projects/langmead_lab/docprofiles/build"
 
 
 
