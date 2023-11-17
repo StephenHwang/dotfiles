@@ -14,7 +14,7 @@ Plugin 'StephenHwang/vim-surround'  " fork of tpope's vim-surround
 Plugin 'tpope/vim-repeat'           " dot command for vim surround
 Plugin 'tpope/vim-obsession'        " save vim session
 Plugin 'Yggdroot/indentLine'        " display vertical indentation level
-" Plugin 'romainl/vim-qf'             " quickfix assist
+Plugin 'romainl/vim-qf'             " quickfix assist
 
 " Programming
 " Plugin  'vim-scripts/AutoComplPop'  " basic autocomplete
@@ -596,14 +596,18 @@ let g:netrw_localcopydircmd = 'cp -r'
 hi! link netrwMarkFile Search
 nmap <leader>` :Lexplore<CR>
 
-
 "" aethetics
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
-
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline_section_y = 0
 let g:airline_section_z = airline#section#create(['%5l/%L:%3v'])
 let g:airline_section_error = 0
 let g:airline_section_warning = 0
+let g:tmuxline_separators = {
+    \ 'left' : '',
+    \ 'left_alt': '>',
+    \ 'right' : '',
+    \ 'right_alt' : '<',
+    \ 'space' : ' '}
 
