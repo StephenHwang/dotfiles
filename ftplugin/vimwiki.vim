@@ -49,15 +49,14 @@ map <silent><Plug>ToggleListMap :call MakeListToggleList()<cr>:call repeat#set("
 nmap <leader>f <Plug>ToggleListMap
 vmap <leader>f <Plug>ToggleListMap
 
+" download universal-ctags and add .config/ctags vimwiki.ctags file
 let g:tagbar_type_vimwiki = {
 			\   'ctagstype':'vimwiki'
 			\ , 'kinds':['h:header']
-			\ , 'sro':'&&&'
-			\ , 'kind2scope':{'h':'header'}
 			\ , 'sort':0
-			\ , 'ctagsbin': '/home/stephen/bin/ctags-5.8/vwtags.py'
-			\ , 'ctagsargs': 'default'
+			\ , 'deffile':'~/.config/ctags/vimwiki.ctags'
 			\ }
+
 
 " Mappings
 function! VWLink()
@@ -106,6 +105,7 @@ iabbr <buffer> prob probably
 iabbr <buffer> distr distribution
 
 iabbr <buffer> pi π
+iabbr <buffer> phi φ
 iabbr <buffer> theta θ
 iabbr <buffer> Delta Δ
 iabbr <buffer> mu μ
