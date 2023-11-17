@@ -26,7 +26,7 @@ Plugin 'Valloric/YouCompleteMe'     " autocomplete
 Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
 Plugin 'majutsushi/tagbar'
-Plugin 'vimwiki/vimwiki', {'branch': 'dev'}
+Plugin 'StephenHwang/vimwiki', {'branch': 'dev'}
 " Plugin 'jpalardy/vim-slime.git'
 Plugin 'lervag/vimtex'
 
