@@ -106,6 +106,7 @@ iabbr <buffer> prob probably
 iabbr <buffer> distr distribution
 
 iabbr <buffer> pi π
+iabbr <buffer> phi φ
 iabbr <buffer> theta θ
 iabbr <buffer> Delta Δ
 iabbr <buffer> mu μ
