@@ -27,7 +27,7 @@ Plugin 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plugin 'junegunn/fzf.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'StephenHwang/vimwiki', {'branch': 'dev'}
-" Plugin 'jpalardy/vim-slime.git'
+Plugin 'jpalardy/vim-slime.git'
 Plugin 'lervag/vimtex'
 
 " Aesthetics
@@ -370,9 +370,9 @@ autocmd FileType python command! PY execute '!python %'
 
 "" Python and R  mappings
 autocmd FileType python,r,sh,vimwiki,text autocmd BufWritePre <buffer> :call TrimWhitespace()
-autocmd FileType python,r inoremap <buffer> { {}<Left>
-autocmd FileType python,r inoremap <buffer> [ []<Left>
-autocmd FileType python,r inoremap <buffer> ' ''<Left>
+" autocmd FileType python,r inoremap <buffer> { {}<Left>
+" autocmd FileType python,r inoremap <buffer> [ []<Left>
+" autocmd FileType python,r inoremap <buffer> ' ''<Left>
 
 "" Nextflow settings
 au BufNewFile,BufRead *.nf
@@ -489,7 +489,8 @@ let g:tagbar_type_r = {
 let g:slime_target = 'tmux'
 let g:slime_paste_file = '$HOME/.slime_paste'
 let g:slime_default_config = {'socket_name': get(split($TMUX, ','), 0), 'target_pane': ':.1'}
-let g:slime_dont_ask_default = 1
+" let g:slime_python_ipython = 1
+" let g:slime_dont_ask_default = 1
 let g:slime_no_mappings = 1
 autocmd FileType python,r nnoremap <c-c> vip
 autocmd FileType python,r xmap <c-c> <Plug>SlimeRegionSend
