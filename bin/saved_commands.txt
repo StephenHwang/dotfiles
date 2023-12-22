@@ -32,6 +32,7 @@ wc -L file                                                         # longest lin
 /usr/bin/time --format='Run stats: user=%U, system=%S, elapsed=%e, CPU=%P, MemMax=%M'    #  peak memory usage formatted
 tar -zxvf                                                          # unzip tar.gz files
 cmp --silent $old $new || echo "files are different"               # use comm for output
+md5sum file                                                        # check sum comm, cmp
 du -ah . | grep -v "/$" | sort -rh > sorted_file_sizes.txt         # sort by filesize
 ipython --no-autoindent                                               # ipy
 jupyter-nbconvert --to pdf file.ipynb                                 # notebook to pdf
@@ -62,6 +63,7 @@ git merge branch_to_merge_into_master
 find . -name "filename"               # search filenames                       #
 ag -g filename                        # search filename with pattern
 ag text_in_file                       # search text in files
+rg -b '^>' -N fasta | wc -l           # fast check number of fasta records
 awk '{print $2}' filename             # cut column 2
 cut -f2 filename                      # cut column 2
 sort -V                               # version sort
