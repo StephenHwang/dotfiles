@@ -57,7 +57,7 @@ alias bc='bc -l ~/dotfiles/apps/.bcrc'
 alias tmux='tmux -2'
 alias dact='conda deactivate'
 alias lab='jupyter-lab'
-alias python='python3'
+# alias python='python3'
 
 # full paths
 lll() {
