@@ -2,8 +2,8 @@
 " https://vimwiki.github.io/vimwikiwiki/Tips%20and%20Snips.html
 setlocal foldlevel=99
 setlocal foldenable
-setlocal foldexpr=Fold(v:lnum)
 setlocal foldmethod=expr
+setlocal foldexpr=Fold(v:lnum)
 setlocal matchpairs-=[:]
 
 " jump to next/prev headers in visual mode
