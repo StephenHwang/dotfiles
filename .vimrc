@@ -65,7 +65,7 @@ set showcmd
 set noerrorbells
 set hidden                  " switch buffers without having to save
 set laststatus=2            " powerline status line positioning
-set scrolloff=10            " visual scroll gap below the cursor
+set scrolloff=5             " visual scroll gap below the cursor
 set cursorline
 set number
 set colorcolumn=80          " set line at 80 char
@@ -204,16 +204,17 @@ endfunction
 function! MatchJump()
   if getline('.') =~ '^\s*$'
     :norm j
-    return
+    return 'case1'
   endif
   if match(getline('.'), GetMatchPairs()) >= 0
     :norm! %
-    return
+    return 'case2'
   else
     if col(".") == col("$")-1
       :call JumpStart()
     else
       :norm $
+      return 'case3'
     endif
  end
 endfunction
@@ -228,6 +229,8 @@ function! VisualMatchJump(cursor_pos)
   endif
 endfunction
 
+" Note: must have matchit plugin disabled
+let g:loaded_matchit = 1
 nnoremap <silent>% :call MatchJump()<cr>
 vnoremap <silent><expr> % (match(getline('.'), GetMatchPairs()) >= 0) ? "%" : "v:call VisualMatchJump(col('.'))<cr>"
 
