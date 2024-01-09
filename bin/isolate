@@ -1,0 +1,47 @@
+#!/bin/bash
+# Isolate rows from file; 1-index, inclusive
+
+set -euo pipefail
+
+START=
+END=
+FILE=
+
+usage() {
+echo \
+"
+Isolate rows by index from file (1-index, inclusive)
+Usage: isolate -a INT -b INT -f FILE
+
+Basic options:
+  -a [INT]               start row index
+  -b [INT]               end row index
+  -f [FILE]              document list fai file
+"
+exit 0
+}
+
+if [ "$#" -eq 0 ] || [ "$1" = "-h" ]; then
+    usage
+fi
+
+# parse flags
+while getopts "f:a:b:" OPTION
+do
+    case $OPTION in
+        a )
+            START=$OPTARG
+            ;;
+        b )
+            END=$OPTARG
+            ;;
+        f )
+            FILE=$OPTARG
+            ;;
+        * )
+            usage
+            ;;
+    esac
+done
+
+tail -n+$(echo "$START" | bc) $FILE | head -n$(echo -e "$END - $START + 1" | bc)
