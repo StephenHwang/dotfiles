@@ -162,6 +162,9 @@ sed 's/^/ text_at_start_of_line /' file
   sed -i "/^>/ s/$/ $APPEND/g" e_coli_ecoli_k12.lengths
 }}}
 
+in-place, search for lines that don't start with > and replace those N with x
+  - sed -i '/^>/ !s/N/x/g' test.fa
+
 
 == vim ==
 sort file version reverse:
