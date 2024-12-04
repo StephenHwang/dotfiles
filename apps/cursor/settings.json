@@ -1,0 +1,225 @@
+{
+ "vim.debug.loggingLevelForConsole": "debug"
+
+    // cursor settings
+    //   Note: to enable repeat keypresses, in terminal: >defaults write com.todesktop.230313mzl4w4u92 ApplePressAndHoldEnabled -bool false
+    //         found the application name through karabiner-eventviewer
+    "editor.minimap.enabled": true,
+    "editor.insertSpaces": true,
+    "editor.occurrencesHighlight": "off",
+
+    // misc settings
+    "vim.leader": "<space>",
+    "vim.scrolloff": 5,
+    "vim.history": 500,
+    "vim.foldfix": true,
+    "vim.surround": true,
+    "vim.visualbell": false,
+    "vim.joinspaces": false,
+    "vim.mouseSelectionGoesIntoVisualMode": false,
+
+    // yank settings
+    "vim.useSystemClipboard": true,
+    "vim.highlightedyank.enable": true,
+    "vim.highlightedyank.duration": 200,
+    "vim.highlightedyank.color": "rgba(250, 240, 170, 0.5)",
+
+    // search/highlight settings
+    "search.smartCase": true,
+    "vim.hlsearch": true,
+    "vim.incsearch": true,
+
+    // trim whitespace settings
+    "files.trimTrailingWhitespace": true,
+    "[markdown]": {
+        "files.trimTrailingWhitespace": false
+    },
+
+    // appearance settings
+    "window.commandCenter": true,
+    "editor.rulers": [80],
+    "editor.cursorSurroundingLines": 5,
+    "editor.cursorBlinking": "solid",
+    "vim.cursorStylePerMode.insert": "line",
+    "vim.cursorStylePerMode.normal": "block",
+    "vim.cursorStylePerMode.replace": "underline",
+    "vim.showcmd": true,
+    "vim.showMarksInGutter": true,
+
+    // color settings
+    "workbench.colorTheme": "Gruvbox Dark Hard",
+    "git.openRepositoryInParentFolders": "always",
+    "vim.statusBarColorControl": false,
+    "workbench.colorCustomizations": {
+        "editor.findMatchBackground": "#af3a03",
+        "editor.findMatchHighlightBackground": "#b57614"
+    },
+
+    // see keybinds.json for specific keybindings
+    "vim.useCtrlKeys": true,
+    "vim.handleKeys": {
+        "<C-v>": true,
+        "<C-q>": true,
+        "<C-p>": true,
+        "<C-c>": true,
+        "<C-a>": true,
+        "<C-x>": true,
+    },
+
+    /////////////// mode keybindings ///////////////
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "k"],
+            "after": ["<Esc>"]
+        }
+    ],
+
+    "vim.normalModeKeyBindingsNonRecursive": [
+
+        //{
+        //    "before": ["%"],
+        //    // "commands": ["editor.action.jumpToBracket"]
+        //    // "commands": ["smartJump.jumpToMatch"],
+        //    // to update smartJump, /Users/stephenhwang/vscode-vim-jump-2
+        //    // run "npm run compile" and "npm run package"
+        //    // then uninstall the extension and install the new version (command palette > install from VSIX)
+        //},
+
+        {
+            "before": ["leader", "w"],
+            "commands": [
+                "workbench.action.files.save",
+            ]
+        },
+
+        { // leader ssj to split line by comma; watch for trailing spaces
+            "before": ["leader", "s"],
+            "commands": [":s/,/ /g", ":s/ /\r/g"]
+        },
+
+        {
+            "before": ["leader", "f"],
+            "commands": ["editor.action.commentLine"]
+        },
+
+
+        {
+            "before":["leader", "h"],
+            "commands": [":set hlsearch!"]
+        },
+
+        {
+            "before":["<BS>"],
+            "after": ["X"]
+        },
+
+        {
+            "before": ["Y"],
+            "after": ["y", "$"]
+        },
+
+        {
+            "before": ["U"],
+            "after": ["<C-R>"]
+        },
+
+        {
+            "before": ["g", "s"],
+            "after": ["x", "p", "h"]
+        },
+
+
+        {
+            "before":["leader", "k"],
+            "commands": [":bn"],
+            "silent": true
+        },
+
+        {
+            "before":["leader", "j"],
+            "commands": [":bp"],
+            "silent": true
+        },
+
+        {
+            "before":["g", "b"],
+            "after": ["`", "m", "v", "`", "b"]
+        },
+
+        {
+            "before":["c", "i", "w"],
+            "after": ["*", "`", "`", "c", "g", "n"]
+        },
+
+        {
+            "before":["g", "c"],
+            "after": [ "*", "`", "`", "C-r", ".", "<Esc>"]
+        },
+
+        {
+            "before": ["X"],
+            "after": ["d", "d"]
+        },
+
+        {
+            "before": ["K"],
+            "commands": ["lineBreakInsert"],
+            "silent": true
+        },
+
+        { // ctrl+p to open quick open
+            "before": ["<C-p>"],
+            "commands": ["workbench.action.quickOpen"]
+        },
+
+        { // disable S mode in normal mode
+            "before": ["S"],
+            "after": []
+        },
+
+        { // enter visual block mode
+            "before": ["<C-v>"],
+            "commands": ["<C-q>"]
+        }
+    ],
+
+
+    "vim.normalModeKeyBindings": [
+        { // s instead of ys to enter surround mode ; this works only when in normal mode, recursive
+            "before": ["s"],
+            "after": ["y", "s"],
+        }
+    ],
+
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": ["leader", "f"],
+            "commands": ["editor.action.commentLine"]
+        },
+        {
+            "before": ["g", "g"],
+            "after": ["g", "g", "0"]
+        },
+        {
+            "before": ["g", "G"],
+            "after": ["g", "G", "0"]
+        },
+        { // s to Surround
+            "before": ["s"],
+            "after": ["S"]
+        }
+    ],
+
+    "vim.visualModeKeyBindings": [
+        // dot command in visual mode; hit ":" after "."
+        // moved here because command does not work as a non-recursive binding
+        {
+            "before": ["."],
+            "commands": [":'<,'>normal @."]
+        }
+    ],
+
+    "vim.commandLineModeKeyBindings": [
+    ],
+
+}

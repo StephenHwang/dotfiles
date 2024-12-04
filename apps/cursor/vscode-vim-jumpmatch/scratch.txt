@@ -1,0 +1,134 @@
+# this somewhat works?
+
+import * as vscode from 'vscode';
+
+const MATCH_PAIRS: { [key: string]: string } = {
+    '(': ')',
+    '[': ']',
+    '{': '}',
+    '<': '>',
+};
+
+export function activate(context: vscode.ExtensionContext) {
+    let disposable = vscode.commands.registerCommand('smartJump.jumpToMatch', async () => {
+        console.log('Smart Jump activated');
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            console.log('No active editor');
+            return;
+        }
+
+        const position = editor.selection.active;
+        const line = editor.document.lineAt(position.line);
+        const lineText = line.text;
+
+        // Check if line contains any matching pairs
+        const hasMatchPair = [...Object.keys(MATCH_PAIRS), ...Object.values(MATCH_PAIRS)]
+            .some(char => lineText.includes(char));
+
+        console.log('Line contains match pair:', hasMatchPair);
+
+        if (hasMatchPair) {
+            // Use VSCode's built-in matching bracket jump
+            await vscode.commands.executeCommand('editor.action.jumpToBracket');
+        } else {
+            // Toggle between start and end of line
+            const isAtStart = position.character === line.firstNonWhitespaceCharacterIndex;
+            const newPosition = new vscode.Position(
+                position.line,
+                isAtStart ? line.text.length - 1 : line.firstNonWhitespaceCharacterIndex
+            );
+
+            editor.selection = new vscode.Selection(newPosition, newPosition);
+            editor.revealRange(new vscode.Range(newPosition, newPosition));
+        }
+    });
+    context.subscriptions.push(disposable);
+}
+
+
+
+# maybe better
+
+import * as vscode from 'vscode';
+
+const MATCH_PAIRS: { [key: string]: string } = {
+    '(': ')',
+    '[': ']',
+    '{': '}',
+    '<': '>'
+};
+
+export function activate(context: vscode.ExtensionContext) {
+    let disposable = vscode.commands.registerCommand('smartJump.jumpToMatch', async () => {
+        console.log('Smart Jump activated');
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            console.log('No active editor');
+            return;
+        }
+
+        const position = editor.selection.active;
+        const line = editor.document.lineAt(position.line);
+        const lineText = line.text;
+        const currentPos = position.character;
+
+        // Find next closest pair character (forward or backward)
+        let nextPairPos = -1;
+        let prevPairPos = -1;
+        const pairChars = [...Object.keys(MATCH_PAIRS), ...Object.values(MATCH_PAIRS)];
+
+        // Search forward
+        for (let i = currentPos; i < lineText.length; i++) {
+            if (pairChars.includes(lineText[i])) {
+                nextPairPos = i;
+                break;
+            }
+        }
+
+        // Search backward
+        for (let i = currentPos; i >= 0; i--) {
+            if (pairChars.includes(lineText[i])) {
+                prevPairPos = i;
+                break;
+            }
+        }
+
+        console.log('Next pair pos:', nextPairPos, 'Prev pair pos:', prevPairPos);
+
+        if (nextPairPos !== -1 || prevPairPos !== -1) {
+            // If we found a pair character, move to the closest one and use VSCode's matching
+            let targetPos;
+            if (nextPairPos === -1) {
+                targetPos = prevPairPos;
+            } else if (prevPairPos === -1) {
+                targetPos = nextPairPos;
+            } else {
+                // Choose the closest position
+                targetPos = (nextPairPos - currentPos) < (currentPos - prevPairPos)
+                    ? nextPairPos
+                    : prevPairPos;
+            }
+
+            // First move to the pair character
+            const newPosition = new vscode.Position(position.line, targetPos);
+            editor.selection = new vscode.Selection(newPosition, newPosition);
+
+            // Then jump to its match
+            await vscode.commands.executeCommand('editor.action.jumpToBracket');
+        } else {
+            // If no pairs found, toggle between start and end of line
+            const isAtStart = position.character === line.firstNonWhitespaceCharacterIndex;
+            const newPosition = new vscode.Position(
+                position.line,
+                isAtStart ? line.text.length - 1 : line.firstNonWhitespaceCharacterIndex
+            );
+
+            editor.selection = new vscode.Selection(newPosition, newPosition);
+            editor.revealRange(new vscode.Range(newPosition, newPosition));
+        }
+    });
+
+    context.subscriptions.push(disposable);
+}
+

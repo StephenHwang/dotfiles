@@ -1,0 +1,40 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "cmd+v",
+        "command": "-editor.action.clipboardPasteAction"
+    },
+
+    {
+        "key": "cmd+v",
+        "command": "extension.vim_winCtrlQ",
+        "when": "editorTextFocus && vim.active && vim.use<C-q> && !inDebugRepl"
+    },
+
+    {
+        "key": "ctrl+q",
+        "command": "-extension.vim_winCtrlQ",
+        "when": "editorTextFocus && vim.active && vim.use<C-q> && !inDebugRepl"
+    },
+
+    {
+        "key": "cmd+c",
+        "command": "extension.vim_escape",
+        "when": "editorTextFocus && vim.active && vim.overrideCtrlC && vim.use<C-c> && !inDebugRepl"
+    },
+
+    {
+      "key": "cmd+a",
+      "command": "editor.emmet.action.incrementNumberByOne",
+      "when": "editorTextFocus && vim.active && vim.use<C-a> && !inDebugRepl"
+    },
+
+    {
+      "key": "cmd+x",
+      "command": "editor.emmet.action.decrementNumberByOne",
+      "when": "editorTextFocus && vim.active && vim.use<C-a> && !inDebugRepl"
+    }
+
+
+
+]

@@ -1,0 +1,46 @@
+{
+  "name": "smart-jump",
+  "displayName": "Smart Jump",
+  "description": "Enhanced % jumping behavior for VSCode",
+  "version": "0.0.1",
+  "engines": {
+      "vscode": "^1.90.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": [
+      "onCommand:smartJump.jumpToMatch"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+        "commands": [{
+            "command": "smartJump.jumpToMatch",
+            "title": "Smart Jump: Jump to Match"
+        }],
+        "keybindings": [{
+            "command": "smartJump.jumpToMatch",
+            "key": "%",
+            "when": "editorTextFocus && vim.mode == 'Normal'"
+        }]
+    },
+
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "package": "vsce package",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.90.0",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.7.0",
+    "eslint": "^9.13.0",
+    "typescript": "^5.6.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
