@@ -28,7 +28,6 @@ Plugin 'junegunn/fzf.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'StephenHwang/vimwiki', {'branch': 'dev'}
 Plugin 'jpalardy/vim-slime.git'
-Plugin 'lervag/vimtex'
 
 " Aesthetics
 Plugin 'morhetz/gruvbox'
@@ -262,7 +261,7 @@ set foldopen-=block
 set foldopen-=search
 augroup folding
   au BufReadPre * setlocal foldmethod=indent
-  au BufReadPre *.wiki setlocal foldmethod=expr
+  au BufReadPre *.wiki,*.md setlocal foldmethod=expr
   au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
 augroup END
 
@@ -283,8 +282,8 @@ vnoremap <silent> <leader>z zf
 "        zR
 augroup AutoSaveGroup
   autocmd!
-  autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre *.wiki nested silent! mkview!
-  autocmd BufWinEnter *.wiki silent! loadview
+  autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre *.wiki,*.md nested silent! mkview!
+  autocmd BufWinEnter *.wiki,*.md silent! loadview
 augroup end
 
 
@@ -495,41 +494,6 @@ let g:slime_no_mappings = 1
 autocmd FileType python,r nnoremap <c-c> vip
 autocmd FileType python,r xmap <c-c> <Plug>SlimeRegionSend
 
-"" vimtex
-"" let g:vimtex_view_general_viewer = 'okular'
-"let g:vimtex_view_method = 'zathura'  " note d to toggle double page
-"let g:vimtex_quickfix_mode=2
-"let g:vimtex_syntax_conceal_disable=1
-"let g:vimtex_quickfix_open_on_warning=0
-"let g:vimtex_mappings_enabled=0
-"let g:vimtex_motion_enabled=0   " see vimtex-motions
-
-" Disable custom warnings based on regexp
-let g:vimtex_quickfix_open_on_warning=0
-let g:vimtex_quickfix_ignore_filters = [
-      \ 'Package hyperref Warning',
-      \ 'LaTeX Warning',
-      \]
-
-"" Close viewers when VimTeX buffers are closed
-"function! CloseViewers()
-"  if executable('xdotool')
-"        \ && exists('b:vimtex.viewer.xwin_id')
-"        \ && b:vimtex.viewer.xwin_id > 0
-"    call system('xdotool windowclose '. b:vimtex.viewer.xwin_id)
-"  endif
-"endfunction
-"
-"augroup vimtex_event
-"  au!
-"  au User VimtexEventInitPost          VimtexCompile
-"  au User VimtexEventQuit              VimtexClean
-"  au User VimtexEventQuit              call CloseViewers()
-"  au User VimtexEventView              call b:vimtex.viewer.xdo_focus_vim()
-"augroup END
-"au VimEnter * let g:ycm_semantic_triggers.tex=g:vimtex#re#youcompleteme
-"autocmd FileType tex nnoremap gd :VimtexView<cr>
-
 
 "" fzf, fuzzy find
 let g:fzf_layout = { 'down': '40%' }
@@ -600,7 +564,7 @@ let g:netrw_localcopydircmd = 'cp -r'
 hi! link netrwMarkFile Search
 nmap <leader>` :Lexplore<CR>
 
-"" aethetics
+" aethetics
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#whitespace#enabled = 0
@@ -615,3 +579,22 @@ let g:tmuxline_separators = {
     \ 'right_alt' : '<',
     \ 'space' : ' '}
 
+" md syntax and folding
+let g:vimwiki_list = [{
+      \ 'path': expand('~/Documents/obsidian_vault/'),
+      \ 'syntax': 'markdown',
+      \ 'ext': '.md',
+      \ 'index': 'index'
+      \ }]
+
+let g:vimwiki_global_ext = 0
+let g:vimwiki_folding = 'expr'
+
+" Use Vimwiki's syntax-aware fold expression for both legacy Vimwiki files and
+" Markdown notes. This overrides the custom '='-header-only Fold() expression
+" in ~/.vim/ftplugin/vimwiki.vim, so Markdown '#'-headings create folds too.
+augroup vimwiki_markdown_folding
+  autocmd!
+  autocmd FileType vimwiki setlocal foldenable foldmethod=expr foldexpr=VimwikiFoldLevel(v:lnum)
+  autocmd BufWinEnter ~/Documents/obsidian_vault/*.md setlocal foldenable foldmethod=expr foldexpr=VimwikiFoldLevel(v:lnum)
+augroup END
