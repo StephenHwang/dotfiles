@@ -394,6 +394,7 @@ let g:ycm_filetype_blacklist = {
       \ 'tagbar': 1,
       \ 'notes': 1,
       \ 'markdown': 1,
+      \ 'vimwiki': 1,
       \ 'netrw': 1,
       \ 'text': 1,
       \}
@@ -593,8 +594,41 @@ let g:vimwiki_folding = 'expr'
 " Use Vimwiki's syntax-aware fold expression for both legacy Vimwiki files and
 " Markdown notes. This overrides the custom '='-header-only Fold() expression
 " in ~/.vim/ftplugin/vimwiki.vim, so Markdown '#'-headings create folds too.
+" augroup vimwiki_markdown_folding
+  " autocmd!
+  " autocmd FileType vimwiki setlocal foldenable foldmethod=expr foldexpr=VimwikiFoldLevel(v:lnum)
+  " autocmd BufWinEnter ~/Documents/obsidian_vault/*.md setlocal foldenable foldmethod=expr foldexpr=VimwikiFoldLevel(v:lnum)
+" augroup END
+" reduced folding for wiki/md files > 10_000 lines
+function! ConfigureNoteFolding()
+  if line('$') > 10000
+    setlocal nofoldenable
+    setlocal foldmethod=manual
+  else
+    setlocal foldenable
+    setlocal foldmethod=expr
+    setlocal foldexpr=VimwikiFoldLevel(v:lnum)
+  endif
+endfunction
 augroup vimwiki_markdown_folding
   autocmd!
-  autocmd FileType vimwiki setlocal foldenable foldmethod=expr foldexpr=VimwikiFoldLevel(v:lnum)
-  autocmd BufWinEnter ~/Documents/obsidian_vault/*.md setlocal foldenable foldmethod=expr foldexpr=VimwikiFoldLevel(v:lnum)
+  autocmd FileType vimwiki call ConfigureNoteFolding()
+  autocmd BufWinEnter *.wiki,*.md call ConfigureNoteFolding()
+augroup END
+
+
+
+
+augroup AutoSaveGroup
+  autocmd!
+
+  autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre *.wiki,*.md
+        \ if line('$') <= 10000 |
+        \   silent! mkview! |
+        \ endif
+
+  autocmd BufWinEnter *.wiki,*.md
+        \ if line('$') <= 10000 |
+        \   silent! loadview |
+        \ endif
 augroup END
